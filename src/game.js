@@ -2,13 +2,13 @@ var CollisionHandler = require('./collision-handler.js'),
     Dimension = require('./dimension.js'),
     Circle = require('./circle.js'),
     Collidable = require('./collidable.js'),
-    _ = require('lodash');
+    FrameCounter = require('./frame-counter.js');
 
 var pressEventName,
     endEventName,
     ctx,
     tapCollisionSet,
-    heartbeat,
+    heartbeat = false,
     throttle = 100,
     canvas = document.createElement('canvas'),
     screens = [],
@@ -72,9 +72,6 @@ module.exports = {
     },
     addScreen: function (screen) {
         screensToAdd.push(screen);
-        if (screen.name) {
-            screenMap[screen.name] = screen;
-        }
     },
     addScreenSet: function (set) {
         screensToAdd = screensToAdd.concat(set);
@@ -91,15 +88,21 @@ module.exports = {
             screens.forEach(function (screen) {
                 screen.start();
             });
-            heartbeat = window.setTimeout(function () {
+            heartbeat = window.setInterval(function () {
                 this.update();
                 this.draw();
+                FrameCounter.countFrame();
             }, throttle);
         }
     },
+    kill: function () {
+        window.clearInterval(heartbeat);
+        heartbeat = false;
+        screens.forEach(function (screen) {
+            screen.stop();
+        });
+    },
     update: function () {
-        var i;
-
         // Settle screen tap events.
         tapCollisionSet.handleCollisions();
 
@@ -110,7 +113,12 @@ module.exports = {
 
         if (screensToAdd.length) {
             // Update the master screen list after updates.
-            screens = _.union(screens, screensToAdd);
+            screensToAdd.forEach(function (screen) {
+                screens.push(screen);
+                if (screen.name) {
+                    screenMap[screen.name] = screen;
+                }
+            });
             // Sort by descending sprite depths.
             screens.sort(function (a, b) {
                 return b.depth - a.depth;
