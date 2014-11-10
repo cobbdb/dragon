@@ -1,0 +1,24 @@
+{
+  "name": "dragonjs",
+  "version": "0.0.1",
+  "description": "[![Dragon](http://i.imgur.com/OwkQqd5.png)](https://cobbdb.github.io/dragon)",
+  "main": "src/core.js",
+  "dependencies": {
+    "baseclassjs": "^1.1.2"
+  },
+  "devDependencies": {
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cobbdb/dragon.git"
+  },
+  "author": "Dan Cobb <cobbdb@gmail.com> (http://www.github.com/cobbdb)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cobbdb/dragon/issues"
+  },
+  "homepage": "https://github.com/cobbdb/dragon"
+}

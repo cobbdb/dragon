@@ -1,5 +1,4 @@
-var BaseClass = require('baseclassjs'),
-    _ = require('lodash');
+var BaseClass = require('baseclassjs');
 
 /**
  * @param opts.spriteSet Array
@@ -65,9 +64,6 @@ module.exports = function (opts) {
         },
         addSprite: function (sprite) {
             spritesToAdd.push(sprite);
-            if (sprite.name) {
-                spriteMap[sprite.name] = sprite;
-            }
         },
         addSpriteSet: function (set) {
             spritesToAdd = spritesToAdd.concat(set);
@@ -99,7 +95,12 @@ module.exports = function (opts) {
 
             if (spritesToAdd.length) {
                 // Update the master sprite list after updates.
-                sprites = _.union(sprites, spritesToAdd);
+                spritesToAdd.forEach(function (sprite) {
+                    sprites.push(sprite);
+                    if (sprite.name) {
+                        spriteMap[sprite.name] = sprite;
+                    }
+                });
                 // Sort by descending sprite depths.
                 sprites.sort(function (a, b) {
                     return b.depth - a.depth;
