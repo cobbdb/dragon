@@ -15,6 +15,9 @@ module.exports = function (opts) {
         updating = false,
         drawing = false;
 
+    opts.spriteSet = opts.spriteSet || [];
+    opts.collisionSets = opts.collisionSets || [];
+
     // Load in the sprites.
     opts.spriteSet.forEach(function (sprite) {
         spritesToAdd.push(sprite);

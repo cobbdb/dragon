@@ -5,7 +5,7 @@
  * @param opts.size.width
  * @param opts.size.height
  * @param opts.frames
- * @param opts.speed (frames / second) 0 to
+ * @param opts.speed (frames / second)
  */
 module.exports = function (opts) {
     var timeBetweenFrames,
