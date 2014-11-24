@@ -65,10 +65,7 @@ module.exports = function (opts) {
         sprite: function (name) {
             return spriteMap[name];
         },
-        addSprite: function (sprite) {
-            spritesToAdd.push(sprite);
-        },
-        addSpriteSet: function (set) {
+        addSprites: function (set) {
             spritesToAdd = spritesToAdd.concat(set);
         },
         removeSprite: function (sprite) {

@@ -70,10 +70,7 @@ module.exports = {
     screen: function (name) {
         return screenMap[name];
     },
-    addScreen: function (screen) {
-        screensToAdd.push(screen);
-    },
-    addScreenSet: function (set) {
+    addScreens: function (set) {
         screensToAdd = screensToAdd.concat(set);
     },
     removeScreen: function (screen) {
