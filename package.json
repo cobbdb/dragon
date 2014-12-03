@@ -1,7 +1,7 @@
 {
   "name": "dragonjs",
-  "version": "0.0.1",
-  "description": "[![Dragon](http://i.imgur.com/OwkQqd5.png)](https://cobbdb.github.io/dragon)",
+  "version": "0.0.2",
+  "description": "Extensible HTML5 game engine.",
   "main": "src/core.js",
   "dependencies": {
     "baseclassjs": "^1.1.2"
