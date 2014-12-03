@@ -17,6 +17,9 @@ var Collidable = require('./collidable.js'),
  */
 module.exports = function (opts) {
     return Collidable(opts).extend({
+        get ready () {
+            return opts.strip.ready;
+        },
         get strip () {
             return opts.strip;
         },

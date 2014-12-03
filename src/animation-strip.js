@@ -11,9 +11,9 @@ module.exports = function (opts) {
     var timeBetweenFrames,
         timeLastFrame,
         timeSinceLastFrame = 0,
-        state = 'LOCKED';
+        updating = false;
 
-    if (opts.speed) {
+    if (opts.speed > 0) {
         // Convert to milliseconds / frame
         timeBetweenFrames = (1 / opts.speed) * 1000;
     } else {
@@ -21,22 +21,33 @@ module.exports = function (opts) {
     }
 
     return {
+        get ready () {
+            return opts.sheet.ready;
+        },
         frame: 0,
         start: function () {
             timeLastFrame = new Date().getTime();
-            state = 'UNLOCKED';
+            updating = true;
         },
+        /**
+         * Pausing halts the update loop but
+         * retains animation position.
+         */
         pause: function () {
-            state = 'LOCKED';
+            updating = false;
         },
+        /**
+         * Stopping halts update loop and
+         * resets the animation.
+         */
         stop: function () {
-            state = 'LOCKED';
+            updating = false;
             timeSinceLastFrame = 0;
             this.frame = 0;
         },
         update: function () {
             var now, elapsed;
-            if (state === 'UNLOCKED') {
+            if (updating) {
                 now = new Date().getTime();
                 elapsed = now - timeLastFrame;
                 timeLastFrame = now;

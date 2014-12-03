@@ -1,20 +1,28 @@
-var Game = require('./game.js'),
-    count = 0;
+var cache = {};
 
 /**
  * @param opts.src
+ * Duplicate calls to constructor will only
+ * load a single time - returning cached
+ * data on subsequent calls.
  */
 module.exports = function (opts) {
-    var img = new Image();
-    count += 1;
+    var img;
+
+    // Check if already loaded and cached.
+    if (opts.src in cache) {
+        return cache[opts.src];
+    }
+
+    // Create and cache the new image.
+    img = new Image();
+    img.ready = false;
+    cache[opts.src] = img;
+
     img.onload = function () {
-        count -= 1;
-        if (count === 0) {
-            // All images have be loaded, so..
-            // .. now what?
-            Game.run(); // <-- this isn't quite right.
-        }
+        img.ready = true;
     });
+
     img.src = 'assets/img/' + opts.src;
     return img;
 };
