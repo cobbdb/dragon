@@ -1,11 +1,12 @@
 var counter = require('./id-counter.js'),
     EventHandler = require('./event-handler.js'),
-    BaseClass = require('baseclassjs');
+    BaseClass = require('baseclassjs'),
+    Rectangle = require('./rectangle.js');
 
 /**
- * @param opts.mask
- * @param opts.name
- * @param opts.collisionSets
+ * @param {Shape} [opts.mask] Defaults to Rectangle.
+ * @param {String} opts.name
+ * @param {Array|CollisionHandler} [opts.collisionSets]
  */
 module.exports = function (opts) {
     var instanceId = counter.nextId,
@@ -19,7 +20,7 @@ module.exports = function (opts) {
         get name () {
             return opts.name;
         },
-        mask: opts.mask,
+        mask: opts.mask || Rectangle(),
         move: function (x, y) {
             this.mask.move(x, y);
         },

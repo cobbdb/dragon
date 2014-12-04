@@ -1,6 +1,22 @@
 var Shape = require('./shape.js');
 
+/**
+ * @param {Number|Object} x X-Position or Point.
+ * @param {NUmber|Object} y Y-Position or Dimension.
+ * @param {Number} [w] Width.
+ * @param {Number} [h] Height.
+ */
 module.exports = function (x, y, w, h) {
+    /**
+     * Convert from Point/Dimension into core values.
+     */
+    if (typeof w === 'undefined') {
+        w = y.width;
+        h = y.height;
+        y = x.y;
+        x = x.x;
+    }
+
     var self = Shape(x, y).extend({
         width: w || 0,
         height: h || 0,

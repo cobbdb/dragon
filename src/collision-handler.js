@@ -1,42 +1,25 @@
-var Rectangle = require('./rectangle.js');
+var Rectangle = require('./rectangle.js'),
+    Dimension = require('./dimension.js');
 
 /**
- * Configuring a Sprite and collision set:
- *
- * var handler = CollisionHandler(
- *      'playerVsEnemies',
- *      Dimension(4, 3),
- *      game.canvas
- * );
- * var gameBoard = Screen({
- *      collisionSets: [
- *          handler
- *      ],
- *      spriteSets: [
- *          Sprite({
- *              collisionSets: [
- *                  handler
- *              ],
- *              ...
- *          }),
- *          ...
- *      ],
- *      ...
- * });
+ * @param {String} opts.name
+ * @param {Dimension} [opts.gridSize] Defaults to (1,1).
+ * @param {Dimension} opts.canvasSize Dimension of the game canvas.
  */
-module.exports = function (name, gridSize, canvas) {
-    var collisionGrid = [],
+module.exports = function (opts) {
+    var i, j, len,
+        collisionGrid = [],
         activeCollisions = [],
-        i, j, len;
+        gridSize = opts.gridSize || Dimension(1, 1);
 
     for (i = 0; i < gridSize.x; i += 1) {
         for (j = 0; j < gridSize.y; j += 1) {
             collisionGrid.push(
                 Rectangle(
-                    i / gridSize.x * canvas.width,
-                    j / gridSize.y * canvas.height,
-                    canvas.width / gridSize.x,
-                    canvas.height / gridSize.y
+                    i / gridSize.x * opts.canvasSize.width,
+                    j / gridSize.y * opts.canvasSize.height,
+                    opts.canvasSize.width / gridSize.x,
+                    opts.canvasSize.height / gridSize.y
                 )
             );
         }
@@ -48,7 +31,7 @@ module.exports = function (name, gridSize, canvas) {
     }
 
     return {
-        name: name,
+        name: opts.name,
         clearCollisions: function () {
             var i, len = activeCollisions.length;
             for (i = 0; i < len; i += 1) {

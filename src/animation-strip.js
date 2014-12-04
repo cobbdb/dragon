@@ -1,17 +1,24 @@
+var Dimension = require('./dimension.js'),
+    Point = require('./point.js');
+
 /**
- * @param opts.sheet
- * @param opts.start.x
- * @param opts.start.y
- * @param opts.size.width
- * @param opts.size.height
- * @param opts.frames
- * @param opts.speed (frames / second)
+ * @param {SpriteSheet} opts.sheet
+ * @param {Point} [opts.start] Point in the sprite sheet
+ * of the first frame.
+ * @param {Dimension} [opts.size] Size of each frame in
+ * the sprite sheet.
+ * @param {Number} [opts.frames] Defaults to 1. Number
+ * of frames in this strip.
+ * @param {Number} [opts.speed] Number of frames per second.
  */
 module.exports = function (opts) {
     var timeBetweenFrames,
         timeLastFrame,
         timeSinceLastFrame = 0,
-        updating = false;
+        updating = false,
+        frames = opts.frames || 1,
+        size = opts.size || Dimension(),
+        start = opts.start || Point();
 
     if (opts.speed > 0) {
         // Convert to milliseconds / frame
@@ -60,7 +67,7 @@ module.exports = function (opts) {
         },
         nextFrame: function () {
             this.frame += 1;
-            this.frame %= opts.frames;
+            this.frame %= frames;
             return this.frame;
         },
         draw: function (ctx, pos, scale, rot) {
@@ -76,8 +83,8 @@ module.exports = function (opts) {
 
             // Draw the frame and restore the canvas.
             ctx.drawImage(opts.sheet,
-                opts.start.x + offset, opts.start.y, opts.size.width, opts.size.height,
-                pos.x, pos.y, opts.size.width, opts.size.height
+                start.x + offset, start.y, size.width, size.height,
+                pos.x, pos.y, size.width, size.height
             );
             ctx.restore();
         }

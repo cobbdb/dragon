@@ -3,17 +3,17 @@ var Collidable = require('./collidable.js'),
 
 /**
  * Sprite:
- * @param opts.strip AnimationStrip
- * @param opts.pos Point
- * @param opts.scale
- * @param opts.depth
- * @param opts.rotation
- * @param opts.speed
+ * @param {AnimationStrip} opts.strip
+ * @param {Point} [opts.pos] Defaults to (0,0).
+ * @param {Number} [opts.scale] Defaults to 1.
+ * @param {Number} [opts.depth] Defaults to 0.
+ * @param {Number} [opts.rotation] Defaults to 0.
+ * @param {Number} [opts.speed] Defaults to (0,0).
  *
  * Collidable:
- * @param opts.mask
- * @param opts.name
- * @param opts.collisionSets Array
+ * @param {Shape} [opts.mask] Defaults to Rectangle.
+ * @param {String} opts.name
+ * @param {Array|CollisionHandler} [opts.collisionSets]
  */
 module.exports = function (opts) {
     return Collidable(opts).extend({

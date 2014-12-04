@@ -1,10 +1,10 @@
 var BaseClass = require('baseclassjs');
 
 /**
- * @param opts.spriteSet Array
- * @param opts.collisionSets Array
- * @param opts.name
- * @param opts.depth
+ * @param {Array|Sprite} [opts.spriteSet]
+ * @param {Array|CollisionHandler} [opts.collisionSets]
+ * @param {String} opts.name
+ * @param {Number} [opts.depth] Defaults to 0.
  */
 module.exports = function (opts) {
     var sprites = [],
@@ -16,7 +16,7 @@ module.exports = function (opts) {
         updating = false,
         drawing = false;
 
-    opts.spriteSet = opts.spriteSet || [];
+    opts.spriteSet = [].concat(opts.spriteSet);
     opts.collisionSets = [].concat(opts.collisionSets);
 
     // Load in the sprites.
