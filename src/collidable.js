@@ -10,7 +10,7 @@ var counter = require('./id-counter.js'),
 module.exports = function (opts) {
     var instanceId = counter.nextId,
         activeCollisions = {},
-        collisionSets = opts.collisionSets || [];
+        collisionSets = [].concat(opts.collisionSets);
 
     return BaseClass({
         get id () {
