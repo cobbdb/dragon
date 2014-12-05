@@ -8,7 +8,7 @@ var Collidable = require('./collidable.js'),
  * @param {Number} [opts.scale] Defaults to 1.
  * @param {Number} [opts.depth] Defaults to 0.
  * @param {Number} [opts.rotation] Defaults to 0.
- * @param {Number} [opts.speed] Defaults to (0,0).
+ * @param {Point} [opts.speed] Defaults to (0,0).
  *
  * Collidable:
  * @param {Shape} [opts.mask] Defaults to Rectangle.

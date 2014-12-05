@@ -3,10 +3,10 @@ var Dimension = require('./dimension.js'),
 
 /**
  * @param {SpriteSheet} opts.sheet
- * @param {Point} [opts.start] Point in the sprite sheet
- * of the first frame.
- * @param {Dimension} [opts.size] Size of each frame in
- * the sprite sheet.
+ * @param {Point} [opts.start] Defaults to (0,0). Point in the
+ * sprite sheet of the first frame.
+ * @param {Dimension} [opts.size] Defaults to (0,0). Size of
+ * each frame in the sprite sheet.
  * @param {Number} [opts.frames] Defaults to 1. Number
  * of frames in this strip.
  * @param {Number} [opts.speed] Number of frames per second.
