@@ -29,7 +29,7 @@ document.onkeyup = function (event) {
 };
 
 /**
- * @example
+ * **Example**
  * KeyDown.alt
  * KeyDown.name(' ')
  * KeyDown.code(32)

@@ -1,27 +1,20 @@
-var Shape = require('./shape.js');
+var Shape = require('./shape.js'),
+    Point = require('./point.js'),
+    Dimension = require('./dimension.js');
 
 /**
- * @param {Number|Object} x X-Position or Point.
- * @param {NUmber|Object} y Y-Position or Dimension.
- * @param {Number} [w] Width.
- * @param {Number} [h] Height.
+ * @param {Point} [pos] Defaults to (0,0).
+ * @param {Dimension} [size] Defaults to (0,0).
  */
-module.exports = function (x, y, w, h) {
-    /**
-     * Convert from Point/Dimension into core values.
-     */
-    if (typeof w === 'undefined') {
-        w = y.width;
-        h = y.height;
-        y = x.y;
-        x = x.x;
-    }
+module.exports = function (pos, size) {
+    pos = pos || Point();
+    size = size || Dimension();
 
-    var self = Shape(x, y).extend({
-        width: w || 0,
-        height: h || 0,
-        right: x + w || 0,
-        bottom: y + h || 0,
+    var self = Shape(pos.x, pos.y).extend({
+        width: size.width || 0,
+        height: size.height || 0,
+        right: pos.x + size.width || 0,
+        bottom: pos.y + size.height || 0,
         move: function (x, y) {
             this.base.move(x, y);
             this.right = x + this.width;

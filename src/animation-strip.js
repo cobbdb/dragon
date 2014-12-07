@@ -7,8 +7,8 @@ var Dimension = require('./dimension.js'),
  * sprite sheet of the first frame.
  * @param {Dimension} [opts.size] Defaults to (0,0). Size of
  * each frame in the sprite sheet.
- * @param {Number} [opts.frames] Defaults to 1. Number
- * of frames in this strip.
+ * @param {Number} [opts.frames] Defaults to 1. Number of
+ * frames in this strip.
  * @param {Number} [opts.speed] Number of frames per second.
  */
 module.exports = function (opts) {
@@ -30,6 +30,9 @@ module.exports = function (opts) {
     return {
         get ready () {
             return opts.sheet.ready;
+        },
+        get size () {
+            return size;
         },
         frame: 0,
         start: function () {
@@ -70,16 +73,22 @@ module.exports = function (opts) {
             this.frame %= frames;
             return this.frame;
         },
-        draw: function (ctx, pos, scale, rot) {
+        /**
+         * @param {Context2D} ctx Canvas 2D context.
+         * @param {Point} pos Canvas position.
+         * @param {Dimension} [scale] Defaults to (1,1).
+         * @param {Number} [rotation] Defaults to 0.
+         */
+        draw: function (ctx, pos, scale, rotation) {
             var offset = this.frame * opts.width;
-            scale = scale || 1;
-            rot = rot || 0;
+            scale = scale || Dimension(1, 1);
+            rotation = rotation || 0;
 
             // Apply the canvas transforms.
             ctx.save();
             ctx.translate(pos.x, pos.y);
-            ctx.rotate(rot);
-            ctx.scale(scale, scale);
+            ctx.rotate(rotation);
+            ctx.scale(scale.width, scale.height);
 
             // Draw the frame and restore the canvas.
             ctx.drawImage(opts.sheet,

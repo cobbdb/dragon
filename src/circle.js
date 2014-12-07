@@ -1,9 +1,18 @@
 var Shape = require('./shape.js'),
-    Vector = require('./vector.js');
+    Vector = require('./vector.js'),
+    Point = require('./point.js'),
+    Dimension = require('./dimension.js');
 
-module.exports = function (x, y, r) {
-    var self = Shape(x, y).extend({
-        radius: r,
+/**
+ * @param {Point} [pos] Defaults to (0,0).
+ * @param {Number} [rad] Defaults to 0.
+ */
+module.exports = function (pos, rad) {
+    pos = pos || Point();
+    rad = rad || 0;
+
+    var self = Shape(pos.x, pos.y).extend({
+        radius: rad,
         intersects: function (other) {
             return other.intersects.circle(this);
         },
@@ -16,13 +25,12 @@ module.exports = function (x, y, r) {
     });
     self.intersects.circle = function (other) {
         var len = Vector.length(this.x, this.y, other.x, other.y);
-        return len < this.rad + other.rad;
+        return len < this.radius + other.radius;
     };
     self.intersects.rect = function (rect) {
-        var len, pt = {
-            x: this.x,
-            y: this.y
-        };
+        var len,
+            pt = Point(this.x, this.y);
+
         if (this.x > rect.right) pt.x = rect.right;
         else if (this.x < rect.x) pt.x = rect.x;
         if (this.y > rect.bottom) pt.y = rect.bottom;

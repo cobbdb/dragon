@@ -1,11 +1,13 @@
 var Collidable = require('./collidable.js'),
-    Point = require('./point.js');
+    Point = require('./point.js'),
+    Dimension = require('./dimension.js');
 
 /**
  * Sprite:
  * @param {AnimationStrip} opts.strip
  * @param {Point} [opts.pos] Defaults to (0,0).
  * @param {Number} [opts.scale] Defaults to 1.
+ * @param {Dimension} [opts.size] Defaults to strip size.
  * @param {Number} [opts.depth] Defaults to 0.
  * @param {Number} [opts.rotation] Defaults to 0.
  * @param {Point} [opts.speed] Defaults to (0,0).
@@ -16,6 +18,8 @@ var Collidable = require('./collidable.js'),
  * @param {Array|CollisionHandler} [opts.collisionSets]
  */
 module.exports = function (opts) {
+    var size = opts.size || opts.strip.size;
+
     return Collidable(opts).extend({
         get ready () {
             return opts.strip.ready;
@@ -25,18 +29,24 @@ module.exports = function (opts) {
         },
         pos: opts.pos || Point(),
         scale: opts.scale || 1,
+        size: size,
         rotation: opts.rotation || 0,
         depth: opts.depth || 0,
         speed: opts.speed || Point(),
-        // Advance the animation.
         update: function () {
             this.base.update();
-            // Update the graphics.
+            // Advance the animation.
             opts.strip.update();
         },
         draw: function (ctx) {
-            opts.strip.draw(ctx,
-                this.pos, this.scale, this.rotation
+            opts.strip.draw(
+                ctx,
+                this.pos,
+                Dimension(
+                    size.width / opts.strip.size.width * this.scale,
+                    size.height / opts.strip.size.height * this.scale
+                ),
+                this.rotation
             );
         },
         move: function (x, y) {
