@@ -4,10 +4,9 @@
   "description": "Extensible HTML5 game engine.",
   "main": "src/core.js",
   "dependencies": {
-    "baseclassjs": "^1.1.2"
+    "baseclassjs": "latest"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

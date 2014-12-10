@@ -51,7 +51,7 @@ document.body.appendChild(canvas);
 /**
  * @param screenSet Array
  */
-module.exports = {
+var Game = {
     get canvas () {
         return canvas;
     },
@@ -77,19 +77,29 @@ module.exports = {
         screen.removed = true;
         screenRemoved = true;
     },
-    run: function (speed) {
-        if (!heartbeat) {
-            // Override for throttle.
-            throttle = speed || throttle;
+    run: function (opts) {
+        var speed, debug,
+            that = this;
 
+        opts = opts || {};
+        speed = opts.speed || throttle;
+
+        if (opts.debug) {
+            window.Dragon = this;
+        }
+
+        if (!heartbeat) {
             screens.forEach(function (screen) {
                 screen.start();
             });
             heartbeat = window.setInterval(function () {
-                this.update();
-                this.draw();
+                if (opts.debug) {
+                    console.log('beat');
+                }
+                that.update();
+                that.draw();
                 FrameCounter.countFrame();
-            }, throttle);
+            }, speed);
         }
     },
     kill: function () {
@@ -115,6 +125,10 @@ module.exports = {
                 if (screen.name) {
                     screenMap[screen.name] = screen;
                 }
+                /**
+                 * --> Now that the screen is fully loaded into
+                 * Dragon, when do we call start()?
+                 */
             });
             // Sort by descending sprite depths.
             screens.sort(function (a, b) {
@@ -137,3 +151,5 @@ module.exports = {
         });
     }
 };
+
+module.exports = Game;

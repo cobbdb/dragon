@@ -7,6 +7,7 @@ var counter = require('./id-counter.js'),
  * @param {Shape} [opts.mask] Defaults to Rectangle.
  * @param {String} opts.name
  * @param {Array|CollisionHandler} [opts.collisionSets]
+ * @param {Object} [on] Set of collision events.
  */
 module.exports = function (opts) {
     var instanceId = counter.nextId,
@@ -45,6 +46,8 @@ module.exports = function (opts) {
             return activeCollisions[id] || false;
         }
     }).implement(
-        EventHandler()
+        EventHandler({
+            events: opts.on
+        })
     );
 };

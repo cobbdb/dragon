@@ -21,7 +21,7 @@ module.exports = function (opts) {
 
     img.onload = function () {
         img.ready = true;
-    });
+    };
 
     img.src = 'assets/img/' + opts.src;
     return img;

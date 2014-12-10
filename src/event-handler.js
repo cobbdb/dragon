@@ -1,8 +1,11 @@
 var BaseClass = require('baseclassjs');
 
 module.exports = function (opts) {
-    var events = opts.events || {},
-        singles = opts.singles || {};
+    var events, singles;
+
+    opts = opts || {};
+    events = opts.events || {};
+    singles = opts.singles || {};
 
     return BaseClass.Interface({
         on: function (name, cb) {

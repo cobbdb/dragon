@@ -81,10 +81,7 @@ module.exports = function (opts) {
             if (updating) {
                 // Update sprites.
                 sprites.forEach(function (sprite) {
-                    if (!updating) {
-                        // Stop if screen has halted.
-                        break;
-                    } else if (!sprite.removed) {
+                    if (updating && !sprite.removed) {
                         // Don't update dead sprites.
                         sprite.update();
                     }
