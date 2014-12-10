@@ -51,7 +51,7 @@ document.body.appendChild(canvas);
 /**
  * @param screenSet Array
  */
-var Game = {
+module.exports = {
     get canvas () {
         return canvas;
     },
@@ -151,5 +151,3 @@ var Game = {
         });
     }
 };
-
-module.exports = Game;
