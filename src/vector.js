@@ -1,32 +1,25 @@
-var Point = require('./point.js');
+var Point = require('./point.js'),
+    Dimension = require('./dimension.js');
 
 /**
- * Can be created with either:
- * Vector(10, 20);
- * or
- * Vector(5, 2, 15, 22);
- * Both of these vectors are === to each other.
+ * @param {Dimension|Point} opts.size|opts.end Either size
+ * of vector or the ending point.
+ * @param {Point} [opts.start] Defaults to (0,0).
  */
-function Vector(run, rise, x2, y2) {
-    if (y2 !== undefined) {
-        run = run - x2;
-        rise = rise - y2;
-    }
+module.exports = function (opts) {
+    var start = opts.start || Point(),
+        end = opts.end || Point(
+            start.x + opts.size.width,
+            start.y + opts.size.height
+        );
+
     return {
-        extend: require('baseclassjs'),
-        x: run,
-        y: rise,
-        length: function () {
+        start: start,
+        end: end,
+        get size () {
+            var rise = end.x - start.x,
+                run = end.y - start.y;
             return Math.sqrt((rise * rise) + (run * run));
         }
     };
-}
-Vector.length = function (run, rise, x2, y2) {
-    if (y2 !== undefined) {
-        run = run - x2;
-        rise = rise - y2;
-    }
-    return Math.sqrt((rise * rise) + (run * run));
 };
-
-module.exports = Vector;

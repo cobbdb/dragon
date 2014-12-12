@@ -28,12 +28,10 @@ module.exports = function (opts) {
     }
 
     return {
-        get ready () {
+        ready: function () {
             return opts.sheet.ready;
         },
-        get size () {
-            return size;
-        },
+        size: size,
         frame: 0,
         start: function () {
             timeLastFrame = new Date().getTime();
@@ -80,20 +78,34 @@ module.exports = function (opts) {
          * @param {Number} [rotation] Defaults to 0.
          */
         draw: function (ctx, pos, scale, rotation) {
-            var offset = this.frame * opts.width;
+            var finalSize,
+                offset = this.frame * size.width;
             scale = scale || Dimension(1, 1);
             rotation = rotation || 0;
 
+            finalSize = Dimension(
+                size.width * scale.width,
+                size.height * scale.height
+            );
+
             // Apply the canvas transforms.
             ctx.save();
-            ctx.translate(pos.x, pos.y);
+            ctx.translate(
+                pos.x + finalSize.width / 2,
+                pos.y + finalSize.height / 2
+            );
             ctx.rotate(rotation);
-            ctx.scale(scale.width, scale.height);
 
             // Draw the frame and restore the canvas.
             ctx.drawImage(opts.sheet,
-                start.x + offset, start.y, size.width, size.height,
-                pos.x, pos.y, size.width, size.height
+                start.x + offset,
+                start.y,
+                size.width,
+                size.height,
+                -finalSize.width / 2,
+                -finalSize.height / 2,
+                finalSize.width,
+                finalSize.height
             );
             ctx.restore();
         }

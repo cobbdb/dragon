@@ -8,6 +8,7 @@ module.exports = function (x, y) {
             this.x = x;
             this.y = y;
         },
-        intersects: BaseClass.Stub
+        intersects: BaseClass.Stub,
+        draw: BaseClass.Stub
     });
 };

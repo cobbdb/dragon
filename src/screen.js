@@ -1,10 +1,13 @@
-var BaseClass = require('baseclassjs');
+var BaseClass = require('baseclassjs'),
+    EventHandler = require('./event-handler.js');
 
 /**
  * @param {Array|Sprite} [opts.spriteSet]
  * @param {Array|CollisionHandler} [opts.collisionSets]
  * @param {String} opts.name
  * @param {Number} [opts.depth] Defaults to 0.
+ * @param {Object} [on] Dictionary of events.
+ * @param {Object} [one] Dictionary of one-time events.
  */
 module.exports = function (opts) {
     var sprites = [],
@@ -32,7 +35,7 @@ module.exports = function (opts) {
     });
 
     return BaseClass({
-        get name () {
+        name: function () {
             return opts.name;
         },
         start: function () {
@@ -57,8 +60,8 @@ module.exports = function (opts) {
             drawing = false;
         },
         depth: opts.depth || 0,
-        collisionSet: function (name) {
-            return collisionMap[name];
+        collisions: function () {
+            return collisionMap;
         },
         addCollisionSet: function (handler) {
             collisionMap[handler.name] = handler;
@@ -96,7 +99,7 @@ module.exports = function (opts) {
             if (spritesToAdd.length) {
                 // Update the master sprite list after updates.
                 spritesToAdd.forEach(function (sprite) {
-                    if (sprite.ready) {
+                    if (sprite.ready()) {
                         // Load the sprite into the game engine
                         // if its resources are done loading.
                         sprites.push(sprite);
@@ -126,12 +129,23 @@ module.exports = function (opts) {
                 spriteRemoved = false;
             }
         },
-        draw: function (ctx) {
+        draw: function (ctx, debug) {
+            var name;
             if (drawing) {
                 sprites.forEach(function (sprite) {
                     sprite.draw(ctx);
                 });
+                if (debug) {
+                    for (name in collisionMap) {
+                        collisionMap[name].draw(ctx);
+                    }
+                }
             }
         }
-    });
+    }).implement(
+        EventHandler({
+            events: opts.on,
+            singles: opts.one
+        })
+    );
 };

@@ -3,7 +3,7 @@ var Collidable = require('./collidable.js'),
     Dimension = require('./dimension.js');
 
 /**
- * Sprite:
+ * ##### Sprite
  * @param {AnimationStrip} opts.strip
  * @param {Point} [opts.pos] Defaults to (0,0).
  * @param {Number} [opts.scale] Defaults to 1.
@@ -12,21 +12,22 @@ var Collidable = require('./collidable.js'),
  * @param {Number} [opts.rotation] Defaults to 0.
  * @param {Point} [opts.speed] Defaults to (0,0).
  *
- * Collidable:
+ * ##### Collidable
  * @param {Shape} [opts.mask] Defaults to Rectangle.
  * @param {String} opts.name
  * @param {Array|CollisionHandler} [opts.collisionSets]
+ * @param {Object} [opts.on] Dictionary of events.
+ * @param {Object} [opts.one] Dictionary of one-time events.
  */
 module.exports = function (opts) {
-    var size = opts.size || opts.strip.size;
+    var size = opts.size || opts.strip.size,
+        stripSize = opts.strip.size;
 
     return Collidable(opts).extend({
-        get ready () {
-            return opts.strip.ready;
+        ready: function () {
+            return opts.strip.ready();
         },
-        get strip () {
-            return opts.strip;
-        },
+        strip: opts.strip,
         pos: opts.pos || Point(),
         scale: opts.scale || 1,
         size: size,
@@ -34,6 +35,9 @@ module.exports = function (opts) {
         depth: opts.depth || 0,
         speed: opts.speed || Point(),
         update: function () {
+            // Update position if moving.
+            this.shift();
+
             this.base.update();
             // Advance the animation.
             opts.strip.update();
@@ -43,8 +47,8 @@ module.exports = function (opts) {
                 ctx,
                 this.pos,
                 Dimension(
-                    size.width / opts.strip.size.width * this.scale,
-                    size.height / opts.strip.size.height * this.scale
+                    this.scale * this.size.width / stripSize.width,
+                    this.scale * this.size.height / stripSize.height
                 ),
                 this.rotation
             );
@@ -56,7 +60,7 @@ module.exports = function (opts) {
         },
         shift: function (vx, vy) {
             this.pos.x += vx || this.speed.x;
-            this.pox.y += vy || this.speed.y;
+            this.pos.y += vy || this.speed.y;
             this.base.move(this.pos.x, this.pos.y);
         }
     });

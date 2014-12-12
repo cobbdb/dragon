@@ -1,4 +1,5 @@
 var Rectangle = require('./rectangle.js'),
+    Point = require('./point.js'),
     Dimension = require('./dimension.js');
 
 /**
@@ -12,14 +13,18 @@ module.exports = function (opts) {
         activeCollisions = [],
         gridSize = opts.gridSize || Dimension(1, 1);
 
-    for (i = 0; i < gridSize.x; i += 1) {
-        for (j = 0; j < gridSize.y; j += 1) {
+    for (i = 0; i < gridSize.width; i += 1) {
+        for (j = 0; j < gridSize.height; j += 1) {
             collisionGrid.push(
                 Rectangle(
-                    i / gridSize.x * opts.canvasSize.width,
-                    j / gridSize.y * opts.canvasSize.height,
-                    opts.canvasSize.width / gridSize.x,
-                    opts.canvasSize.height / gridSize.y
+                    Point(
+                        i / gridSize.width * opts.canvasSize.width,
+                        j / gridSize.height * opts.canvasSize.height
+                    ),
+                    Dimension(
+                        opts.canvasSize.width / gridSize.width,
+                        opts.canvasSize.height / gridSize.height
+                    )
                 )
             );
         }
@@ -32,6 +37,16 @@ module.exports = function (opts) {
 
     return {
         name: opts.name,
+        draw: function (ctx) {
+            collisionGrid.forEach(function (grid) {
+                grid.draw(ctx);
+            });
+            activeCollisions.forEach(function (set) {
+                set.forEach(function (collidable) {
+                    collidable.mask.draw(ctx);
+                });
+            });
+        },
         clearCollisions: function () {
             var i, len = activeCollisions.length;
             for (i = 0; i < len; i += 1) {
@@ -57,10 +72,10 @@ module.exports = function (opts) {
                         var intersects = pivot.intersects(other.mask),
                             colliding = pivot.isCollidingWith(other.id);
                         /**
-                         *  (colliding) ongoing intersection
-                         *  (collide) first collided: no collide -> colliding
-                         *  (separate) first separated: colliding -> no collide
-                         *  (miss) ongoing separation
+                         * (colliding) ongoing intersection
+                         * (collide) first collided: no collide -> colliding
+                         * (separate) first separated: colliding -> no collide
+                         * (miss) ongoing separation
                          */
                         if (intersects) {
                             if (!colliding) {

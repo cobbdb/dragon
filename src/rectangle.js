@@ -1,6 +1,7 @@
 var Shape = require('./shape.js'),
     Point = require('./point.js'),
-    Dimension = require('./dimension.js');
+    Dimension = require('./dimension.js'),
+    Vector = require('./vector.js');
 
 /**
  * @param {Point} [pos] Defaults to (0,0).
@@ -24,8 +25,11 @@ module.exports = function (pos, size) {
             return other.intersects.rect(this);
         },
         draw: function (ctx) {
-            ctx.fillStyle = 'rgba(250, 50, 50, 0.5)';
-            ctx.fillRect(this.x, this.y, this.width, this.height);
+            ctx.beginPath();
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = 'rgba(250, 50, 50, 0.5)';
+            ctx.rect(this.x, this.y, this.width, this.height);
+            ctx.stroke();
         }
     });
     self.intersects.rect = function (other) {
@@ -37,14 +41,19 @@ module.exports = function (pos, size) {
         );
     };
     self.intersects.circle = function (circ) {
-        var len, pt = _Point(circ.x, circ.y);
+        var vect,
+            pt = Point(circ.x, circ.y);
+
         if (circ.x > this.right) pt.x = this.right;
         else if (circ.x < this.x) pt.x = this.x;
         if (circ.y > this.bottom) pt.y = this.bottom;
         else if (circ.y < this.y) pt.y = this.y;
 
-        len = Vector.length(pt.x, pt.y, circ.x, circ.y);
-        return len < circle.radius;
+        vect = Vector({
+            start: pt,
+            end: circ
+        });
+        return vect.size < circ.radius;
     };
     return self;
 };

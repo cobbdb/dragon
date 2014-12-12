@@ -18,14 +18,18 @@ module.exports = function (pos, rad) {
         },
         draw: function (ctx) {
             ctx.beginPath();
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = 'rgba(250, 50, 50, 0.5)';
             ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
-            ctx.fillStyle = 'rgba(250, 50, 50, 0.5)';
-            ctx.fill();
+            ctx.stroke();
         }
     });
     self.intersects.circle = function (other) {
-        var len = Vector.length(this.x, this.y, other.x, other.y);
-        return len < this.radius + other.radius;
+        var vect = Vector({
+            start: this,
+            end: other
+        });
+        return vect.size < this.radius + other.radius;
     };
     self.intersects.rect = function (rect) {
         var len,

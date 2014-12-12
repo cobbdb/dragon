@@ -1,11 +1,23 @@
 var BaseClass = require('baseclassjs');
 
+/**
+ * @param {Object} [opts.events]
+ * @param {Object} [opts.singles]
+ */
 module.exports = function (opts) {
-    var events, singles;
+    var events = {},
+        singles = {},
+        name;
 
     opts = opts || {};
-    events = opts.events || {};
-    singles = opts.singles || {};
+    for (name in opts.events) {
+        events[name] = events[name] || [];
+        events[name].push(opts.events[name]);
+    }
+    for (name in opts.singles) {
+        singles[name] = singles[name] || [];
+        singles[name].push(opts.singles[name]);
+    }
 
     return BaseClass.Interface({
         on: function (name, cb) {
@@ -30,7 +42,7 @@ module.exports = function (opts) {
                 singles[name].forEach(function (cb) {
                     cb(data);
                 });
-                single[name] = [];
+                singles[name] = [];
             }
         }
     });

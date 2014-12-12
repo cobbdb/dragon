@@ -1,4 +1,5 @@
 var CollisionHandler = require('./collision-handler.js'),
+    Point = require('./point.js'),
     Dimension = require('./dimension.js'),
     Circle = require('./circle.js'),
     Collidable = require('./collidable.js'),
@@ -7,9 +8,10 @@ var CollisionHandler = require('./collision-handler.js'),
 var pressEventName,
     endEventName,
     ctx,
+    debug = false,
     tapCollisionSet,
     heartbeat = false,
-    throttle = 100,
+    throttle = 50,
     canvas = document.createElement('canvas'),
     screens = [],
     screenMap = {},
@@ -31,17 +33,20 @@ if (window.innerWidth >= 500) {
     endEventName = 'touchend';
 }
 
-tapCollisionSet = CollisionHandler(
-    Dimension(4, 4),
-    canvas
-);
+tapCollisionSet = CollisionHandler({
+    name: 'screentap',
+    gridSize: Dimension(4, 4),
+    canvasSize: canvas
+});
 ctx = canvas.getContext('2d');
 document.addEventListener(pressEventName, function (event) {
     tapCollisionSet.update(Collidable({
         name: 'screentap',
         mask: Circle(
-            event.offsetX,
-            event.offsetY,
+            Point(
+                event.offsetX,
+                event.offsetY
+            ),
             12
         )
     }));
@@ -52,21 +57,15 @@ document.body.appendChild(canvas);
  * @param screenSet Array
  */
 module.exports = {
-    get canvas () {
-        return canvas;
-    },
-    get ctx () {
-        return ctx;
-    },
-    get pressEventName () {
+    canvas: canvas,
+    ctx: ctx,
+    pressEventName: function () {
         return {
             start: pressEventName,
             end: endEventName
         };
     },
-    get screenTap () {
-        return tapCollisionSet;
-    },
+    screenTap: tapCollisionSet,
     screen: function (name) {
         return screenMap[name];
     },
@@ -78,13 +77,14 @@ module.exports = {
         screenRemoved = true;
     },
     run: function (opts) {
-        var speed, debug,
+        var speed,
             that = this;
 
         opts = opts || {};
         speed = opts.speed || throttle;
+        debug = opts.debug;
 
-        if (opts.debug) {
+        if (debug) {
             window.Dragon = this;
         }
 
@@ -93,7 +93,7 @@ module.exports = {
                 screen.start();
             });
             heartbeat = window.setInterval(function () {
-                if (opts.debug) {
+                if (debug) {
                     console.log('beat');
                 }
                 that.update();
@@ -122,13 +122,10 @@ module.exports = {
             // Update the master screen list after updates.
             screensToAdd.forEach(function (screen) {
                 screens.push(screen);
-                if (screen.name) {
-                    screenMap[screen.name] = screen;
+                if (screen.name()) {
+                    screenMap[screen.name()] = screen;
                 }
-                /**
-                 * --> Now that the screen is fully loaded into
-                 * Dragon, when do we call start()?
-                 */
+                screen.trigger('ready');
             });
             // Sort by descending sprite depths.
             screens.sort(function (a, b) {
@@ -147,7 +144,10 @@ module.exports = {
     },
     draw: function () {
         screens.forEach(function (screen) {
-            screen.draw(ctx);
+            screen.draw(ctx, debug);
         });
+        if (debug) {
+            tapCollisionSet.draw(ctx);
+        }
     }
 };

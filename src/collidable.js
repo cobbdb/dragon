@@ -7,18 +7,23 @@ var counter = require('./id-counter.js'),
  * @param {Shape} [opts.mask] Defaults to Rectangle.
  * @param {String} opts.name
  * @param {Array|CollisionHandler} [opts.collisionSets]
- * @param {Object} [on] Set of collision events.
+ * @param {Object} [opts.on] Dictionary of events.
+ * @param {Object} [opts.one] Dictionary of one-time events.
  */
 module.exports = function (opts) {
     var instanceId = counter.nextId,
         activeCollisions = {},
-        collisionSets = [].concat(opts.collisionSets);
+        collisionSets = [];
+
+    if (opts.collisionSets) {
+        collisionSets = collisionSets.concat(opts.collisionSets);
+    }
 
     return BaseClass({
-        get id () {
+        id: function () {
             return instanceId;
         },
-        get name () {
+        name: function () {
             return opts.name;
         },
         mask: opts.mask || Rectangle(),
@@ -29,8 +34,9 @@ module.exports = function (opts) {
             return this.mask.intersects(mask);
         },
         update: function () {
+            var leaf = this.leaf;
             collisionSets.forEach(function (handler) {
-                handler.update(this.leaf);
+                handler.update(leaf);
             });
         },
         addCollision: function (id) {
@@ -47,7 +53,8 @@ module.exports = function (opts) {
         }
     }).implement(
         EventHandler({
-            events: opts.on
+            events: opts.on,
+            singles: opts.one
         })
     );
 };
