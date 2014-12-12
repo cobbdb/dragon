@@ -69,8 +69,17 @@ module.exports = {
     screen: function (name) {
         return screenMap[name];
     },
-    addScreens: function (set) {
-        screensToAdd = screensToAdd.concat(set);
+    /**
+     * @param {Array|Screen} opts.set
+     * @param {Function} [opts.onload]
+     */
+    addScreens: function (opts) {
+        var onload = opts.onload || function () {};
+        screensToAdd = screensToAdd.concat(opts.set);
+        /**
+         * onload should be some behaviors after all
+         * screens have finished loading.
+         */
     },
     removeScreen: function (screen) {
         screen.removed = true;

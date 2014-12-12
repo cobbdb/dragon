@@ -69,8 +69,17 @@ module.exports = function (opts) {
         sprite: function (name) {
             return spriteMap[name];
         },
-        addSprites: function (set) {
-            spritesToAdd = spritesToAdd.concat(set);
+        /**
+         * @param {Array|Sprite} opts.set
+         * @param {Function} [opts.onload]
+         */
+        addSprites: function (opts) {
+            var onload = opts.onload || function () {};
+            spritesToAdd = spritesToAdd.concat(opts.set);
+            /**
+             * Run onload after all sprites are done loading
+             * ... but how to know when that occurs??
+             */
         },
         removeSprite: function (sprite) {
             sprite.removed = true;
