@@ -5,13 +5,17 @@ var cache = {};
  * load a single time - returning cached
  * data on subsequent calls.
  * @param {String} opts.src
+ * @param {Function} [opts.onload]
  */
 module.exports = function (opts) {
-    var img;
+    var img,
+        onload = opts.onload || function () {};
 
     // Check if already loaded and cached.
     if (opts.src in cache) {
-        return cache[opts.src];
+        img = cache[opts.src];
+        onload(img);
+        return img;
     }
 
     // Create and cache the new image.
@@ -21,6 +25,7 @@ module.exports = function (opts) {
 
     img.onload = function () {
         img.ready = true;
+        onload(img);
     };
 
     img.src = 'assets/img/' + opts.src;

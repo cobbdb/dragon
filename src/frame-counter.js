@@ -18,5 +18,10 @@ module.exports = {
     },
     get frameRate () {
         return frameRate;
+    },
+    draw: function (ctx) {
+        ctx.font = '30px Verdana';
+        ctx.fillStyle = 'rgba(250, 50, 50, 0.5)';
+        ctx.fillText(frameRate, 20, 50);
     }
 };

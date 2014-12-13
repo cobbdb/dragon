@@ -157,6 +157,7 @@ module.exports = {
         });
         if (debug) {
             tapCollisionSet.draw(ctx);
+            FrameCounter.draw(ctx);
         }
     }
 };
