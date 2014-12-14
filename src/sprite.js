@@ -37,7 +37,6 @@ module.exports = function (opts) {
         update: function () {
             // Update position if moving.
             this.shift();
-
             this.base.update();
             // Advance the animation.
             opts.strip.update();

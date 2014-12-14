@@ -92,7 +92,12 @@ module.exports = function (opts) {
                         }
                     });
                 });
-                // Clear the collision set after it's been processed.
+            }
+        },
+        teardown: function () {
+            var i,
+                len = activeCollisions.length;
+            for (i = 0; i < len; i += 1) {
                 activeCollisions[i] = [];
             }
         }

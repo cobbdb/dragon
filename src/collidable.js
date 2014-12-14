@@ -20,12 +20,8 @@ module.exports = function (opts) {
     }
 
     return BaseClass({
-        id: function () {
-            return instanceId;
-        },
-        name: function () {
-            return opts.name;
-        },
+        id: instanceId,
+        name: opts.name,
         mask: opts.mask || Rectangle(),
         move: function (x, y) {
             this.mask.move(x, y);
@@ -37,6 +33,11 @@ module.exports = function (opts) {
             var leaf = this.leaf;
             collisionSets.forEach(function (handler) {
                 handler.update(leaf);
+            });
+        },
+        teardown: function () {
+            collisionSets.forEach(function (handler) {
+                handler.teardown();
             });
         },
         addCollision: function (id) {

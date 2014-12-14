@@ -35,9 +35,7 @@ module.exports = function (opts) {
     });
 
     return BaseClass({
-        name: function () {
-            return opts.name;
-        },
+        name: opts.name,
         start: function () {
             sprites.forEach(function (sprite) {
                 sprite.strip.start();
@@ -86,11 +84,14 @@ module.exports = function (opts) {
             spriteRemoved = true;
         },
         update: function () {
-            var i,
-                doSort = false,
-                spritesLoading = [];
+            var i;
 
             if (updating) {
+                // Process collisions.
+                for (i in collisionMap) {
+                    collisionMap[i].handleCollisions();
+                }
+
                 // Update sprites.
                 sprites.forEach(function (sprite) {
                     if (updating && !sprite.removed) {
@@ -98,10 +99,29 @@ module.exports = function (opts) {
                         sprite.update();
                     }
                 });
+            }
+        },
+        draw: function (ctx, debug) {
+            var name;
+            if (drawing) {
+                sprites.forEach(function (sprite) {
+                    sprite.draw(ctx);
+                });
+                if (debug) {
+                    for (name in collisionMap) {
+                        collisionMap[name].draw(ctx);
+                    }
+                }
+            }
+        },
+        teardown: function () {
+            var i,
+                doSort = false,
+                spritesLoading = [];
 
-                // Update collisions.
+            if (updating) {
                 for (i in collisionMap) {
-                    collisionMap[i].handleCollisions();
+                    collisionMap[i].teardown();
                 }
             }
 
@@ -136,19 +156,6 @@ module.exports = function (opts) {
                     return !sprite.removed;
                 });
                 spriteRemoved = false;
-            }
-        },
-        draw: function (ctx, debug) {
-            var name;
-            if (drawing) {
-                sprites.forEach(function (sprite) {
-                    sprite.draw(ctx);
-                });
-                if (debug) {
-                    for (name in collisionMap) {
-                        collisionMap[name].draw(ctx);
-                    }
-                }
             }
         }
     }).implement(
