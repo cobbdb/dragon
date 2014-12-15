@@ -32,12 +32,13 @@ module.exports = function (pos, size) {
             ctx.stroke();
         }
     });
-    self.intersects.rect = function (other) {
+    self.intersects.rect = function (rect) {
+        // --> Double-check this algorithm
         return (
-            this.x < other.right &&
-            this.right > other.x &&
-            this.y < other.bottom &&
-            this.bottom > other.y
+            this.x < rect.right &&
+            this.right > rect.x &&
+            this.y < rect.bottom &&
+            this.bottom > rect.y
         );
     };
     self.intersects.circle = function (circ) {

@@ -57,6 +57,7 @@ module.exports = function (opts) {
             var i, len = activeCollisions.length;
             for (i = 0; i < len; i += 1) {
                 if (collidable.intersects(collisionGrid[i])) {
+                    // VV This isn't happening right.
                     activeCollisions[i].push(collidable);
                 }
             }

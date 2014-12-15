@@ -4,43 +4,35 @@ var CollisionHandler = require('./collision-handler.js'),
     Circle = require('./circle.js'),
     Collidable = require('./collidable.js'),
     FrameCounter = require('./frame-counter.js'),
-    Mouse = require('./mouse.js');
+    Mouse = require('./mouse.js'),
+    canvas = require('./canvas.js').canvas,
+    ctx = require('./canvas.js').ctx;
 
-var ctx,
-    debug = false,
-    tapCollisionSet,
+var debug = false,
     heartbeat = false,
     throttle = 50,
-    canvas = document.createElement('canvas'),
     screens = [],
     screenMap = {},
     screensToAdd = [],
-    screenRemoved = false;
+    screenRemoved = false,
+    tapCollisionSet = CollisionHandler({
+        name: 'screentap',
+        gridSize: Dimension(4, 4),
+        canvasSize: canvas
+    });
 
-if (window.innerWidth >= 500) {
-    // Large screen devices.
-    canvas.width = 320;
-    canvas.height = 480;
-    canvas.style.border = '1px solid #000';
-} else {
-    // Mobile devices.
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-
-tapCollisionSet = CollisionHandler({
-    name: 'screentap',
-    gridSize: Dimension(4, 4),
-    canvasSize: canvas
-});
-ctx = canvas.getContext('2d');
 Mouse.on.down(function () {
     tapCollisionSet.update(Collidable({
         name: 'screentap',
         mask: Circle(Mouse.offset, 10)
     }));
 });
-document.body.appendChild(canvas);
+Mouse.on.drag(function () {
+    tapCollisionSet.update(Collidable({
+        name: 'screendrag',
+        mask: Circle(Mouse.offset, 10)
+    }));
+});
 
 /**
  * @param screenSet Array
@@ -100,10 +92,10 @@ module.exports = {
         });
     },
     update: function () {
-        if (Mouse.is.down) {
+        if (Mouse.is.holding && !Mouse.is.dragging) {
             tapCollisionSet.update(Collidable({
-                name: 'screentap',
-                mask: Circle(Mouse.offset, 12)
+                name: 'screenhold',
+                mask: Circle(Mouse.offset, 15)
             }));
         }
 

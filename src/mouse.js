@@ -1,7 +1,10 @@
 var Point = require('./point.js'),
     Vector = require('./vector.js'),
+    canvas = require('./canvas.js').canvas,
+    isMobile = require('./canvas.js').isMobile,
     isDown = false,
     isDragging = false,
+    isHolding = false,
     current = Point(),
     last = Point(),
     shift = Vector(),
@@ -9,31 +12,36 @@ var Point = require('./point.js'),
     moveEventName,
     endEventName;
 
-if (window.innerWidth >= 500) {
-    startEventName = 'mousedown';
-    moveEventName = 'mousemove';
-    endEventName = 'mouseup';
-} else {
+if (isMobile) {
     startEventName = 'touchstart';
     moveEventName = 'touchmove';
     endEventName = 'touchend';
+} else {
+    startEventName = 'mousedown';
+    moveEventName = 'mousemove';
+    endEventName = 'mouseup';
 }
 
-document.addEventListener(
+canvas.addEventListener(
     startEventName,
     function (event) {
         isDown = true;
         current.x = event.offsetX;
         current.y = event.offsetY;
+        global.setTimeout(function () {
+            if (isDown) {
+                isHolding = true;
+            }
+        }, 200);
     }
 );
 document.addEventListener(
     endEventName,
     function (event) {
-        isDown = isDragging = false;
+        isDown = isDragging = isHolding = false;
     }
 );
-document.addEventListener(
+canvas.addEventListener(
     moveEventName,
     function (event) {
         last.x = current.x;
@@ -59,6 +67,9 @@ module.exports = {
         },
         get dragging () {
             return isDragging;
+        },
+        get holding () {
+            return isHolding;
         }
     },
     get offset () {
@@ -66,16 +77,16 @@ module.exports = {
     },
     on: {
         down: function (cb) {
-            document.addEventListener(startEventName, cb);
+            canvas.addEventListener(startEventName, cb);
         },
         up: function (cb) {
             document.addEventListener(endEventName, cb);
         },
         move: function (cb) {
-            document.addEventListener(moveEventName, cb);
+            canvas.addEventListener(moveEventName, cb);
         },
         drag: function (cb) {
-            document.addEventListener(
+            canvas.addEventListener(
                 moveEventName,
                 function (event) {
                     if (isDragging) {
