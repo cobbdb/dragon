@@ -1,15 +1,27 @@
-var BaseClass = require('baseclassjs');
+var BaseClass = require('baseclassjs'),
+    Point = require('./point.js');
 
-module.exports = function (x, y) {
+/**
+ * @param {Point} [opts.pos] Defaults to (0,0).
+ */
+module.exports = function (opts) {
+    var pos;
+
+    opts = opts || {};
+    pos = opts.pos || Point();
+
     return BaseClass({
-        x: x || 0,
-        y: y || 0,
+        x: pos.x,
+        y: pos.y,
+        name: opts.name,
         move: function (x, y) {
-            // --> This is an issue with baseclass
-            this.leaf.x = x;
-            this.leaf.y = y;
+            this.x = x;
+            this.y = y;
         },
-        intersects: BaseClass.Stub,
+        intersects: function (other) {
+            return this.intersectMap[other.name].call(this, other);
+        },
+        intersectMap: {},
         draw: BaseClass.Stub
     });
 };

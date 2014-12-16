@@ -6,8 +6,8 @@ var BaseClass = require('baseclassjs'),
  * @param {Array|CollisionHandler} [opts.collisionSets]
  * @param {String} opts.name
  * @param {Number} [opts.depth] Defaults to 0.
- * @param {Object} [on] Dictionary of events.
- * @param {Object} [one] Dictionary of one-time events.
+ * @param {Object} [opts.on] Dictionary of events.
+ * @param {Object} [opts.one] Dictionary of one-time events.
  */
 module.exports = function (opts) {
     var sprites = [],
@@ -87,11 +87,6 @@ module.exports = function (opts) {
             var i;
 
             if (updating) {
-                // Process collisions.
-                for (i in collisionMap) {
-                    collisionMap[i].handleCollisions();
-                }
-
                 // Update sprites.
                 sprites.forEach(function (sprite) {
                     if (updating && !sprite.removed) {
@@ -99,6 +94,10 @@ module.exports = function (opts) {
                         sprite.update();
                     }
                 });
+                // Process collisions.
+                for (i in collisionMap) {
+                    collisionMap[i].handleCollisions();
+                }
             }
         },
         draw: function (ctx, debug) {

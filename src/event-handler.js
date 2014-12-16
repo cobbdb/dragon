@@ -11,12 +11,14 @@ module.exports = function (opts) {
 
     opts = opts || {};
     for (name in opts.events) {
-        events[name] = events[name] || [];
-        events[name].push(opts.events[name]);
+        events[name] = [
+            opts.events[name]
+        ];
     }
     for (name in opts.singles) {
-        singles[name] = singles[name] || [];
-        singles[name].push(opts.singles[name]);
+        singles[name] = [
+            opts.singles[name]
+        ];
     }
 
     return BaseClass.Interface({
@@ -33,14 +35,15 @@ module.exports = function (opts) {
             singles[name] = [];
         },
         trigger: function (name, data) {
-            if (events[name]) {
+            var that = this;
+            if (name in events) {
                 events[name].forEach(function (cb) {
-                    cb(data);
+                    cb.call(that, data);
                 });
             }
-            if (singles[name]) {
+            if (name in singles) {
                 singles[name].forEach(function (cb) {
-                    cb(data);
+                    cb.call(that, data);
                 });
                 singles[name] = [];
             }

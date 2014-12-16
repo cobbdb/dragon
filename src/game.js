@@ -99,13 +99,13 @@ module.exports = {
             }));
         }
 
-        // Settle screen tap events.
-        tapCollisionSet.handleCollisions();
-
         // Update the screen.
         screens.forEach(function (screen) {
             screen.update();
         });
+
+        // Settle screen tap events.
+        tapCollisionSet.handleCollisions();
 
         if (screensToAdd.length) {
             // Update the master screen list after updates.

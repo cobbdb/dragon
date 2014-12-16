@@ -30,20 +30,14 @@ module.exports = function (opts) {
             return this.mask.intersects(mask);
         },
         update: function () {
-            var leaf = this.leaf;
+            var that = this;
             collisionSets.forEach(function (handler) {
-                handler.update(leaf);
+                handler.update(that);
             });
         },
-        teardown: function () {
-            collisionSets.forEach(function (handler) {
-                handler.teardown();
-            });
-        },
+        teardown: BaseClass.stub,
         addCollision: function (id) {
-            if (id !== instanceId) {
-                activeCollisions[id] = true;
-            }
+            activeCollisions[id] = true;
         },
         removeCollision: function (id) {
             activeCollisions[id] = false;

@@ -57,7 +57,6 @@ module.exports = function (opts) {
             var i, len = activeCollisions.length;
             for (i = 0; i < len; i += 1) {
                 if (collidable.intersects(collisionGrid[i])) {
-                    // VV This isn't happening right.
                     activeCollisions[i].push(collidable);
                 }
             }
@@ -70,37 +69,38 @@ module.exports = function (opts) {
                 set = activeCollisions[i];
                 set.forEach(function (pivot) {
                     set.forEach(function (other) {
-                        var intersects = pivot.intersects(other.mask),
+                        var intersects, colliding;
+
+                        if (pivot.id !== other.id) {
+                            intersects = pivot.intersects(other.mask),
                             colliding = pivot.isCollidingWith(other.id);
-                        /**
-                         * (colliding) ongoing intersection
-                         * (collide) first collided: no collide -> colliding
-                         * (separate) first separated: colliding -> no collide
-                         * (miss) ongoing separation
-                         */
-                        if (intersects) {
-                            if (!colliding) {
-                                pivot.trigger('collide/' + other.name, other);
-                                pivot.addCollision(other.id);
+
+                            /**
+                             * (colliding) ongoing intersection
+                             * (collide) first collided: no collide -> colliding
+                             * (separate) first separated: colliding -> no collide
+                             * (miss) ongoing separation
+                             */
+                            if (intersects) {
+                                if (!colliding) {
+                                    pivot.trigger('collide/' + other.name, other);
+                                    pivot.addCollision(other.id);
+                                }
+                                pivot.trigger('colliding/' + other.name, other);
+                            } else {
+                                if (colliding) {
+                                    pivot.trigger('separate/' + other.name, other);
+                                    pivot.removeCollision(other.id);
+                                }
+                                pivot.trigger('miss/' + other.name, other);
                             }
-                            pivot.trigger('colliding/' + other.name, other);
-                        } else {
-                            if (colliding) {
-                                pivot.trigger('separate/' + other.name, other);
-                                pivot.removeCollision(other.id);
-                            }
-                            pivot.trigger('miss/' + other.name, other);
                         }
                     });
                 });
             }
         },
         teardown: function () {
-            var i,
-                len = activeCollisions.length;
-            for (i = 0; i < len; i += 1) {
-                activeCollisions[i] = [];
-            }
+            this.clearCollisions();
         }
     };
 };

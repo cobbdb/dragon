@@ -1,5 +1,4 @@
 var canvas = document.createElement('canvas'),
-    ctx = canvas.getContext('2d'),
     mobile = false;
 
 if (window.innerWidth >= 500) {
@@ -18,5 +17,5 @@ document.body.appendChild(canvas);
 module.exports = {
     isMobile: mobile,
     canvas: canvas,
-    ctx: ctx
+    ctx: canvas.getContext('2d')
 };
