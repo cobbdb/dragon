@@ -3,11 +3,13 @@ var BaseClass = require('baseclassjs'),
 
 /**
  * @param {Point} [opts.pos] Defaults to (0,0).
+ * @param {Object} [opts.intersects] Dictionary of collision tests.
  */
 module.exports = function (opts) {
-    var pos;
+    var pos, intersectMap;
 
     opts = opts || {};
+    intersectMap = opts.intersects || {};
     pos = opts.pos || Point();
 
     return BaseClass({
@@ -19,9 +21,8 @@ module.exports = function (opts) {
             this.y = y;
         },
         intersects: function (other) {
-            return this.intersectMap[other.name].call(this, other);
+            return intersectMap[other.name].call(this, other);
         },
-        intersectMap: {},
         draw: BaseClass.Stub
     });
 };

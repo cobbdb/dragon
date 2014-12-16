@@ -13,17 +13,8 @@ module.exports = function (pos, rad) {
 
     return Shape({
         pos: pos,
-        name: 'circle'
-    }).extend({
-        radius: rad,
-        draw: function (ctx) {
-            ctx.beginPath();
-            ctx.lineWidth = 1;
-            ctx.strokeStyle = 'rgba(250, 50, 50, 0.5)';
-            ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
-            ctx.stroke();
-        },
-        intersectMap: {
+        name: 'circle',
+        intersects: {
             rectangle: function (rect) {
                 var len, vect,
                     pt = Point(this.x, this.y);
@@ -46,6 +37,15 @@ module.exports = function (pos, rad) {
                 });
                 return vect.size < this.radius + circ.radius;
             }
+        }
+    }).extend({
+        radius: rad,
+        draw: function (ctx) {
+            ctx.beginPath();
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = 'rgba(250, 50, 50, 0.5)';
+            ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+            ctx.stroke();
         }
     });
 };

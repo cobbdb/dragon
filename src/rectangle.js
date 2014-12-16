@@ -13,25 +13,8 @@ module.exports = function (pos, size) {
 
     return Shape({
         pos: pos,
-        name: 'rectangle'
-    }).extend({
-        width: size.width || 0,
-        height: size.height || 0,
-        right: pos.x + size.width || 0,
-        bottom: pos.y + size.height || 0,
-        move: function (x, y, base) {
-            base.move(x, y);
-            this.right = x + this.width;
-            this.bottom = y + this.height;
-        },
-        draw: function (ctx) {
-            ctx.beginPath();
-            ctx.lineWidth = 1;
-            ctx.strokeStyle = 'rgba(250, 50, 50, 0.5)';
-            ctx.rect(this.x, this.y, this.width, this.height);
-            ctx.stroke();
-        },
-        intersectMap: {
+        name: 'rectangle',
+        intersects: {
             rectangle: function (rect) {
                 return (
                     this.x < rect.right &&
@@ -55,6 +38,23 @@ module.exports = function (pos, size) {
                 });
                 return vect.size < circ.radius;
             }
+        }
+    }).extend({
+        width: size.width || 0,
+        height: size.height || 0,
+        right: pos.x + size.width || 0,
+        bottom: pos.y + size.height || 0,
+        move: function (x, y, base) {
+            base.move(x, y);
+            this.right = x + this.width;
+            this.bottom = y + this.height;
+        },
+        draw: function (ctx) {
+            ctx.beginPath();
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = 'rgba(250, 50, 50, 0.5)';
+            ctx.rect(this.x, this.y, this.width, this.height);
+            ctx.stroke();
         }
     });
 };
