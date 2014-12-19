@@ -1,4 +1,4 @@
-var counter = require('./id-counter.js'),
+var Counter = require('./id-counter.js'),
     EventHandler = require('./event-handler.js'),
     BaseClass = require('baseclassjs'),
     Rectangle = require('./rectangle.js');
@@ -11,7 +11,7 @@ var counter = require('./id-counter.js'),
  * @param {Object} [opts.one] Dictionary of one-time events.
  */
 module.exports = function (opts) {
-    var instanceId = counter.nextId,
+    var instanceId = Counter.nextId,
         activeCollisions = {},
         collisionSets = [];
 

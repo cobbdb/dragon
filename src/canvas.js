@@ -10,6 +10,7 @@ if (window.innerWidth >= 500) {
     // Mobile devices.
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+    document.body.style.height = canvas.height + 'px';
     mobile = true;
 }
 document.body.appendChild(canvas);

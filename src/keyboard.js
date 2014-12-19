@@ -44,6 +44,20 @@ module.exports = {
     get shift () {
         return nameMap.shift;
     },
+    arrow: {
+        get left () {
+            return codeMap[37] || false;
+        },
+        get up () {
+            return codeMap[38] || false;
+        },
+        get right () {
+            return codeMap[39] || false;
+        },
+        get down () {
+            return codeMap[40] || false;
+        }
+    },
     name: function (name) {
         return nameMap[name] || false;
     },

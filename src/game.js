@@ -114,7 +114,7 @@ module.exports = {
                 if (screen.name) {
                     screenMap[screen.name] = screen;
                 }
-                screen.trigger('ready', screen);
+                screen.trigger('ready');
             });
             // Sort by descending sprite depths.
             screens.sort(function (a, b) {
@@ -138,7 +138,7 @@ module.exports = {
         if (debug) {
             FrameCounter.draw(ctx);
             if (Mouse.is.down) {
-                tapCollisionSet.draw(ctx);
+                //tapCollisionSet.draw(ctx);
             }
         }
     },

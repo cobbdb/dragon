@@ -44,8 +44,8 @@ module.exports = function (pos, size) {
         height: size.height || 0,
         right: pos.x + size.width || 0,
         bottom: pos.y + size.height || 0,
-        move: function (x, y, base) {
-            base.move(x, y);
+        move: function (x, y) {
+            this.base.move(x, y);
             this.right = x + this.width;
             this.bottom = y + this.height;
         },

@@ -34,10 +34,10 @@ module.exports = function (opts) {
         rotation: opts.rotation || 0,
         depth: opts.depth || 0,
         speed: opts.speed || Point(),
-        update: function (base) {
+        update: function () {
             // Update position if moving.
             this.shift();
-            base.update();
+            this.base.update();
             // Advance the animation.
             opts.strip.update();
         },
@@ -52,15 +52,17 @@ module.exports = function (opts) {
                 this.rotation
             );
         },
-        move: function (x, y, base) {
+        load: function (cb) {
+        },
+        move: function (x, y) {
             this.pos.x = x;
             this.pos.y = y;
-            base.move(x, y);
+            this.base.move(x, y);
         },
-        shift: function (base) {
-            this.pos.x += this.speed.x;
-            this.pos.y += this.speed.y;
-            base.move(this.pos.x, this.pos.y);
+        shift: function (vx, vy) {
+            this.pos.x += vx || this.speed.x;
+            this.pos.y += vy || this.speed.y;
+            this.base.move(this.pos.x, this.pos.y);
         }
     });
 };

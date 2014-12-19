@@ -1,5 +1,6 @@
 var BaseClass = require('baseclassjs'),
-    EventHandler = require('./event-handler.js');
+    EventHandler = require('./event-handler.js'),
+    Counter = require('./id-counter.js');
 
 /**
  * @param {Array|Sprite} [opts.spriteSet]
@@ -14,6 +15,7 @@ module.exports = function (opts) {
         spriteMap = {},
         spritesToAdd = [],
         spritesLoading = [],
+        loadQueue = {},
         spriteRemoved = false,
         collisionMap = {},
         updating = false,
@@ -72,12 +74,24 @@ module.exports = function (opts) {
          * @param {Function} [opts.onload]
          */
         addSprites: function (opts) {
-            var onload = opts.onload || function () {};
-            spritesToAdd = spritesToAdd.concat(opts.set);
+            var onload = opts.onload || function () {},
+                set = [].concat(opts.set),
+                id = Counter.nextId;
+            spritesToAdd = spritesToAdd.concat(set);
             /**
-             * Run onload after all sprites are done loading
-             * ... but how to know when that occurs??
+             * ~~~ new content pipeline tests ~~~
              */
+            loadQueue[id] = 0;
+            set.forEach(function (sprite) {
+                loadQueue[id] += 1;
+                sprite.load(function () {
+                    loadQueue[id] -= 1;
+                    if (loadQueue[id] === 0) {
+                        spritesToAdd = spritesToAdd.concat(opts.set);
+                        onload();
+                    }
+                });
+            });
         },
         removeSprite: function (sprite) {
             sprite.removed = true;
