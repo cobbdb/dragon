@@ -33,6 +33,9 @@ module.exports = function (opts) {
         },
         size: size,
         frame: 0,
+        load: function (cb) {
+            opts.sheet.load(cb);
+        },
         start: function () {
             timeLastFrame = new Date().getTime();
             updating = true;

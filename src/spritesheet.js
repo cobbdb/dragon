@@ -8,13 +8,14 @@ var cache = {};
  * @param {Function} [opts.onload]
  */
 module.exports = function (opts) {
-    var img,
-        onload = opts.onload || function () {};
+    var img, onload;
 
     // Check if already loaded and cached.
     if (opts.src in cache) {
         img = cache[opts.src];
-        onload(img);
+        if (img.ready) {
+            onload(img);
+        }
         return img;
     }
 
@@ -23,11 +24,14 @@ module.exports = function (opts) {
     img.ready = false;
     cache[opts.src] = img;
 
-    img.onload = function () {
-        img.ready = true;
-        onload(img);
+    img.load = function (cb) {
+        onload = cb || function () {};
+        img.onload = function () {
+            img.ready = true;
+            onload(img);
+        };
+        img.src = 'assets/img/' + opts.src;
     };
 
-    img.src = 'assets/img/' + opts.src;
     return img;
 };

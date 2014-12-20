@@ -53,6 +53,7 @@ module.exports = function (opts) {
             );
         },
         load: function (cb) {
+            opts.strip.load(cb);
         },
         move: function (x, y) {
             this.pos.x = x;

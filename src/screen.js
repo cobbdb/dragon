@@ -81,9 +81,8 @@ module.exports = function (opts) {
             /**
              * ~~~ new content pipeline tests ~~~
              */
-            loadQueue[id] = 0;
+            loadQueue[id] = set.length;
             set.forEach(function (sprite) {
-                loadQueue[id] += 1;
                 sprite.load(function () {
                     loadQueue[id] -= 1;
                     if (loadQueue[id] === 0) {
