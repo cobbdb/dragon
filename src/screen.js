@@ -77,10 +77,6 @@ module.exports = function (opts) {
             var onload = opts.onload || function () {},
                 set = [].concat(opts.set),
                 id = Counter.nextId;
-            spritesToAdd = spritesToAdd.concat(set);
-            /**
-             * ~~~ new content pipeline tests ~~~
-             */
             loadQueue[id] = set.length;
             set.forEach(function (sprite) {
                 sprite.load(function () {
