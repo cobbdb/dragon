@@ -21,7 +21,8 @@ var Collidable = require('./collidable.js'),
  */
 module.exports = function (opts) {
     var size = opts.size || opts.strip.size,
-        stripSize = opts.strip.size;
+        stripSize = opts.strip.size,
+        loaded = false;
 
     return Collidable(opts).extend({
         ready: function () {
@@ -53,7 +54,10 @@ module.exports = function (opts) {
             );
         },
         load: function (cb) {
-            opts.strip.load(cb);
+            if (!loaded) {
+                opts.strip.load(cb);
+                loaded = true;
+            }
         },
         move: function (x, y) {
             this.pos.x = x;

@@ -1,7 +1,6 @@
 var Point = require('./point.js'),
     Vector = require('./vector.js'),
-    canvas = require('./canvas.js').canvas,
-    isMobile = require('./canvas.js').isMobile,
+    canvas = require('./canvas.js'),
     isDown = false,
     isDragging = false,
     isHolding = false,
@@ -12,7 +11,7 @@ var Point = require('./point.js'),
     moveEventName,
     endEventName;
 
-if (isMobile) {
+if (canvas.mobile) {
     startEventName = 'touchstart';
     moveEventName = 'touchmove';
     endEventName = 'touchend';

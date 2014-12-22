@@ -6,6 +6,7 @@ var createImage = require('./image.js'),
  * load a single time - returning cached
  * data on subsequent calls.
  * @param {String} opts.src
+ * @return {Image} HTML5 Image instance.
  */
 module.exports = function (opts) {
     var img,

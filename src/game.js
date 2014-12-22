@@ -5,8 +5,9 @@ var CollisionHandler = require('./collision-handler.js'),
     Collidable = require('./collidable.js'),
     FrameCounter = require('./frame-counter.js'),
     Mouse = require('./mouse.js'),
-    canvas = require('./canvas.js').canvas,
-    ctx = require('./canvas.js').ctx;
+    canvas = require('./canvas.js'),
+    ctx = canvas.ctx,
+    Counter = require('./id-counter.js');
 
 var debug = false,
     heartbeat = false,
@@ -19,7 +20,8 @@ var debug = false,
         name: 'screentap',
         gridSize: Dimension(4, 4),
         canvasSize: canvas
-    });
+    }),
+    loadQueue = {};
 
 Mouse.on.down(function () {
     tapCollisionSet.update(Collidable({
@@ -34,27 +36,35 @@ Mouse.on.drag(function () {
     }));
 });
 
-/**
- * @param screenSet Array
- */
 module.exports = {
     canvas: canvas,
-    ctx: ctx,
     screenTap: tapCollisionSet,
     screen: function (name) {
         return screenMap[name];
     },
     /**
-     * @param {Array|Screen} opts.set
-     * @param {Function} [opts.onload]
+     * Loads screen into the game together
+     * as a batch. None of the batch will be
+     * loaded into the game until all screens
+     * are ready.
+     * @param {Array|Screen} set
      */
-    addScreens: function (opts) {
-        var onload = opts.onload || function () {};
-        screensToAdd = screensToAdd.concat(opts.set);
-        /**
-         * onload should be some behaviors after all
-         * screens have finished loading.
-         */
+    addScreens: function (set) {
+        var id;
+        if (set) {
+            set = [].concat(set);
+            id = Counter.nextId;
+
+            loadQueue[id] = set.length;
+            set.forEach(function (screen) {
+                screen.load(function () {
+                    loadQueue[id] -= 1;
+                    if (loadQueue[id] === 0) {
+                        screensToAdd = screensToAdd.concat(set);
+                    }
+                });
+            });
+        }
     },
     removeScreen: function (screen) {
         screen.removed = true;

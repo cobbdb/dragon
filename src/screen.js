@@ -11,7 +11,9 @@ var BaseClass = require('baseclassjs'),
  * @param {Object} [opts.one] Dictionary of one-time events.
  */
 module.exports = function (opts) {
-    var sprites = [],
+    var self,
+        loaded = false,
+        sprites = [],
         spriteMap = {},
         spritesToAdd = [],
         spritesLoading = [],
@@ -21,23 +23,17 @@ module.exports = function (opts) {
         updating = false,
         drawing = false;
 
-    opts.spriteSet = [].concat(opts.spriteSet);
-    opts.collisionSets = [].concat(opts.collisionSets);
-
-    // Load in the sprites.
-    opts.spriteSet.forEach(function (sprite) {
-        spritesToAdd.push(sprite);
-        if (sprite.name) {
-            spriteMap[sprite.name] = sprite;
-        }
-    });
-    // Load in collision handlers.
-    opts.collisionSets.forEach(function (handler) {
-        collisionMap[handler.name] = handler;
-    });
-
-    return BaseClass({
+    self = BaseClass({
         name: opts.name,
+        load: function (cb) {
+            if (!loaded) {
+                this.addSprites({
+                    set: opts.spriteSet,
+                    onload: cb
+                });
+                loaded = true;
+            }
+        },
         start: function () {
             sprites.forEach(function (sprite) {
                 sprite.strip.start();
@@ -60,33 +56,51 @@ module.exports = function (opts) {
             drawing = false;
         },
         depth: opts.depth || 0,
-        collisions: function () {
-            return collisionMap;
+        collision: function (name) {
+            return collisionMap[name];
         },
-        addCollisionSet: function (handler) {
-            collisionMap[handler.name] = handler;
+        /**
+         * @param {Array|CollisionHandler} set
+         */
+        addCollisionSets: function (set) {
+            if (set) {
+                set = [].concat(set);
+                set.forEach(function (handler) {
+                    collisionMap[handler.name] = handler;
+                });
+            }
         },
         sprite: function (name) {
             return spriteMap[name];
         },
         /**
+         * Loads sprites into this screen together
+         * as a batch. None of the batch will be
+         * loaded into the screen until all sprites
+         * are ready.
          * @param {Array|Sprite} opts.set
-         * @param {Function} [opts.onload]
+         * @param {Function} [onload]
          */
         addSprites: function (opts) {
-            var onload = opts.onload || function () {},
-                set = [].concat(opts.set),
+            var id, onload;
+            opts = opts || {};
+
+            if (opts.set) {
+                onload = opts.onload || function () {};
+                set = [].concat(opts.set);
                 id = Counter.nextId;
-            loadQueue[id] = set.length;
-            set.forEach(function (sprite) {
-                sprite.load(function () {
-                    loadQueue[id] -= 1;
-                    if (loadQueue[id] === 0) {
-                        spritesToAdd = spritesToAdd.concat(opts.set);
-                        onload();
-                    }
+
+                loadQueue[id] = set.length;
+                set.forEach(function (sprite) {
+                    sprite.load(function () {
+                        loadQueue[id] -= 1;
+                        if (loadQueue[id] === 0) {
+                            spritesToAdd = spritesToAdd.concat(set);
+                            onload();
+                        }
+                    });
                 });
-            });
+            }
         },
         removeSprite: function (sprite) {
             sprite.removed = true;
@@ -157,6 +171,7 @@ module.exports = function (opts) {
                 }
                 spritesToAdd = spritesLoading;
             }
+
             if (spriteRemoved) {
                 // Remove any stale sprites.
                 sprites = sprites.filter(function (sprite) {
@@ -172,4 +187,9 @@ module.exports = function (opts) {
             singles: opts.one
         })
     );
+
+    // Load in collision handlers.
+    self.addCollisionSets(opts.collisionSets);
+
+    return self;
 };

@@ -15,13 +15,16 @@ module.exports = function (src) {
         this.processLoadEvents();
     };
 
+    /**
+     * @param {Function} [cb] Defaults to noop. Callback
+     * for onload event.
+     */
     img.load = function (cb) {
-        this.cmd.push(
-            cb || function () {}
-        );
+        cb = cb || function () {};
         if (this.ready) {
-            this.processLoadEvents();
+            cb(img);
         } else {
+            this.cmd.push(cb);
             this.src = 'assets/img/' + src;
         }
     };
