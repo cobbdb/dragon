@@ -137,39 +137,26 @@ module.exports = function (opts) {
             }
         },
         teardown: function () {
-            var i,
-                doSort = false,
-                spritesLoading = [];
+            var i;
 
-            if (updating) {
-                for (i in collisionMap) {
-                    collisionMap[i].teardown();
-                }
+            for (i in collisionMap) {
+                collisionMap[i].teardown();
             }
 
             if (spritesToAdd.length) {
                 // Update the master sprite list after updates.
                 spritesToAdd.forEach(function (sprite) {
-                    if (sprite.ready()) {
-                        // Load the sprite into the game engine
-                        // if its resources are done loading.
-                        sprites.push(sprite);
-                        if (sprite.name) {
-                            spriteMap[sprite.name] = sprite;
-                        }
-                        doSort = true;
-                    } else {
-                        // Stash loading sprites for this frame.
-                        spritesLoading.push(sprite);
+                    sprites.push(sprite);
+                    if (sprite.name) {
+                        spriteMap[sprite.name] = sprite;
                     }
+                    sprite.strip.start();
                 });
-                if (doSort) {
-                    // Sort by descending sprite depths.
-                    sprites.sort(function (a, b) {
-                        return b.depth - a.depth;
-                    });
-                }
-                spritesToAdd = spritesLoading;
+                // Sort by descending sprite depths.
+                sprites.sort(function (a, b) {
+                    return b.depth - a.depth;
+                });
+                spritesToAdd = [];
             }
 
             if (spriteRemoved) {

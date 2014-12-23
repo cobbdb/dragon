@@ -37,8 +37,10 @@ module.exports = function (opts) {
             opts.sheet.load(cb);
         },
         start: function () {
-            timeLastFrame = new Date().getTime();
-            updating = true;
+            timeLastFrame = Date.now();
+            if (timeBetweenFrames) {
+                updating = true;
+            }
         },
         /**
          * Pausing halts the update loop but
@@ -59,14 +61,14 @@ module.exports = function (opts) {
         update: function () {
             var now, elapsed;
             if (updating) {
-                now = new Date().getTime();
+                now = Date.now();
                 elapsed = now - timeLastFrame;
-                timeLastFrame = now;
                 timeSinceLastFrame += elapsed;
                 if (timeSinceLastFrame >= timeBetweenFrames) {
-                    timeSinceLastFrame -= timeBetweenFrames;
+                    timeSinceLastFrame = 0;
                     this.nextFrame();
                 }
+                timeLastFrame = now;
             }
         },
         nextFrame: function () {
@@ -85,7 +87,6 @@ module.exports = function (opts) {
                 offset = this.frame * size.width;
             scale = scale || Dimension(1, 1);
             rotation = rotation || 0;
-
             finalSize = Dimension(
                 size.width * scale.width,
                 size.height * scale.height

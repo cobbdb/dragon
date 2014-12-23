@@ -38,8 +38,8 @@ module.exports = function (opts) {
     return {
         name: opts.name,
         draw: function (ctx) {
-            collisionGrid.forEach(function (grid) {
-                grid.draw(ctx);
+            collisionGrid.forEach(function (partition) {
+                partition.draw(ctx);
             });
             activeCollisions.forEach(function (set) {
                 set.forEach(function (collidable) {
