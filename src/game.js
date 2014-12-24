@@ -29,12 +29,6 @@ Mouse.on.down(function () {
         mask: Circle(Mouse.offset, 10)
     }));
 });
-Mouse.on.drag(function () {
-    tapCollisionSet.update(Collidable({
-        name: 'screendrag',
-        mask: Circle(Mouse.offset, 10)
-    }));
-});
 
 module.exports = {
     canvas: canvas,
@@ -101,11 +95,19 @@ module.exports = {
             screen.stop();
         });
     },
+    /**
+     * Apply new data to the game.
+     */
     update: function () {
-        if (Mouse.is.holding && !Mouse.is.dragging) {
+        if (Mouse.is.dragging) {
+            tapCollisionSet.update(Collidable({
+                name: 'screendrag',
+                mask: Circle(Mouse.offset, 10)
+            }));
+        } else if (Mouse.is.holding) {
             tapCollisionSet.update(Collidable({
                 name: 'screenhold',
-                mask: Circle(Mouse.offset, 15)
+                mask: Circle(Mouse.offset, 10)
             }));
         }
 
@@ -132,14 +134,6 @@ module.exports = {
             });
             screensToAdd = [];
         }
-        if (screenRemoved) {
-            // Remove any stale screens.
-            screens = screens.filter(function (screen) {
-                // true to keep, false to drop.
-                return !screen.removed;
-            });
-            screenRemoved = false;
-        }
     },
     draw: function () {
         screens.forEach(function (screen) {
@@ -148,14 +142,25 @@ module.exports = {
         if (debug) {
             FrameCounter.draw(ctx);
             if (Mouse.is.down) {
-                //tapCollisionSet.draw(ctx);
+                tapCollisionSet.draw(ctx);
             }
         }
     },
+    /**
+     * Cleanup before the next frame.
+     */
     teardown: function () {
         tapCollisionSet.teardown();
         screens.forEach(function (screen) {
             screen.teardown();
         });
+        if (screenRemoved) {
+            // Remove any stale screens.
+            screens = screens.filter(function (screen) {
+                // true to keep, false to drop.
+                return !screen.removed;
+            });
+            screenRemoved = false;
+        }
     }
 };

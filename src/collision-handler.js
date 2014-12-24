@@ -74,7 +74,6 @@ module.exports = function (opts) {
                         if (pivot.id !== other.id) {
                             intersects = pivot.intersects(other.mask),
                             colliding = pivot.isCollidingWith(other.id);
-
                             /**
                              * (colliding) ongoing intersection
                              * (collide) first collided: no collide -> colliding

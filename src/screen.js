@@ -109,18 +109,33 @@ module.exports = function (opts) {
         update: function () {
             var i;
 
-            if (updating) {
-                // Update sprites.
-                sprites.forEach(function (sprite) {
-                    if (updating && !sprite.removed) {
-                        // Don't update dead sprites.
-                        sprite.update();
-                    }
-                });
-                // Process collisions.
-                for (i in collisionMap) {
-                    collisionMap[i].handleCollisions();
+            // Update sprites.
+            sprites.forEach(function (sprite) {
+                if (updating && !sprite.removed) {
+                    // Don't update dead sprites.
+                    sprite.update();
                 }
+            });
+
+            // Process collisions.
+            for (i in collisionMap) {
+                collisionMap[i].handleCollisions();
+            }
+
+            if (spritesToAdd.length) {
+                // Update the master sprite list after updates.
+                spritesToAdd.forEach(function (sprite) {
+                    sprites.push(sprite);
+                    if (sprite.name) {
+                        spriteMap[sprite.name] = sprite;
+                    }
+                    sprite.strip.start();
+                });
+                // Sort by descending sprite depths.
+                sprites.sort(function (a, b) {
+                    return b.depth - a.depth;
+                });
+                spritesToAdd = [];
             }
         },
         draw: function (ctx, debug) {
@@ -139,24 +154,17 @@ module.exports = function (opts) {
         teardown: function () {
             var i;
 
-            for (i in collisionMap) {
-                collisionMap[i].teardown();
+            if (updating) {
+                sprites.forEach(function (sprite) {
+                    if (!sprite.removed) {
+                        // Don't update dead sprites.
+                        sprite.teardown();
+                    }
+                });
             }
 
-            if (spritesToAdd.length) {
-                // Update the master sprite list after updates.
-                spritesToAdd.forEach(function (sprite) {
-                    sprites.push(sprite);
-                    if (sprite.name) {
-                        spriteMap[sprite.name] = sprite;
-                    }
-                    sprite.strip.start();
-                });
-                // Sort by descending sprite depths.
-                sprites.sort(function (a, b) {
-                    return b.depth - a.depth;
-                });
-                spritesToAdd = [];
+            for (i in collisionMap) {
+                collisionMap[i].teardown();
             }
 
             if (spriteRemoved) {

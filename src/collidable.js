@@ -35,7 +35,7 @@ module.exports = function (opts) {
                 handler.update(that);
             });
         },
-        teardown: BaseClass.stub,
+        teardown: BaseClass.Stub,
         addCollision: function (id) {
             activeCollisions[id] = true;
         },

@@ -52,7 +52,7 @@ canvas.addEventListener(
             shift.start = current;
             shift.end = last;
             // Drag threshold.
-            if (shift.size > 2) {
+            if (shift.size > 1) {
                 isDragging = true;
             }
         }
@@ -83,16 +83,6 @@ module.exports = {
         },
         move: function (cb) {
             canvas.addEventListener(moveEventName, cb);
-        },
-        drag: function (cb) {
-            canvas.addEventListener(
-                moveEventName,
-                function (event) {
-                    if (isDragging) {
-                        cb(event);
-                    }
-                }
-            );
         }
     },
     eventName: {

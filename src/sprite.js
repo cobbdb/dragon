@@ -1,4 +1,5 @@
-var Collidable = require('./collidable.js'),
+var BaseClass = require('baseclassjs'),
+    Collidable = require('./collidable.js'),
     Point = require('./point.js'),
     Dimension = require('./dimension.js');
 
@@ -11,6 +12,9 @@ var Collidable = require('./collidable.js'),
  * @param {Number} [opts.depth] Defaults to 0.
  * @param {Number} [opts.rotation] Defaults to 0.
  * @param {Point} [opts.speed] Defaults to (0,0).
+ * @param {Boolean} [opts.freemask] Defaults to false. True
+ * to decouple the position of the mask from the position
+ * of the sprite.
  *
  * ##### Collidable
  * @param {Shape} [opts.mask] Defaults to Rectangle.
@@ -36,11 +40,9 @@ module.exports = function (opts) {
         depth: opts.depth || 0,
         speed: opts.speed || Point(),
         update: function () {
-            // Update position if moving.
             this.shift();
+            this.strip.update();
             this.base.update();
-            // Advance the animation.
-            opts.strip.update();
         },
         draw: function (ctx) {
             opts.strip.draw(
@@ -62,12 +64,16 @@ module.exports = function (opts) {
         move: function (x, y) {
             this.pos.x = x;
             this.pos.y = y;
-            this.base.move(x, y);
+            if (!opts.freemask) {
+                this.base.move(x, y);
+            }
         },
         shift: function (vx, vy) {
             this.pos.x += vx || this.speed.x;
             this.pos.y += vy || this.speed.y;
-            this.base.move(this.pos.x, this.pos.y);
+            if (!opts.freemask) {
+                this.base.move(this.pos.x, this.pos.y);
+            }
         }
     });
 };

@@ -1,8 +1,7 @@
-var Vector = require('./vector.js'),
-    BaseClass = require('baseclassjs');
+var Vector = require('./vector.js');
 
 module.exports = function (theta, mag) {
-    return BaseClass({
+    return {
         theta: theta || 0,
         magnitude: mag || 0,
         invert: function () {
@@ -17,5 +16,5 @@ module.exports = function (theta, mag) {
                 mag * Math.sin(theta)
             );
         }
-    });
+    };
 };
