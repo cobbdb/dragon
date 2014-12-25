@@ -24,6 +24,7 @@ module.exports = function (opts) {
             var rise = this.end.x - this.start.x,
                 run = this.end.y - this.start.y;
             return Math.sqrt((rise * rise) + (run * run));
-        }
+        },
+        scale: function () {}
     };
 };

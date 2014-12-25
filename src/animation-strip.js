@@ -18,7 +18,11 @@ module.exports = function (opts) {
         updating = false,
         frames = opts.frames || 1,
         size = opts.size || Dimension(),
-        start = opts.start || Point();
+        start = opts.start || Point(),
+        start = Point(
+            size.width * start.x,
+            size.height * start.y
+        );
 
     if (opts.speed > 0) {
         // Convert to milliseconds / frame
