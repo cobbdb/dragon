@@ -26,7 +26,7 @@ var debug = false,
 Mouse.on.down(function () {
     tapCollisionSet.update(Collidable({
         name: 'screentap',
-        mask: Circle(Mouse.offset, 10)
+        mask: Circle(Mouse.offset, 15)
     }));
 });
 
@@ -102,12 +102,12 @@ module.exports = {
         if (Mouse.is.dragging) {
             tapCollisionSet.update(Collidable({
                 name: 'screendrag',
-                mask: Circle(Mouse.offset, 10)
+                mask: Circle(Mouse.offset, 15)
             }));
         } else if (Mouse.is.holding) {
             tapCollisionSet.update(Collidable({
                 name: 'screenhold',
-                mask: Circle(Mouse.offset, 10)
+                mask: Circle(Mouse.offset, 15)
             }));
         }
 
