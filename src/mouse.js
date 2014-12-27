@@ -49,10 +49,10 @@ canvas.addEventListener(
         current.y = event.offsetY;
 
         if (isDown) {
-            shift.start = current;
-            shift.end = last;
+            shift.x = current.x - last.x;
+            shift.y = current.y - last.y;
             // Drag threshold.
-            if (shift.size > 1) {
+            if (shift.magnitude > 1) {
                 isDragging = true;
             }
         }

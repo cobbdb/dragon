@@ -8,15 +8,12 @@ var Shape = require('./shape.js'),
  * @param {Number} [rad] Defaults to 0.
  */
 module.exports = function (pos, rad) {
-    pos = pos || Point();
-    rad = rad || 0;
-
     return Shape({
-        pos: pos,
+        pos: pos || Point(),
         name: 'circle',
         intersects: {
             rectangle: function (rect) {
-                var len, vect,
+                var vect,
                     pt = Point(this.x, this.y);
 
                 if (this.x > rect.right) pt.x = rect.right;
@@ -24,22 +21,22 @@ module.exports = function (pos, rad) {
                 if (this.y > rect.bottom) pt.y = rect.bottom;
                 else if (this.y < rect.y) pt.y = rect.y;
 
-                vect = Vector({
-                    start: pt,
-                    end: this
-                });
-                return vect.size < this.radius;
+                vect = Vector(
+                    this.x - pt.x,
+                    this.y - pt.y
+                );
+                return vect.magnitude < this.radius;
             },
             circle: function (circ) {
-                var vect = Vector({
-                    start: this,
-                    end: circ
-                });
-                return vect.size < this.radius + circ.radius;
+                var vect = Vector(
+                    circ.x - this.x,
+                    circ.y - this.y
+                );
+                return vect.magnitude < this.radius + circ.radius;
             }
         }
     }).extend({
-        radius: rad,
+        radius: rad || 0,
         draw: function (ctx) {
             ctx.beginPath();
             ctx.lineWidth = 1;

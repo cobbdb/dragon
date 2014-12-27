@@ -32,11 +32,11 @@ module.exports = function (pos, size) {
                 if (circ.y > this.bottom) pt.y = this.bottom;
                 else if (circ.y < this.y) pt.y = this.y;
 
-                vect = Vector({
-                    start: pt,
-                    end: circ
-                });
-                return vect.size < circ.radius;
+                vect = Vector(
+                    circ.x - pt.x,
+                    circ.y - pt.y
+                );
+                return vect.magnitude < circ.radius;
             }
         }
     }).extend({

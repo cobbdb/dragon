@@ -1,30 +1,49 @@
-var Point = require('./point.js');
+var Polar = require('./polar.js');
 
 /**
- * @param {Point} [opts.start] Defaults to (0,0).
- * @param {Dimension|Point} [opts.size|opts.end] Defaults
- * to (0,0). Either size of vector or the ending point.
+ * @param {Number} [x] Defaults to 0.
+ * @param {Number} [y] Defaults to 0.
  */
-module.exports = function (opts) {
-    var start, end;
-
-    opts = opts || {};
-    start = opts.start || Point();
-    end = opts.end || Point();
-
-    if (opts.size) {
-        end.x = start.x + opts.size.width;
-        end.y = start.y + opts.size.height;
-    }
-
+function Vector(x, y) {
     return {
-        start: start,
-        end: end,
-        get size () {
-            var rise = this.end.x - this.start.x,
-                run = this.end.y - this.start.y;
-            return Math.sqrt((rise * rise) + (run * run));
+        x: x || 0,
+        y: y || 0,
+        get magnitude () {
+            return Math.abs(
+                Math.sqrt(
+                    (this.y * this.y) +
+                    (this.x * this.x)
+                )
+            );
         },
-        scale: function () {}
+        invert: function () {
+            return this.scale(-1);
+        },
+        clone: function () {
+            return Vector(
+                this.x,
+                this.y
+            );
+        },
+        equals: function (other) {
+            return (
+                this.x === other.x &&
+                this.y === other.y
+            );
+        },
+        scale: function (scale) {
+            return Vector(
+                this.x * scale,
+                this.y * scale
+            );
+        },
+        toPolar: function () {
+            return Polar(
+                Math.atan(this.y / this.x),
+                this.magnitude
+            );
+        }
     };
-};
+}
+
+module.exports = Vector;

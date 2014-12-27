@@ -102,7 +102,7 @@ module.exports = {
         if (Mouse.is.dragging) {
             tapCollisionSet.update(Collidable({
                 name: 'screendrag',
-                mask: Circle(Mouse.offset, 15)
+                mask: Circle(Mouse.offset, 25)
             }));
         } else if (Mouse.is.holding) {
             tapCollisionSet.update(Collidable({
