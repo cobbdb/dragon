@@ -78,6 +78,11 @@ module.exports = {
         down: function (cb) {
             canvas.addEventListener(startEventName, cb);
         },
+        /**
+         * Both of these could be useful to have.
+         */
+        click: function (cb) {},
+        dclick: function (cb) {},
         up: function (cb) {
             document.addEventListener(endEventName, cb);
         },
