@@ -1,14 +1,14 @@
 var Rectangle = require('./rectangle.js'),
     Point = require('./point.js'),
-    Dimension = require('./dimension.js');
+    Dimension = require('./dimension.js'),
+    canvas = require('./canvas.js');
 
 /**
  * @param {String} opts.name
  * @param {Dimension} [opts.gridSize] Defaults to (1,1).
- * @param {Dimension} opts.canvasSize Dimension of the game canvas.
  */
 module.exports = function (opts) {
-    var i, j, len,
+    var i, j,
         collisionGrid = [],
         activeCollisions = [],
         gridSize = opts.gridSize || Dimension(1, 1);
@@ -18,20 +18,19 @@ module.exports = function (opts) {
             collisionGrid.push(
                 Rectangle(
                     Point(
-                        i / gridSize.width * opts.canvasSize.width,
-                        j / gridSize.height * opts.canvasSize.height
+                        i / gridSize.width * canvas.width,
+                        j / gridSize.height * canvas.height
                     ),
                     Dimension(
-                        opts.canvasSize.width / gridSize.width,
-                        opts.canvasSize.height / gridSize.height
+                        canvas.width / gridSize.width,
+                        canvas.height / gridSize.height
                     )
                 )
             );
         }
     }
 
-    len = collisionGrid.length;
-    for (i = 0; i < len; i += 1) {
+    for (i = 0; i < collisionGrid.length; i += 1) {
         activeCollisions.push([]);
     }
 

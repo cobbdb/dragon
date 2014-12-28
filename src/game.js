@@ -7,7 +7,8 @@ var CollisionHandler = require('./collision-handler.js'),
     Mouse = require('./mouse.js'),
     canvas = require('./canvas.js'),
     ctx = canvas.ctx,
-    Counter = require('./id-counter.js');
+    Counter = require('./id-counter.js'),
+    log = require('./log.js');
 
 var debug = false,
     heartbeat = false,
@@ -31,6 +32,7 @@ Mouse.on.down(function () {
 });
 
 module.exports = {
+    log: log,
     canvas: canvas,
     screenTap: tapCollisionSet,
     screen: function (name) {

@@ -1,5 +1,6 @@
 var Dimension = require('./dimension.js'),
-    Point = require('./point.js');
+    Point = require('./point.js'),
+    log = require('./log.js');
 
 /**
  * @param {SpriteSheet} opts.sheet
@@ -10,6 +11,8 @@ var Dimension = require('./dimension.js'),
  * @param {Number} [opts.frames] Defaults to 1. Number of
  * frames in this strip.
  * @param {Number} [opts.speed] Number of frames per second.
+ * @param {Boolean} [opts.sinusoid] Defaults to false. True
+ * to cycle the frames forward and backward in a sinusoid.
  */
 module.exports = function (opts) {
     var timeBetweenFrames,
@@ -22,7 +25,8 @@ module.exports = function (opts) {
         start = Point(
             size.width * start.x,
             size.height * start.y
-        );
+        ),
+        direction = 1;
 
     if (opts.speed > 0) {
         // Convert to milliseconds / frame
@@ -76,8 +80,17 @@ module.exports = function (opts) {
             }
         },
         nextFrame: function () {
-            this.frame += 1;
-            this.frame %= frames;
+            this.frame += direction;
+            if (opts.sinusoid) {
+                if (this.frame === frames) {
+                    direction = -1;
+                    this.frame -= 2;
+                } else if (this.frame === 0) {
+                    direction = 1;
+                }
+            } else {
+                this.frame %= frames;
+            }
             return this.frame;
         },
         /**
