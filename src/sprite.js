@@ -5,7 +5,8 @@ var BaseClass = require('baseclassjs'),
 
 /**
  * ##### Sprite
- * @param {AnimationStrip} opts.strip
+ * @param {Array|AnimationStrip} opts.strips
+ * @param {String} opts.startingStrip
  * @param {Point} [opts.pos] Defaults to (0,0).
  * @param {Number} [opts.scale] Defaults to 1.
  * @param {Dimension} [opts.size] Defaults to strip size.
@@ -24,18 +25,29 @@ var BaseClass = require('baseclassjs'),
  * @param {Object} [opts.one] Dictionary of one-time events.
  */
 module.exports = function (opts) {
-    var size = opts.size || opts.strip.size,
-        stripSize = opts.strip.size,
-        loaded = false;
+    var loaded = false,
+        loadQueue = 0,
+        stripMap = opts.strips || {};
 
     return Collidable(opts).extend({
         ready: function () {
-            return opts.strip.ready();
+            return this.strip.ready();
         },
-        strip: opts.strip,
+        strip: stripMap[opts.startingStrip],
+        useStrip: function (name) {
+            // Do nothing if already using this strip.
+            if (this.strip !== stripMap[name]) {
+                this.strip.stop();
+                this.strip = stripMap[name];
+                this.strip.start();
+            }
+        },
+        getStrip: function (name) {
+            return stripMap[name];
+        },
         pos: opts.pos || Point(),
         scale: opts.scale || 1,
-        size: size,
+        size: opts.size || stripMap[opts.startingStrip].size,
         rotation: opts.rotation || 0,
         depth: opts.depth || 0,
         speed: opts.speed || Point(),
@@ -45,7 +57,8 @@ module.exports = function (opts) {
             this.base.update();
         },
         draw: function (ctx) {
-            opts.strip.draw(
+            var stripSize = this.strip.size;
+            this.strip.draw(
                 ctx,
                 this.pos,
                 Dimension(
@@ -56,9 +69,18 @@ module.exports = function (opts) {
             );
         },
         load: function (cb) {
+            var name;
             if (!loaded) {
-                opts.strip.load(cb);
-                loaded = true;
+                for (name in stripMap) {
+                    loadQueue += 1;
+                    stripMap[name].load(function () {
+                        loadQueue -= 1;
+                        if (loadQueue === 0) {
+                            cb();
+                            loaded = true;
+                        }
+                    });
+                }
             }
         },
         move: function (x, y) {

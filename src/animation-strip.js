@@ -15,8 +15,7 @@ var Dimension = require('./dimension.js'),
  * to cycle the frames forward and backward in a sinusoid.
  */
 module.exports = function (opts) {
-    var timeBetweenFrames,
-        timeLastFrame,
+    var timeLastFrame,
         timeSinceLastFrame = 0,
         updating = false,
         frames = opts.frames || 1,
@@ -28,27 +27,19 @@ module.exports = function (opts) {
         ),
         direction = 1;
 
-    if (opts.speed > 0) {
-        // Convert to milliseconds / frame
-        timeBetweenFrames = (1 / opts.speed) * 1000;
-    } else {
-        timeBetweenFrames = 0;
-    }
-
     return {
         ready: function () {
             return opts.sheet.ready;
         },
         size: size,
         frame: 0,
+        speed: opts.speed || 0,
         load: function (cb) {
             opts.sheet.load(cb);
         },
         start: function () {
             timeLastFrame = Date.now();
-            if (timeBetweenFrames) {
-                updating = true;
-            }
+            updating = true;
         },
         /**
          * Pausing halts the update loop but
@@ -65,10 +56,13 @@ module.exports = function (opts) {
             updating = false;
             timeSinceLastFrame = 0;
             this.frame = 0;
+            direction = 1;
         },
         update: function () {
-            var now, elapsed;
-            if (updating) {
+            var now, elapsed, timeBetweenFrames;
+
+            if (updating && this.speed) {
+                timeBetweenFrames = (1 / this.speed) * 1000;
                 now = Date.now();
                 elapsed = now - timeLastFrame;
                 timeSinceLastFrame += elapsed;

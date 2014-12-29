@@ -13,7 +13,8 @@ var Counter = require('./id-counter.js'),
 module.exports = function (opts) {
     var instanceId = Counter.nextId,
         activeCollisions = {},
-        collisionSets = [];
+        collisionSets = [],
+        updated = false;
 
     if (opts.collisionSets) {
         collisionSets = collisionSets.concat(opts.collisionSets);
@@ -31,11 +32,16 @@ module.exports = function (opts) {
         },
         update: function () {
             var that = this;
-            collisionSets.forEach(function (handler) {
-                handler.update(that);
-            });
+            if (!updated) {
+                collisionSets.forEach(function (handler) {
+                    handler.update(that);
+                });
+                updated = true;
+            }
         },
-        teardown: BaseClass.Stub,
+        teardown: function () {
+            updated = false;
+        },
         addCollision: function (id) {
             activeCollisions[id] = true;
         },

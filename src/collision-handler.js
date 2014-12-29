@@ -36,10 +36,12 @@ module.exports = function (opts) {
 
     return {
         name: opts.name,
-        draw: function (ctx) {
-            collisionGrid.forEach(function (partition) {
-                partition.draw(ctx);
-            });
+        draw: function (ctx, drawGrid) {
+            if (drawGrid) {
+                collisionGrid.forEach(function (partition) {
+                    partition.draw(ctx);
+                });
+            }
             activeCollisions.forEach(function (set) {
                 set.forEach(function (collidable) {
                     collidable.mask.draw(ctx);

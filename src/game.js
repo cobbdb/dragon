@@ -2,6 +2,7 @@ var CollisionHandler = require('./collision-handler.js'),
     Point = require('./point.js'),
     Dimension = require('./dimension.js'),
     Circle = require('./circle.js'),
+    Rectangle = require('./rectangle.js'),
     Collidable = require('./collidable.js'),
     FrameCounter = require('./frame-counter.js'),
     Mouse = require('./mouse.js'),
@@ -17,15 +18,15 @@ var debug = false,
     screenMap = {},
     screensToAdd = [],
     screenRemoved = false,
-    tapCollisionSet = CollisionHandler({
-        name: 'screentap',
+    dragonCollisions = CollisionHandler({
+        name: 'dragon',
         gridSize: Dimension(4, 4),
         canvasSize: canvas
     }),
     loadQueue = {};
 
 Mouse.on.down(function () {
-    tapCollisionSet.update(Collidable({
+    dragonCollisions.update(Collidable({
         name: 'screentap',
         mask: Circle(Mouse.offset, 15)
     }));
@@ -34,7 +35,8 @@ Mouse.on.down(function () {
 module.exports = {
     log: log,
     canvas: canvas,
-    screenTap: tapCollisionSet,
+    debug: require('./debug-console.js'),
+    collisions: dragonCollisions,
     screen: function (name) {
         return screenMap[name];
     },
@@ -102,16 +104,44 @@ module.exports = {
      */
     update: function () {
         if (Mouse.is.dragging) {
-            tapCollisionSet.update(Collidable({
+            dragonCollisions.update(Collidable({
                 name: 'screendrag',
                 mask: Circle(Mouse.offset, 25)
             }));
         } else if (Mouse.is.holding) {
-            tapCollisionSet.update(Collidable({
+            dragonCollisions.update(Collidable({
                 name: 'screenhold',
                 mask: Circle(Mouse.offset, 15)
             }));
         }
+        dragonCollisions.update(Collidable({
+            name: 'edge/left',
+            mask: Rectangle(
+                Point(-9, 0),
+                Dimension(10, canvas.height)
+            )
+        }));
+        dragonCollisions.update(Collidable({
+            name: 'edge/top',
+            mask: Rectangle(
+                Point(0, -9),
+                Dimension(canvas.width, 10)
+            )
+        }));
+        dragonCollisions.update(Collidable({
+            name: 'edge/right',
+            mask: Rectangle(
+                Point(canvas.width - 1, 0),
+                Dimension(10, canvas.height)
+            )
+        }));
+        dragonCollisions.update(Collidable({
+            name: 'edge/bottom',
+            mask: Rectangle(
+                Point(0, canvas.height - 1),
+                Dimension(canvas.width, 10)
+            )
+        }));
 
         // Update the screen.
         screens.forEach(function (screen) {
@@ -119,7 +149,7 @@ module.exports = {
         });
 
         // Settle screen tap events.
-        tapCollisionSet.handleCollisions();
+        dragonCollisions.handleCollisions();
 
         if (screensToAdd.length) {
             // Update the master screen list after updates.
@@ -143,16 +173,14 @@ module.exports = {
         });
         if (debug) {
             FrameCounter.draw(ctx);
-            if (Mouse.is.down) {
-                tapCollisionSet.draw(ctx);
-            }
+            dragonCollisions.draw(ctx);
         }
     },
     /**
      * Cleanup before the next frame.
      */
     teardown: function () {
-        tapCollisionSet.teardown();
+        dragonCollisions.teardown();
         screens.forEach(function (screen) {
             screen.teardown();
         });
