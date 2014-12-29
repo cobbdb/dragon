@@ -68,10 +68,10 @@ module.exports = function (opts) {
             );
         },
         load: function (cb) {
-            var name, loadQueue = 0;
+            var name, loadQueue;
             if (!loaded) {
+                loadQueue = Object.keys(stripMap).length;
                 for (name in stripMap) {
-                    loadQueue += 1;
                     stripMap[name].load(function () {
                         loadQueue -= 1;
                         if (loadQueue === 0) {
