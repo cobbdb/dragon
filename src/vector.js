@@ -16,9 +16,6 @@ function Vector(x, y) {
                 )
             );
         },
-        invert: function () {
-            return this.scale(-1);
-        },
         clone: function () {
             return Vector(
                 this.x,

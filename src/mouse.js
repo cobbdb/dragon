@@ -55,7 +55,7 @@ document.addEventListener(
 canvas.addEventListener(
     moveEventName,
     function (event) {
-        last = current.clone();
+        last = current;
         current = getOffset(event);
 
         if (isDown) {
