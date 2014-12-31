@@ -10,6 +10,12 @@ function Dimension(w, h) {
                 this.width === other.width &&
                 this.height === other.height
             );
+        },
+        scale: function (scale) {
+            return Dimension(
+                this.width * scale,
+                this.height * scale
+            );
         }
     };
 }

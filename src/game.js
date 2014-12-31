@@ -9,9 +9,8 @@ var CollisionHandler = require('./collision-handler.js'),
     canvas = require('./canvas.js'),
     ctx = canvas.ctx,
     Counter = require('./id-counter.js'),
-    log = require('./log.js');
-
-var debug = false,
+    log = require('./log.js'),
+    debug = false,
     heartbeat = false,
     throttle = 30,
     screens = [],
@@ -23,13 +22,55 @@ var debug = false,
         gridSize: Dimension(4, 4),
         canvasSize: canvas
     }),
-    loadQueue = {};
+    loadQueue = {},
+    masks = {
+        screentap: Collidable({
+            name: 'screentap',
+            mask: Circle(Point(), 15)
+        }),
+        screendrag: Collidable({
+            name: 'screendrag',
+            mask: Circle(Point(), 25)
+        }),
+        screenhold: Collidable({
+            name: 'screenhold',
+            mask: Circle(Point(), 15)
+        }),
+        screenedge: {
+            top: Collidable({
+                name: 'screenedge/top',
+                mask: Rectangle(
+                    Point(0, -9),
+                    Dimension(canvas.width, 10)
+                )
+            }),
+            right: Collidable({
+                name: 'screenedge/right',
+                mask: Rectangle(
+                    Point(canvas.width - 1, 0),
+                    Dimension(10, canvas.height)
+                )
+            }),
+            bottom: Collidable({
+                name: 'screenedge/bottom',
+                mask: Rectangle(
+                    Point(0, canvas.height - 1),
+                    Dimension(canvas.width, 10)
+                )
+            }),
+            left: Collidable({
+                name: 'screenedge/left',
+                mask: Rectangle(
+                    Point(-9, 0),
+                    Dimension(10, canvas.height)
+                )
+            })
+        }
+    };
 
 Mouse.on.down(function () {
-    dragonCollisions.update(Collidable({
-        name: 'screentap',
-        mask: Circle(Mouse.offset, 15)
-    }));
+    masks.screentap.move(Mouse.offset);
+    dragonCollisions.update(masks.screentap);
 });
 
 module.exports = {
@@ -104,44 +145,16 @@ module.exports = {
      */
     update: function () {
         if (Mouse.is.dragging) {
-            dragonCollisions.update(Collidable({
-                name: 'screendrag',
-                mask: Circle(Mouse.offset, 25)
-            }));
+            masks.screendrag.move(Mouse.offset);
+            dragonCollisions.update(masks.screendrag);
         } else if (Mouse.is.holding) {
-            dragonCollisions.update(Collidable({
-                name: 'screenhold',
-                mask: Circle(Mouse.offset, 15)
-            }));
+            masks.screenhold.move(Mouse.offset);
+            dragonCollisions.update(masks.screenhold);
         }
-        dragonCollisions.update(Collidable({
-            name: 'screenedge/left',
-            mask: Rectangle(
-                Point(-9, 0),
-                Dimension(10, canvas.height)
-            )
-        }));
-        dragonCollisions.update(Collidable({
-            name: 'screenedge/top',
-            mask: Rectangle(
-                Point(0, -9),
-                Dimension(canvas.width, 10)
-            )
-        }));
-        dragonCollisions.update(Collidable({
-            name: 'screenedge/right',
-            mask: Rectangle(
-                Point(canvas.width - 1, 0),
-                Dimension(10, canvas.height)
-            )
-        }));
-        dragonCollisions.update(Collidable({
-            name: 'screenedge/bottom',
-            mask: Rectangle(
-                Point(0, canvas.height - 1),
-                Dimension(canvas.width, 10)
-            )
-        }));
+        dragonCollisions.update(masks.screenedge.top);
+        dragonCollisions.update(masks.screenedge.right);
+        dragonCollisions.update(masks.screenedge.bottom);
+        dragonCollisions.update(masks.screenedge.left);
 
         // Update the screen.
         screens.forEach(function (screen) {

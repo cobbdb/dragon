@@ -82,7 +82,7 @@ module.exports = function (opts) {
          * @param {Function} [onload]
          */
         addSprites: function (opts) {
-            var id, onload;
+            var id, onload, set;
             opts = opts || {};
 
             if (opts.set) {

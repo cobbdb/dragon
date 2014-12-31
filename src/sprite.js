@@ -45,8 +45,15 @@ module.exports = function (opts) {
             return stripMap[name];
         },
         pos: opts.pos || Point(),
+        /**
+         * scale and size should be coupled tighter.
+         * then remove trueSize altogether
+         */
         scale: opts.scale || 1,
         size: opts.size || stripMap[opts.startingStrip].size,
+        trueSize: function () {
+            return this.size.scale(this.scale);
+        },
         rotation: opts.rotation || 0,
         depth: opts.depth || 0,
         speed: opts.speed || Point(),
@@ -86,14 +93,14 @@ module.exports = function (opts) {
             this.pos.x = x;
             this.pos.y = y;
             if (!opts.freemask) {
-                this.base.move(x, y);
+                this.base.move(this.pos);
             }
         },
         shift: function (vx, vy) {
             this.pos.x += vx || this.speed.x;
             this.pos.y += vy || this.speed.y;
             if (!opts.freemask) {
-                this.base.move(this.pos.x, this.pos.y);
+                this.base.move(this.pos);
             }
         }
     });

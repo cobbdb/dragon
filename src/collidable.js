@@ -24,8 +24,8 @@ module.exports = function (opts) {
         id: instanceId,
         name: opts.name,
         mask: opts.mask || Rectangle(),
-        move: function (x, y) {
-            this.mask.move(x, y);
+        move: function (pos) {
+            this.mask.move(pos.x, pos.y);
         },
         intersects: function (mask) {
             return this.mask.intersects(mask);
