@@ -8,8 +8,11 @@ var Shape = require('./shape.js'),
  * @param {Number} [rad] Defaults to 0.
  */
 module.exports = function (pos, rad) {
+    pos = pos || Point();
+    rad = rad || 0;
+
     return Shape({
-        pos: pos || Point(),
+        pos: pos,
         name: 'circle',
         intersects: {
             rectangle: function (rect) {
@@ -36,13 +39,36 @@ module.exports = function (pos, rad) {
             }
         }
     }).extend({
-        radius: rad || 0,
+        radius: rad,
+        width: rad * 2,
+        height: rad * 2,
+        top: pos.y - rad,
+        right: pos.x + rad,
+        bottom: pos.y + rad,
+        left: pos.x - rad,
         draw: function (ctx) {
             ctx.beginPath();
             ctx.lineWidth = 1;
             ctx.strokeStyle = 'rgba(250, 50, 50, 0.5)';
             ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
             ctx.stroke();
+        },
+        move: function (x, y) {
+            this.x = x;
+            this.y = y;
+            this.top = y - this.radius;
+            this.right = x + this.radius;
+            this.bottom = y + this.radius;
+            this.left = x - this.radius;
+        },
+        resize: function (rad) {
+            this.radius = rad;
+            this.width = rad * 2;
+            this.height = rad * 2;
+            this.top = this.y - rad;
+            this.right = this.x + rad;
+            this.bottom = this.y + rad;
+            this.left = this.x - rad;
         }
     });
 };

@@ -1,7 +1,8 @@
 var BaseClass = require('baseclassjs'),
     Collidable = require('./collidable.js'),
     Point = require('./point.js'),
-    Dimension = require('./dimension.js');
+    Dimension = require('./dimension.js'),
+    Rectangle = require('./rectangle.js');
 
 /**
  * ##### Sprite
@@ -26,7 +27,16 @@ var BaseClass = require('baseclassjs'),
  */
 module.exports = function (opts) {
     var loaded = false,
-        stripMap = opts.strips || {};
+        stripMap = opts.strips || {},
+        pos = opts.pos || Point();
+
+    opts.mask = opts.mask || Rectangle();
+    opts.offset = Point(
+        opts.mask.x,
+        opts.mask.y
+    );
+    opts.mask.x = pos.x + opts.offset.x;
+    opts.mask.y = pos.y + opts.offset.y;
 
     return Collidable(opts).extend({
         ready: function () {
@@ -44,11 +54,7 @@ module.exports = function (opts) {
         getStrip: function (name) {
             return stripMap[name];
         },
-        pos: opts.pos || Point(),
-        /**
-         * scale and size should be coupled tighter.
-         * then remove trueSize altogether
-         */
+        pos: pos,
         scale: opts.scale || 1,
         size: opts.size || stripMap[opts.startingStrip].size,
         trueSize: function () {

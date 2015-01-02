@@ -140,9 +140,6 @@ module.exports = {
             screen.stop();
         });
     },
-    /**
-     * Apply new data to the game.
-     */
     update: function () {
         if (Mouse.is.dragging) {
             masks.screendrag.move(Mouse.offset);
@@ -189,9 +186,6 @@ module.exports = {
             dragonCollisions.draw(ctx);
         }
     },
-    /**
-     * Cleanup before the next frame.
-     */
     teardown: function () {
         dragonCollisions.teardown();
         screens.forEach(function (screen) {

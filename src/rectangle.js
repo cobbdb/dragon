@@ -42,12 +42,23 @@ module.exports = function (pos, size) {
     }).extend({
         width: size.width || 0,
         height: size.height || 0,
+        top: pos.y || 0,
         right: pos.x + size.width || 0,
         bottom: pos.y + size.height || 0,
+        left: pos.x || 0,
         move: function (x, y) {
-            this.base.move(x, y);
+            this.x = x;
+            this.y = y;
+            this.top = y;
             this.right = x + this.width;
             this.bottom = y + this.height;
+            this.left = x;
+        },
+        resize: function (size) {
+            this.width = size.width;
+            this.height = size.height;
+            this.right = this.x + size.width;
+            this.bottom = this.y + size.height;
         },
         draw: function (ctx) {
             ctx.beginPath();

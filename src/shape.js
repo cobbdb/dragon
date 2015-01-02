@@ -16,10 +16,8 @@ module.exports = function (opts) {
         x: pos.x,
         y: pos.y,
         name: opts.name,
-        move: function (x, y) {
-            this.x = x;
-            this.y = y;
-        },
+        move: BaseClass.Abstract,
+        resize: BaseClass.Abstract,
         intersects: function (other) {
             return intersectMap[other.name].call(this, other);
         },
