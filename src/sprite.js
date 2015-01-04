@@ -35,8 +35,10 @@ module.exports = function (opts) {
         opts.mask.x,
         opts.mask.y
     );
-    opts.mask.x = pos.x + opts.offset.x;
-    opts.mask.y = pos.y + opts.offset.y;
+    opts.mask.move(
+        pos.x + opts.offset.x,
+        pos.x + opts.offset.y
+    );
 
     return Collidable(opts).extend({
         ready: function () {

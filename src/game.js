@@ -122,9 +122,6 @@ module.exports = {
         }
 
         if (!heartbeat) {
-            screens.forEach(function (screen) {
-                screen.start();
-            });
             heartbeat = window.setInterval(function () {
                 that.update();
                 that.draw();
