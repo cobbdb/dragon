@@ -10,6 +10,7 @@ var CollisionHandler = require('./collision-handler.js'),
     ctx = canvas.ctx,
     Counter = require('./id-counter.js'),
     log = require('./log.js'),
+    dragonCollisions = require('./dragon-collisions.js'),
     debug = false,
     heartbeat = false,
     throttle = 30,
@@ -17,11 +18,6 @@ var CollisionHandler = require('./collision-handler.js'),
     screenMap = {},
     screensToAdd = [],
     screenRemoved = false,
-    dragonCollisions = CollisionHandler({
-        name: 'dragon',
-        gridSize: Dimension(4, 4),
-        canvasSize: canvas
-    }),
     loadQueue = {},
     masks = {
         screentap: Collidable({
@@ -77,7 +73,6 @@ module.exports = {
     log: log,
     canvas: canvas,
     debug: require('./debug-console.js'),
-    collisions: dragonCollisions,
     screen: function (name) {
         return screenMap[name];
     },
@@ -109,6 +104,11 @@ module.exports = {
         screen.removed = true;
         screenRemoved = true;
     },
+    /**
+     * @param {Boolean} [opts.debug] Defaults to false.
+     * @param {Number} [opts.speed]
+     * @param {String} [opts.orientation] Defaults to portrait.
+     */
     run: function (opts) {
         var speed,
             that = this;

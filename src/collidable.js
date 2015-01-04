@@ -52,6 +52,9 @@ module.exports = function (opts) {
         removeCollision: function (id) {
             activeCollisions[id] = false;
         },
+        clearCollisions: function () {
+            activeCollisions = {};
+        },
         isCollidingWith: function (id) {
             // Return type is always boolean.
             return activeCollisions[id] || false;
