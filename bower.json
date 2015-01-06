@@ -1,6 +1,5 @@
 {
   "name": "dragon",
-  "version": "0.0.0",
   "homepage": "https://github.com/cobbdb/dragon",
   "authors": [
     "cobbdb <cobbdb@gmail.com>"
@@ -19,7 +18,5 @@
     "test",
     "tests"
   ],
-  "dependencies": {
-    "buzz": "~1.1.7"
-  }
+  "dependencies": {}
 }
