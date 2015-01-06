@@ -16,6 +16,8 @@ module.exports = {
     EventHandler: require('./event-handler.js'),
     SpriteSheet: require('./spritesheet.js'),
     AnimationStrip: require('./animation-strip.js'),
+    Audio: require('./audio.js'),
+
     CollisionHandler: require('./collision-handler.js'),
     collisions: require('./dragon-collisions.js'),
 

@@ -40,6 +40,7 @@ module.exports = function (opts) {
             });
             updating = true;
             drawing = true;
+            this.trigger('start');
         },
         pause: function () {
             sprites.forEach(function (sprite) {
@@ -47,6 +48,7 @@ module.exports = function (opts) {
             });
             updating = false;
             drawing = true;
+            this.trigger('pause');
         },
         stop: function () {
             sprites.forEach(function (sprite) {
@@ -54,6 +56,7 @@ module.exports = function (opts) {
             });
             updating = false;
             drawing = false;
+            this.trigger('stop');
         },
         depth: opts.depth || 0,
         collision: function (name) {

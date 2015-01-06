@@ -38,6 +38,6 @@ module.exports = function (opts) {
     audio.onplaying = opts.on.playing;
     audio.onended = opts.on.ended;
 
-    audio.src = opts.src;
+    audio.src = 'assets/sound/' + opts.src;
     return audio;
 };
