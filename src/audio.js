@@ -12,7 +12,6 @@
 module.exports = function (opts) {
     var audio = document.createElement('audio'),
         oldplay = audio.play;
-    audio.ready = false;
     audio.loop = opts.loop || false;
     audio.volume = opts.volume || 1;
 
@@ -27,13 +26,16 @@ module.exports = function (opts) {
         }
         oldplay.call(this);
     };
+    /**
+     * Pause playback and reset time index.
+     */
+    audio.stop = function () {
+        this.pause();
+        this.currentTime = 0;
+    };
 
     opts.on = opts.on || {};
-    opts.on.load = opts.on.load || function () {};
-    audio.onloadeddata = function () {
-        this.ready = true;
-        opts.on.load();
-    };
+    audio.onloadeddata = opts.on.load;
     audio.onplay = opts.on.play;
     audio.onplaying = opts.on.playing;
     audio.onended = opts.on.ended;
