@@ -10,13 +10,12 @@
  * @return {Audio}
  */
 module.exports = function (opts) {
-    var oldplay,
-        audio = document.createElement('audio');
+    var audio = document.createElement('audio'),
+        oldplay = audio.play;
     audio.ready = false;
     audio.loop = opts.loop || false;
     audio.volume = opts.volume || 1;
 
-    oldplay = audio.play;
     /**
      * @param {Boolean} [force] Defaults to false. Force
      * immediate play from the start, even if the audio
