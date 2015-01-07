@@ -28,7 +28,9 @@ var BaseClass = require('baseclassjs'),
 module.exports = function (opts) {
     var loaded = false,
         stripMap = opts.strips || {},
-        pos = opts.pos || Point();
+        pos = opts.pos || Point(),
+        updating = false,
+        drawing = false;
 
     opts.mask = opts.mask || Rectangle();
     opts.offset = Point(
@@ -39,6 +41,10 @@ module.exports = function (opts) {
         pos.x + opts.offset.x,
         pos.x + opts.offset.y
     );
+    opts.one = opts.one || {};
+    opts.one.ready = opts.one.ready || function () {
+        this.start();
+    };
 
     return Collidable(opts).extend({
         strip: stripMap[opts.startingStrip],
@@ -62,22 +68,46 @@ module.exports = function (opts) {
         rotation: opts.rotation || 0,
         depth: opts.depth || 0,
         speed: opts.speed || Point(),
+        start: function () {
+            updating = true;
+            drawing = true;
+            this.strip.start();
+            this.trigger('start');
+        },
+        pause: function () {
+            updating = false;
+            drawing = true;
+            this.strip.pause();
+            this.trigger('pause');
+        },
+        stop: function () {
+            updating = false;
+            drawing = false;
+            this.strip.stop();
+            this.trigger('stop');
+        },
         update: function () {
-            this.shift();
-            this.strip.update();
-            this.base.update();
+            if (updating) {
+                this.shift();
+                this.strip.update();
+                this.base.update();
+            }
         },
         draw: function (ctx) {
-            var stripSize = this.strip.size;
-            this.strip.draw(
-                ctx,
-                this.pos,
-                Dimension(
-                    this.scale * this.size.width / stripSize.width,
-                    this.scale * this.size.height / stripSize.height
-                ),
-                this.rotation
-            );
+            var stripSize;
+
+            if (drawing) {
+                stripSize = this.strip.size;
+                this.strip.draw(
+                    ctx,
+                    this.pos,
+                    Dimension(
+                        this.scale * this.size.width / stripSize.width,
+                        this.scale * this.size.height / stripSize.height
+                    ),
+                    this.rotation
+                );
+            }
         },
         load: function (cb) {
             var name, loadQueue;

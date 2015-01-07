@@ -23,37 +23,48 @@ module.exports = function (opts) {
         updating = false,
         drawing = false;
 
+    // Load queued sprites into the screen.
+    function ingestSprites() {
+        if (spritesToAdd.length) {
+            // Update the master sprite list after updates.
+            spritesToAdd.forEach(function (sprite) {
+                sprites.push(sprite);
+                if (sprite.name) {
+                    spriteMap[sprite.name] = sprite;
+                }
+                sprite.trigger('ready');
+            });
+            // Sort by descending sprite depths: 3, 2, 1, 0
+            sprites.sort(function (a, b) {
+                return b.depth - a.depth;
+            });
+            spritesToAdd = [];
+        }
+    }
+
     self = BaseClass({
         name: opts.name,
         load: function (cb) {
             if (!loaded) {
                 this.addSprites({
                     set: opts.spriteSet,
-                    onload: cb
+                    onload: cb,
+                    force: true
                 });
                 loaded = true;
             }
         },
         start: function () {
-            sprites.forEach(function (sprite) {
-                sprite.strip.start();
-            });
             updating = true;
             drawing = true;
             this.trigger('start');
         },
         pause: function () {
-            sprites.forEach(function (sprite) {
-                sprite.strip.pause();
-            });
             updating = false;
             drawing = true;
             this.trigger('pause');
         },
         stop: function () {
-            sprites.forEach(function (sprite) {
-                sprite.strip.stop();
-            });
             updating = false;
             drawing = false;
             this.trigger('stop');
@@ -83,6 +94,9 @@ module.exports = function (opts) {
          * are ready.
          * @param {Array|Sprite} opts.set
          * @param {Function} [onload]
+         * @param {Boolean} [force] Defaults to false. True
+         * to ingest sprites immediately outside of the normal
+         * game pulse.
          */
         addSprites: function (opts) {
             var id, onload, set;
@@ -99,6 +113,9 @@ module.exports = function (opts) {
                         loadQueue[id] -= 1;
                         if (loadQueue[id] === 0) {
                             spritesToAdd = spritesToAdd.concat(set);
+                            if (opts.force) {
+                                ingestSprites();
+                            }
                             onload();
                         }
                     });
@@ -125,21 +142,8 @@ module.exports = function (opts) {
                 collisionMap[i].handleCollisions();
             }
 
-            if (spritesToAdd.length) {
-                // Update the master sprite list after updates.
-                spritesToAdd.forEach(function (sprite) {
-                    sprites.push(sprite);
-                    if (sprite.name) {
-                        spriteMap[sprite.name] = sprite;
-                    }
-                    sprite.strip.start();
-                });
-                // Sort by descending sprite depths.
-                sprites.sort(function (a, b) {
-                    return b.depth - a.depth;
-                });
-                spritesToAdd = [];
-            }
+            // Load in any queued sprites.
+            ingestSprites();
         },
         draw: function (ctx, debug) {
             var name;
