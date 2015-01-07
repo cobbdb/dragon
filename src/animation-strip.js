@@ -28,9 +28,6 @@ module.exports = function (opts) {
         direction = 1;
 
     return {
-        ready: function () {
-            return opts.sheet.ready;
-        },
         size: size,
         frame: 0,
         speed: opts.speed || 0,
