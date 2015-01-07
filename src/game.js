@@ -12,25 +12,24 @@ var CollisionHandler = require('./collision-handler.js'),
     log = require('./log.js'),
     dragonCollisions = require('./dragon-collisions.js'),
     debug = false,
-    heartbeat = false,
-    throttle = 30,
     screens = [],
     screenMap = {},
     screensToAdd = [],
     screenRemoved = false,
     loadQueue = {},
+    running = false,
     masks = {
         screentap: Collidable({
             name: 'screentap',
-            mask: Circle(Point(), 15)
+            mask: Circle(Point(), 8)
         }),
         screendrag: Collidable({
             name: 'screendrag',
-            mask: Circle(Point(), 25)
+            mask: Circle(Point(), 8)
         }),
         screenhold: Collidable({
             name: 'screenhold',
-            mask: Circle(Point(), 15)
+            mask: Circle(Point(), 8)
         }),
         screenedge: {
             top: Collidable({
@@ -105,34 +104,32 @@ module.exports = {
         screenRemoved = true;
     },
     /**
-     * @param {Boolean} [opts.debug] Defaults to false.
-     * @param {Number} [opts.speed]
-     * @param {String} [opts.orientation] Defaults to portrait.
+     * @param {Boolean} [debugMode] Defaults to false.
      */
-    run: function (opts) {
-        var speed,
-            that = this;
-
-        opts = opts || {};
-        speed = opts.speed || throttle;
-        debug = opts.debug;
-
-        if (debug) {
-            window.Dragon = this;
-        }
-
-        if (!heartbeat) {
-            heartbeat = window.setInterval(function () {
+    run: function (debugMode) {
+        var that = this,
+            step = function () {
                 that.update();
                 that.draw();
                 that.teardown();
                 FrameCounter.countFrame();
-            }, speed);
+                if (running) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+
+        debug = debugMode;
+        if (debugMode) {
+            window.Dragon = this;
+        }
+
+        if (!running) {
+            running = true;
+            window.requestAnimationFrame(step);
         }
     },
     kill: function () {
-        window.clearInterval(heartbeat);
-        heartbeat = false;
+        running = false;
         screens.forEach(function (screen) {
             screen.stop();
         });

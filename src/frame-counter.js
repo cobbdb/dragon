@@ -1,9 +1,9 @@
 var timeSinceLastSecond = frameCountThisSecond = frameRate = 0,
-    timeLastFrame = new Date().getTime();
+    timeLastFrame = Date.now();
 
 module.exports = {
     countFrame: function () {
-        var timeThisFrame = new Date().getTime(),
+        var timeThisFrame = Date.now(),
             elapsedTime = timeThisFrame - timeLastFrame;
 
         frameCountThisSecond += 1;
