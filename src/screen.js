@@ -129,17 +129,19 @@ module.exports = function (opts) {
         update: function () {
             var i;
 
-            // Update sprites.
-            sprites.forEach(function (sprite) {
-                if (updating && !sprite.removed) {
-                    // Don't update dead sprites.
-                    sprite.update();
-                }
-            });
+            if (updating) {
+                // Update sprites.
+                sprites.forEach(function (sprite) {
+                    if (updating && !sprite.removed) {
+                        // Don't update dead sprites.
+                        sprite.update();
+                    }
+                });
 
-            // Process collisions.
-            for (i in collisionMap) {
-                collisionMap[i].handleCollisions();
+                // Process collisions.
+                for (i in collisionMap) {
+                    collisionMap[i].handleCollisions();
+                }
             }
 
             // Load in any queued sprites.
