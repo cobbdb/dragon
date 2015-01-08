@@ -11,8 +11,7 @@ var BaseClass = require('baseclassjs'),
  * @param {Object} [opts.one] Dictionary of one-time events.
  */
 module.exports = function (opts) {
-    var self,
-        loaded = false,
+    var loaded = false,
         sprites = [],
         spriteMap = {},
         spritesToAdd = [],
@@ -42,10 +41,11 @@ module.exports = function (opts) {
         }
     }
 
-    self = BaseClass({
+    return BaseClass({
         name: opts.name,
         load: function (cb) {
             if (!loaded) {
+                this.addCollisionSets(opts.collisionSets);
                 this.addSprites({
                     set: opts.spriteSet,
                     onload: cb,
@@ -164,7 +164,7 @@ module.exports = function (opts) {
             if (updating) {
                 sprites.forEach(function (sprite) {
                     if (!sprite.removed) {
-                        // Don't update dead sprites.
+                        // Don't teardown dead sprites.
                         sprite.teardown();
                     }
                 });
@@ -189,9 +189,4 @@ module.exports = function (opts) {
             singles: opts.one
         })
     );
-
-    // Load in collision handlers.
-    self.addCollisionSets(opts.collisionSets);
-
-    return self;
 };
