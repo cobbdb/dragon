@@ -54,19 +54,16 @@ module.exports = function (opts) {
         },
         removeCollision: function (id) {
             activeCollisions[id] = false;
-            collisionsThisFrame[id] = false;
         },
         clearCollisions: function () {
             activeCollisions = {};
-            collisionsThisFrame = {};
         },
         isCollidingWith: function (id) {
-            // Return type is always boolean.
             return activeCollisions[id] || false;
         },
         canCollideWith: function (id) {
             var self = this.id === id,
-                already = collisionsThisFrame[id] || false;
+                already = collisionsThisFrame[id];
             return !self && !already;
         }
     }).implement(

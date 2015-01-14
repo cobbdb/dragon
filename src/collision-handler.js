@@ -83,8 +83,8 @@ module.exports = function (opts) {
                              * (miss) ongoing separation
                              */
                             if (intersects) {
+                                pivot.addCollision(other.id);
                                 if (!colliding) {
-                                    pivot.addCollision(other.id);
                                     pivot.trigger('collide/' + other.name, other);
                                 }
                                 pivot.trigger('colliding/' + other.name, other);
