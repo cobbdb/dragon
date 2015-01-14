@@ -70,9 +70,10 @@ module.exports = function (opts) {
                 set = activeCollisions[i];
                 set.forEach(function (pivot) {
                     set.forEach(function (other) {
-                        var intersects, colliding;
+                        var intersects, colliding,
+                            valid = pivot.canCollideWith(other.id);
 
-                        if (pivot.id !== other.id) {
+                        if (valid) {
                             intersects = pivot.intersects(other.mask),
                             colliding = pivot.isCollidingWith(other.id);
                             /**

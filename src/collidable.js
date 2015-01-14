@@ -13,6 +13,7 @@ var Counter = require('./id-counter.js'),
  */
 module.exports = function (opts) {
     var activeCollisions = {},
+        collisionsThisFrame = {},
         collisionSets = [],
         updated = false;
 
@@ -45,19 +46,28 @@ module.exports = function (opts) {
         },
         teardown: function () {
             updated = false;
+            collisionsThisFrame = {};
         },
         addCollision: function (id) {
             activeCollisions[id] = true;
+            collisionsThisFrame[id] = true;
         },
         removeCollision: function (id) {
             activeCollisions[id] = false;
+            collisionsThisFrame[id] = false;
         },
         clearCollisions: function () {
             activeCollisions = {};
+            collisionsThisFrame = {};
         },
         isCollidingWith: function (id) {
             // Return type is always boolean.
             return activeCollisions[id] || false;
+        },
+        canCollideWith: function (id) {
+            var self = this.id === id,
+                already = collisionsThisFrame[id] || false;
+            return !self && !already;
         }
     }).implement(
         EventHandler({
