@@ -101,12 +101,11 @@ module.exports = function (opts) {
         addSprites: function (opts) {
             var id, onload, set;
             opts = opts || {};
+            onload = opts.onload || function () {};
+            set = [].concat(opts.set);
 
-            if (opts.set) {
-                onload = opts.onload || function () {};
-                set = [].concat(opts.set);
+            if (opts.set.length) {
                 id = Counter.nextId;
-
                 loadQueue[id] = set.length;
                 set.forEach(function (sprite) {
                     sprite.load(function () {
@@ -120,6 +119,8 @@ module.exports = function (opts) {
                         }
                     });
                 });
+            } else {
+                onload();
             }
         },
         removeSprite: function (sprite) {

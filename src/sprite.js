@@ -2,7 +2,8 @@ var BaseClass = require('baseclassjs'),
     Collidable = require('./collidable.js'),
     Point = require('./point.js'),
     Dimension = require('./dimension.js'),
-    Rectangle = require('./rectangle.js');
+    Rectangle = require('./rectangle.js'),
+    AnimationStrip = require('./animation-strip.js');
 
 /**
  * ##### Sprite
@@ -32,15 +33,17 @@ module.exports = function (opts) {
         updating = false,
         drawing = false;
 
-    opts.mask = opts.mask || Rectangle();
-    opts.offset = Point(
-        opts.mask.x,
-        opts.mask.y
-    );
-    opts.mask.move(
-        pos.x + opts.offset.x,
-        pos.x + opts.offset.y
-    );
+    if (!opts.freemask) {
+        opts.mask = opts.mask || Rectangle();
+        opts.offset = Point(
+            opts.mask.x,
+            opts.mask.y
+        );
+        opts.mask.move(
+            pos.x + opts.offset.x,
+            pos.x + opts.offset.y
+        );
+    }
     opts.one = opts.one || {};
     opts.one.ready = opts.one.ready || function () {
         this.start();
@@ -61,7 +64,7 @@ module.exports = function (opts) {
         },
         pos: pos,
         scale: opts.scale || 1,
-        size: opts.size || stripMap[opts.startingStrip].size,
+        size: opts.size || (stripMap[opts.startingStrip] || {}).size,
         trueSize: function () {
             return this.size.scale(this.scale);
         },

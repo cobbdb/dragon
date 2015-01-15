@@ -182,7 +182,7 @@ module.exports = {
         });
         if (debug) {
             FrameCounter.draw(ctx);
-            dragonCollisions.draw(ctx, true);
+            dragonCollisions.draw(ctx);
         }
     },
     teardown: function () {

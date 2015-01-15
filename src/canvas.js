@@ -4,7 +4,6 @@ var mobile = require('./detect-mobile.js'),
 if (mobile) {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    document.body.style.height = canvas.height + 'px';
 } else {
     if (localStorage.drago === 'landscape') {
         canvas.width = 480;
