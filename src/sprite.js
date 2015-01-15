@@ -2,8 +2,7 @@ var BaseClass = require('baseclassjs'),
     Collidable = require('./collidable.js'),
     Point = require('./point.js'),
     Dimension = require('./dimension.js'),
-    Rectangle = require('./rectangle.js'),
-    AnimationStrip = require('./animation-strip.js');
+    Rectangle = require('./rectangle.js');
 
 /**
  * ##### Sprite
