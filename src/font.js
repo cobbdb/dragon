@@ -11,7 +11,6 @@ module.exports = {
      */
     load: function (opts) {
         var style;
-
         if (!cache[opts.name]) {
             style = document.createElement('style');
             style.innerHTML = $(tpl,

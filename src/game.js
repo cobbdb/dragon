@@ -74,8 +74,6 @@ Mouse.on.up(function () {
 });
 
 module.exports = {
-    log: log,
-    canvas: canvas,
     debug: require('./debug-console.js'),
     screen: function (name) {
         return screenMap[name];

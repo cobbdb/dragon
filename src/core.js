@@ -23,6 +23,7 @@ module.exports = {
     collisions: require('./dragon-collisions.js'),
 
     Game: require('./game.js'),
+    canvas: require('./canvas.js'),
     Screen: require('./screen.js'),
     Collidable: require('./collidable.js'),
     Sprite: require('./sprite.js')
