@@ -26,5 +26,6 @@ module.exports = {
     canvas: require('./canvas.js'),
     Screen: require('./screen.js'),
     Collidable: require('./collidable.js'),
-    Sprite: require('./sprite.js')
+    Sprite: require('./sprite.js'),
+    ClearSprite: require('./clear-sprite.js')
 };
