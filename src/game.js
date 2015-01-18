@@ -67,11 +67,6 @@ Mouse.on.down(function () {
     masks.screentap.move(Mouse.offset);
     dragonCollisions.update(masks.screentap);
 });
-Mouse.on.up(function () {
-    masks.screentap.clearCollisions();
-    masks.screendrag.clearCollisions();
-    masks.screenhold.clearCollisions();
-});
 
 module.exports = {
     debug: require('./debug-console.js'),

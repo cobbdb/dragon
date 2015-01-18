@@ -5,7 +5,7 @@
   "main": "src/core.js",
   "dependencies": {
     "baseclassjs": "latest",
-    "curb": "^1.0.0",
+    "curb": "^1.0.1",
     "lumberjackjs": "latest"
   },
   "devDependencies": {},
