@@ -2,6 +2,7 @@ var BaseClass = require('baseclassjs'),
     Sprite = require('./sprite.js');
 
 module.exports = function (opts) {
+    opts = opts || {};
     return Sprite(opts).extend({
         load: function (cb) {
             cb();

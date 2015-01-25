@@ -113,6 +113,7 @@ module.exports = function (opts) {
         },
         load: function (cb) {
             var name, loadQueue;
+            cb = cb || function () {};
             if (!loaded) {
                 loadQueue = Object.keys(stripMap).length;
                 for (name in stripMap) {
