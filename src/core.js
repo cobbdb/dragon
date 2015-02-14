@@ -27,5 +27,9 @@ module.exports = {
     Screen: require('./screen.js'),
     Collidable: require('./collidable.js'),
     Sprite: require('./sprite.js'),
-    ClearSprite: require('./clear-sprite.js')
+    ClearSprite: require('./clear-sprite.js'),
+
+    ui: {
+        Slider: require('./ui/slider.js')
+    }
 };
