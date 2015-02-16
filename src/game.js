@@ -136,7 +136,7 @@ module.exports = {
         if (Mouse.is.dragging) {
             masks.screendrag.move(Mouse.offset);
             dragonCollisions.update(masks.screendrag);
-        } else if (Mouse.is.holding) {
+        } else if (Mouse.is.down) {
             masks.screenhold.move(Mouse.offset);
             dragonCollisions.update(masks.screenhold);
         }

@@ -30,6 +30,7 @@ module.exports = {
     ClearSprite: require('./clear-sprite.js'),
 
     ui: {
-        Slider: require('./ui/slider.js')
+        Slider: require('./ui/slider.js'),
+        Button: require('./ui/button.js')
     }
 };
