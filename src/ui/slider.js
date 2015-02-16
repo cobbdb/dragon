@@ -8,7 +8,7 @@ var Sprite = require('../sprite.js'),
     collisions = require('../dragon-collisions.js');
 
 /**
- * @param {Function} [opts.on.slide] Called on slide event. Accepts
+ * @param {Function} [opts.onslide] Called on slide event. Accepts
  * current percentage as a number between 0 and 100.
  * @param {Point} opts.pos
  * @param {Dimension} opts.size
@@ -58,7 +58,7 @@ module.exports = function (opts) {
 
                     value = x - this.mask.left;
                     value = (value / this.mask.width).toFixed(3);
-                    opts.on.slide(value);
+                    opts.onslide(value);
                 }
             }
         }),
@@ -94,13 +94,12 @@ module.exports = function (opts) {
 
                     value = x - lane.mask.left;
                     value = (value / lane.mask.width).toFixed(3);
-                    opts.on.slide(value);
+                    opts.onslide(value);
                 }
             }
         });
 
-    opts.on = opts.on || {};
-    opts.on.slide = opts.on.slide || function () {};
+    opts.onslide = opts.onslide || function () {};
 
     return ClearSprite().extend({
         load: function (cb) {
