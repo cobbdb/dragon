@@ -14,12 +14,13 @@ var Sprite = require('../sprite.js'),
  * @param {Dimension} [opts.down.size]
  * @param {Point} opts.pos
  * @param {Dimension} opts.size
+ * @param {String} [opts.name] Defaults to `dragon-ui-button`.
  */
 module.exports = function (opts) {
     opts.down = opts.down || {};
 
     return Sprite({
-        name: 'dragon-ui-button',
+        name: opts.name || 'dragon-ui-button',
         collisionSets: [
             collisions
         ],
@@ -47,7 +48,7 @@ module.exports = function (opts) {
         on: {
             'colliding/screentap': function () {
                 this.useStrip('down');
-                opts.onpress();
+                opts.onpress.call(this);
             },
             'colliding/screenhold': function () {
                 this.useStrip('down');

@@ -50,6 +50,12 @@ module.exports = function (opts) {
 
     return Collidable(opts).extend({
         strip: stripMap[opts.startingStrip],
+        updating: function () {
+            return updating;
+        },
+        drawing: function () {
+            return drawing;
+        },
         useStrip: function (name) {
             // Do nothing if already using this strip.
             if (this.strip !== stripMap[name]) {

@@ -147,7 +147,9 @@ module.exports = {
 
         // Update the screen.
         screens.forEach(function (screen) {
-            screen.update();
+            if (screen.updating()) {
+                screen.update();
+            }
         });
 
         // Settle screen tap events.
@@ -171,7 +173,9 @@ module.exports = {
     },
     draw: function () {
         screens.forEach(function (screen) {
-            screen.draw(ctx, debug);
+            if (screen.drawing()) {
+                screen.draw(ctx, debug);
+            }
         });
         if (debug) {
             FrameCounter.draw(ctx);

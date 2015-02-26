@@ -43,6 +43,12 @@ module.exports = function (opts) {
 
     return BaseClass({
         name: opts.name,
+        updating: function () {
+            return updating;
+        },
+        drawing: function () {
+            return drawing;
+        },
         load: function (cb) {
             if (!loaded) {
                 this.addCollisionSets(opts.collisionSets);
@@ -133,9 +139,11 @@ module.exports = function (opts) {
             if (updating) {
                 // Update sprites.
                 sprites.forEach(function (sprite) {
+                    // Don't update dead sprites.
                     if (updating && !sprite.removed) {
-                        // Don't update dead sprites.
-                        sprite.update();
+                        if (sprite.updating()) {
+                            sprite.update();
+                        }
                     }
                 });
 
@@ -152,7 +160,9 @@ module.exports = function (opts) {
             var name;
             if (drawing) {
                 sprites.forEach(function (sprite) {
-                    sprite.draw(ctx);
+                    if (sprite.drawing()) {
+                        sprite.draw(ctx);
+                    }
                 });
                 if (debug) {
                     for (name in collisionMap) {
