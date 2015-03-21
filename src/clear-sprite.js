@@ -11,6 +11,12 @@ module.exports = function (opts) {
         pause: BaseClass.Stub,
         stop: BaseClass.Stub,
         update: BaseClass.Stub,
-        draw: BaseClass.Stub
+        draw: BaseClass.Stub,
+        updating: function () {
+            return true;
+        },
+        drawing: function () {
+            return true;
+        },
     });
 };

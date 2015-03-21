@@ -31,6 +31,8 @@ module.exports = {
 
     ui: {
         Slider: require('./ui/slider.js'),
-        Button: require('./ui/button.js')
+        Button: require('./ui/button.js'),
+        Label: require('./ui/label.js'),
+        Decal: require('./ui/decal.js')
     }
 };
