@@ -13,10 +13,11 @@ module.exports = function (opts) {
         name: opts.name || 'dragon-ui-label',
         pos: opts.pos
     }).extend({
+        text: opts.text,
         draw: function (ctx) {
             opts.style(ctx);
             ctx.fillText(
-                opts.text,
+                this.text,
                 this.pos.x,
                 this.pos.y
             );
