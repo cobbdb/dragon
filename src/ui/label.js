@@ -1,6 +1,10 @@
 var ClearSprite = require('../clear-sprite.js');
 
 /**
+ * # Label (Sprite)
+ * ### **$.ui.Label()**
+ * Labels do not have collision logic nor are they displayed
+ * from image assets. Labels instead contain only text.
  * @param {String} opts.text
  * @param {Function} [opts.style]
  * @param {Point} opts.pos

@@ -3,10 +3,15 @@ var Sprite = require('../sprite.js'),
     SpriteSheet = require('../spritesheet.js');
 
 /**
+ * # Decal (Sprite)
+ * ### **$.ui.Decal()**
+ * A decal is a sprite that has no collision logic and
+ * displays as an image only.
  * @param {String} opts.strip.src
  * @param {Dimension} opts.strip.size
  * @param {Point} opts.pos
- * @param {Dimension} opts.size
+ * @param {Dimension} [opts.size]
+ * @param {Number} [opts.scale]
  * @param {String} [opts.name] Defaults to `dragon-ui-decal`.
  */
 module.exports = function (opts) {
@@ -22,6 +27,7 @@ module.exports = function (opts) {
         },
         startingStrip: 'decal',
         pos: opts.pos,
-        size: opts.size
+        size: opts.size,
+        scale: opts.scale
     });
 };

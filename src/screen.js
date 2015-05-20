@@ -110,7 +110,7 @@ module.exports = function (opts) {
             onload = opts.onload || function () {};
             set = [].concat(opts.set);
 
-            if (opts.set.length) {
+            if (set.length) {
                 id = Counter.nextId;
                 loadQueue[id] = set.length;
                 set.forEach(function (sprite) {
