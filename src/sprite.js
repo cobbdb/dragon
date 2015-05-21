@@ -113,20 +113,22 @@ module.exports = function (opts) {
                 );
             }
         },
-        load: function (cb) {
+        load: function (onload) {
             var name, loadQueue;
-            cb = cb || function () {};
+            onload = onload || function () {};
             if (!loaded) {
-                loadQueue = Object.keys(stripMap).length;
+                loadQueue = global.Object.keys(stripMap).length;
                 for (name in stripMap) {
                     stripMap[name].load(function () {
                         loadQueue -= 1;
                         if (loadQueue === 0) {
-                            cb();
+                            onload();
                             loaded = true;
                         }
                     });
                 }
+            } else {
+                onload();
             }
         },
         move: function (x, y) {

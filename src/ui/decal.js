@@ -15,19 +15,15 @@ var Sprite = require('../sprite.js'),
  * @param {String} [opts.name] Defaults to `dragon-ui-decal`.
  */
 module.exports = function (opts) {
-    return Sprite({
-        name: opts.name || 'dragon-ui-decal',
-        strips: {
-            decal: AnimationStrip({
-                sheet: SpriteSheet({
-                    src: opts.strip.src
-                }),
-                size: opts.strip.size
-            })
-        },
-        startingStrip: 'decal',
-        pos: opts.pos,
-        size: opts.size,
-        scale: opts.scale
-    });
+    opts.name = opts.name || 'dragon-ui-decal';
+    opts.strips = {
+        decal: AnimationStrip({
+            sheet: SpriteSheet({
+                src: opts.strip.src
+            }),
+            size: opts.strip.size
+        })
+    };
+    opts.startingStrip = 'decal';
+    return Sprite(opts);
 };

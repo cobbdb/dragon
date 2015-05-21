@@ -114,6 +114,7 @@ module.exports = function (opts) {
                 id = Counter.nextId;
                 loadQueue[id] = set.length;
                 set.forEach(function (sprite) {
+                    sprite.removed = false;
                     sprite.load(function () {
                         loadQueue[id] -= 1;
                         if (loadQueue[id] === 0) {
