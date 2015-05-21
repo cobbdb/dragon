@@ -141,7 +141,7 @@ module.exports = function (opts) {
                 sprites.forEach(function (sprite) {
                     // Don't update dead sprites.
                     if (updating && !sprite.removed) {
-                        if (sprite.updating()) {
+                        if (sprite.updating) {
                             sprite.update();
                         }
                     }
@@ -160,7 +160,7 @@ module.exports = function (opts) {
             var name;
             if (drawing) {
                 sprites.forEach(function (sprite) {
-                    if (sprite.drawing()) {
+                    if (sprite.drawing) {
                         sprite.draw(ctx);
                     }
                 });

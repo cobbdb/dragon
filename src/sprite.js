@@ -17,6 +17,8 @@ var BaseClass = require('baseclassjs'),
  * @param {Boolean} [opts.freemask] Defaults to false. True
  * to decouple the position of the mask from the position
  * of the sprite.
+ * @param {Boolean} [opts.drawing] Defaults to false.
+ * @param {Boolean} [opts.updating] Defaults to false.
  *
  * ##### Collidable
  * @param {Shape} [opts.mask] Defaults to Rectangle.
@@ -28,9 +30,7 @@ var BaseClass = require('baseclassjs'),
 module.exports = function (opts) {
     var loaded = false,
         stripMap = opts.strips || {},
-        pos = opts.pos || Point(),
-        updating = false,
-        drawing = false;
+        pos = opts.pos || Point();
 
     if (!opts.freemask) {
         opts.mask = opts.mask || Rectangle();
@@ -50,12 +50,8 @@ module.exports = function (opts) {
 
     return Collidable(opts).extend({
         strip: stripMap[opts.startingStrip],
-        updating: function () {
-            return updating;
-        },
-        drawing: function () {
-            return drawing;
-        },
+        updating: opts.updating || false,
+        drawing: opts.drawing || false,
         useStrip: function (name) {
             // Do nothing if already using this strip.
             if (this.strip !== stripMap[name]) {
@@ -77,25 +73,25 @@ module.exports = function (opts) {
         depth: opts.depth || 0,
         speed: opts.speed || Point(),
         start: function () {
-            updating = true;
-            drawing = true;
+            this.updating = true;
+            this.drawing = true;
             this.strip.start();
             this.trigger('start');
         },
         pause: function () {
-            updating = false;
-            drawing = true;
+            this.updating = false;
+            this.drawing = true;
             this.strip.pause();
             this.trigger('pause');
         },
         stop: function () {
-            updating = false;
-            drawing = false;
+            this.updating = false;
+            this.drawing = false;
             this.strip.stop();
             this.trigger('stop');
         },
         update: function () {
-            if (updating) {
+            if (this.updating) {
                 this.shift();
                 this.strip.update();
                 this.base.update();
@@ -104,7 +100,7 @@ module.exports = function (opts) {
         draw: function (ctx) {
             var stripSize;
 
-            if (drawing) {
+            if (this.drawing) {
                 stripSize = this.strip.size;
                 this.strip.draw(
                     ctx,

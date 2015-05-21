@@ -12,11 +12,9 @@ var ClearSprite = require('../clear-sprite.js');
  */
 module.exports = function (opts) {
     opts.style = opts.style || function () {};
+    opts.name = opts.name || 'dragon-ui-label';
 
-    return ClearSprite({
-        name: opts.name || 'dragon-ui-label',
-        pos: opts.pos
-    }).extend({
+    return ClearSprite(opts).extend({
         text: opts.text,
         draw: function (ctx) {
             opts.style(ctx);
