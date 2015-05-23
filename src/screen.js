@@ -134,6 +134,12 @@ module.exports = function (opts) {
             sprite.removed = true;
             spriteRemoved = true;
         },
+        /**
+         * Flush all sprites from this screen immediately.
+         */
+        clearSprites: function () {
+            sprites = [];
+        },
         update: function () {
             var i;
 
