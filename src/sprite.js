@@ -40,7 +40,7 @@ module.exports = function (opts) {
         );
         opts.mask.move(
             pos.x + opts.offset.x,
-            pos.x + opts.offset.y
+            pos.y + opts.offset.y
         );
     }
     opts.one = opts.one || {};

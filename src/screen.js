@@ -33,9 +33,9 @@ module.exports = function (opts) {
                 }
                 sprite.trigger('ready');
             });
-            // Sort by descending sprite depths: 3, 2, 1, 0
+            // Larger depth value is closer to viewer.
             sprites.sort(function (a, b) {
-                return b.depth - a.depth;
+                return a.depth - b.depth;
             });
             spritesToAdd = [];
         }

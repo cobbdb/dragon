@@ -135,11 +135,23 @@ module.exports = {
     update: function () {
         if (Mouse.is.dragging) {
             masks.screendrag.move(Mouse.offset);
-            dragonCollisions.update(masks.screendrag);
-        } else if (Mouse.is.down) {
-            masks.screenhold.move(Mouse.offset);
-            dragonCollisions.update(masks.screenhold);
+            masks.screenhold.move(
+                Point(-999, -999)
+            );
+        } else {
+            masks.screendrag.move(
+                Point(-999, -999)
+            );
+            if (Mouse.is.down) {
+                masks.screenhold.move(Mouse.offset);
+            } else {
+                masks.screenhold.move(
+                    Point(-999, -999)
+                );
+            }
         }
+        dragonCollisions.update(masks.screendrag);
+        dragonCollisions.update(masks.screenhold);
         dragonCollisions.update(masks.screenedge.top);
         dragonCollisions.update(masks.screenedge.right);
         dragonCollisions.update(masks.screenedge.bottom);
@@ -164,9 +176,9 @@ module.exports = {
                 }
                 screen.trigger('ready');
             });
-            // Sort by descending sprite depths.
+            // Larger depth value is closer to viewer.
             screens.sort(function (a, b) {
-                return b.depth - a.depth;
+                return a.depth - b.depth;
             });
             screensToAdd = [];
         }
