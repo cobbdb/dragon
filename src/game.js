@@ -23,14 +23,8 @@ var CollisionHandler = require('./collision-handler.js'),
             name: 'screentap',
             mask: Circle(Point(), 8)
         }),
-        screendrag: Collidable({
-            name: 'screendrag',
-            mask: Circle(Point(), 8)
-        }),
-        screenhold: Collidable({
-            name: 'screenhold',
-            mask: Circle(Point(), 8)
-        }),
+        screendrag: require('./mask-screendrag.js'),
+        screenhold: require('./mask-screenhold.js'),
         screenedge: {
             top: Collidable({
                 name: 'screenedge/top',
@@ -133,23 +127,8 @@ module.exports = {
         });
     },
     update: function () {
-        if (Mouse.is.dragging) {
-            masks.screendrag.move(Mouse.offset);
-            masks.screenhold.move(
-                Point(-999, -999)
-            );
-        } else {
-            masks.screendrag.move(
-                Point(-999, -999)
-            );
-            if (Mouse.is.down) {
-                masks.screenhold.move(Mouse.offset);
-            } else {
-                masks.screenhold.move(
-                    Point(-999, -999)
-                );
-            }
-        }
+        masks.screendrag.update();
+        masks.screenhold.update();
         dragonCollisions.update(masks.screendrag);
         dragonCollisions.update(masks.screenhold);
         dragonCollisions.update(masks.screenedge.top);

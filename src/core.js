@@ -10,6 +10,7 @@ module.exports = {
 
     FrameCounter: require('./frame-counter.js'),
     IdCounter: require('./id-counter.js'),
+    random: require('./random.js'),
     Mouse: require('./mouse.js'),
     Keyboard: require('./keyboard.js'),
 
