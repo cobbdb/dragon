@@ -1,5 +1,5 @@
 var i,
-    len = 30,
+    len = 50,
     set = [],
     curr = 0;
 
