@@ -38,8 +38,6 @@ module.exports = function () {
             this.set.forEach(function (item) {
                 if (this.updating && item.updating && !item.removed) {
                     item.update();
-                } else {
-                    true;
                 }
             }, this);
         },

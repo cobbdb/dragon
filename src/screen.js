@@ -113,9 +113,7 @@ module.exports = function (opts) {
         teardown: function () {
             var i;
 
-            if (this.updating) {
-                this.base.teardown();
-            }
+            this.base.teardown();
 
             for (i in collisionMap) {
                 collisionMap[i].teardown();
