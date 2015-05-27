@@ -1,6 +1,7 @@
 var BaseClass = require('baseclassjs'),
     EventHandler = require('./event-handler.js'),
-    Counter = require('./id-counter.js');
+    Counter = require('./id-counter.js'),
+    SpriteSet = require('./sprite-set.js');
 
 /**
  * @param {Array|Sprite} [opts.spriteSet]
@@ -12,47 +13,16 @@ var BaseClass = require('baseclassjs'),
  */
 module.exports = function (opts) {
     var loaded = false,
-        sprites = [],
-        spriteMap = {},
-        spritesToAdd = [],
-        spritesLoading = [],
-        loadQueue = {},
-        spriteRemoved = false,
-        collisionMap = {},
-        updating = false,
-        drawing = false;
+        collisionMap = {};
 
-    // Load queued sprites into the screen.
-    function ingestSprites() {
-        if (spritesToAdd.length) {
-            // Update the master sprite list after updates.
-            spritesToAdd.forEach(function (sprite) {
-                sprites.push(sprite);
-                if (sprite.name) {
-                    spriteMap[sprite.name] = sprite;
-                }
-                sprite.trigger('ready');
-            });
-            // Larger depth value is closer to viewer.
-            sprites.sort(function (a, b) {
-                return a.depth - b.depth;
-            });
-            spritesToAdd = [];
-        }
-    }
-
-    return BaseClass({
+    return SpriteSet().extend({
         name: opts.name,
-        updating: function () {
-            return updating;
-        },
-        drawing: function () {
-            return drawing;
-        },
+        updating: false,
+        drawing: false,
         load: function (cb) {
             if (!loaded) {
                 this.addCollisionSets(opts.collisionSets);
-                this.addSprites({
+                this.base.add({
                     set: opts.spriteSet,
                     onload: cb,
                     force: true
@@ -61,18 +31,18 @@ module.exports = function (opts) {
             }
         },
         start: function () {
-            updating = true;
-            drawing = true;
+            this.updating = true;
+            this.drawing = true;
             this.trigger('start');
         },
         pause: function () {
-            updating = false;
-            drawing = true;
+            this.updating = false;
+            this.drawing = true;
             this.trigger('pause');
         },
         stop: function () {
-            updating = false;
-            drawing = false;
+            this.updating = false;
+            this.drawing = false;
             this.trigger('stop');
         },
         depth: opts.depth || 0,
@@ -91,7 +61,7 @@ module.exports = function (opts) {
             }
         },
         sprite: function (name) {
-            return spriteMap[name];
+            return this.base.get(name);
         },
         /**
          * Loads sprites into this screen together
@@ -105,72 +75,34 @@ module.exports = function (opts) {
          * game pulse.
          */
         addSprites: function (opts) {
-            var id, onload, set;
-            opts = opts || {};
-            onload = opts.onload || function () {};
-            set = [].concat(opts.set);
-
-            if (set.length) {
-                id = Counter.nextId;
-                loadQueue[id] = set.length;
-                set.forEach(function (sprite) {
-                    sprite.removed = false;
-                    sprite.load(function () {
-                        loadQueue[id] -= 1;
-                        if (loadQueue[id] === 0) {
-                            spritesToAdd = spritesToAdd.concat(set);
-                            if (opts.force) {
-                                ingestSprites();
-                            }
-                            onload();
-                        }
-                    });
-                });
-            } else {
-                onload();
-            }
+            this.base.add(opts);
         },
         removeSprite: function (sprite) {
-            sprite.removed = true;
-            spriteRemoved = true;
+            this.base.remove(sprite);
         },
         /**
          * Flush all sprites from this screen immediately.
          */
         clearSprites: function () {
-            sprites = [];
+            this.base.clear();
         },
         update: function () {
             var i;
 
-            if (updating) {
+            if (this.updating) {
                 // Update sprites.
-                sprites.forEach(function (sprite) {
-                    // Don't update dead sprites.
-                    if (updating && !sprite.removed) {
-                        if (sprite.updating) {
-                            sprite.update();
-                        }
-                    }
-                });
+                this.base.update();
 
                 // Process collisions.
                 for (i in collisionMap) {
                     collisionMap[i].handleCollisions();
                 }
             }
-
-            // Load in any queued sprites.
-            ingestSprites();
         },
         draw: function (ctx, debug) {
             var name;
-            if (drawing) {
-                sprites.forEach(function (sprite) {
-                    if (sprite.drawing) {
-                        sprite.draw(ctx);
-                    }
-                });
+            if (this.drawing) {
+                this.base.draw(ctx);
                 if (debug) {
                     for (name in collisionMap) {
                         collisionMap[name].draw(ctx);
@@ -181,26 +113,12 @@ module.exports = function (opts) {
         teardown: function () {
             var i;
 
-            if (updating) {
-                sprites.forEach(function (sprite) {
-                    if (!sprite.removed) {
-                        // Don't teardown dead sprites.
-                        sprite.teardown();
-                    }
-                });
+            if (this.updating) {
+                this.base.teardown();
             }
 
             for (i in collisionMap) {
                 collisionMap[i].teardown();
-            }
-
-            if (spriteRemoved) {
-                // Remove any stale sprites.
-                sprites = sprites.filter(function (sprite) {
-                    // true to keep, false to drop.
-                    return !sprite.removed;
-                });
-                spriteRemoved = false;
             }
         }
     }).implement(

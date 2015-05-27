@@ -1,8 +1,8 @@
 var Counter = require('./id-counter.js'),
     EventHandler = require('./event-handler.js'),
-    BaseClass = require('baseclassjs'),
     Rectangle = require('./rectangle.js'),
-    Point = require('./point.js');
+    Point = require('./point.js'),
+    Item = require('./item.js');
 
 /**
  * @param {Shape} [opts.mask] Defaults to Rectangle.
@@ -21,7 +21,7 @@ module.exports = function (opts) {
         collisionSets = [].concat(opts.collisionSets);
     }
 
-    return BaseClass({
+    return Item().extend({
         id: Counter.nextId,
         name: opts.name,
         mask: opts.mask || Rectangle(),
@@ -36,11 +36,10 @@ module.exports = function (opts) {
             return this.mask.intersects(mask);
         },
         update: function () {
-            var that = this;
             if (!updated) {
                 collisionSets.forEach(function (handler) {
-                    handler.update(that);
-                });
+                    handler.update(this);
+                }, this);
                 updated = true;
             }
         },

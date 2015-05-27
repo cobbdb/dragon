@@ -35,16 +35,15 @@ module.exports = function (opts) {
             singles[name] = [];
         },
         trigger: function (name, data) {
-            var that = this;
             if (name in events) {
                 events[name].forEach(function (cb) {
-                    cb.call(that, data);
-                });
+                    cb.call(this, data);
+                }, this);
             }
             if (name in singles) {
                 singles[name].forEach(function (cb) {
-                    cb.call(that, data);
-                });
+                    cb.call(this, data);
+                }, this);
                 singles[name] = [];
             }
         }
