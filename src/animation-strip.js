@@ -4,7 +4,7 @@ var Dimension = require('./dimension.js'),
 
 /**
  * @param {SpriteSheet} opts.sheet
- * @param {Point} [opts.start] Defaults to (0,0). Point in the
+ * @param {Point} [opts.start] Defaults to (0,0). Index in the
  * sprite sheet of the first frame.
  * @param {Dimension} [opts.size] Defaults to (0,0). Size of
  * each frame in the sprite sheet.
@@ -12,19 +12,16 @@ var Dimension = require('./dimension.js'),
  * frames in this strip.
  * @param {Number} [opts.speed] Number of frames per second.
  * @param {Boolean} [opts.sinusoid] Defaults to false. True
- * to cycle the frames forward and backward in a sinusoid.
+ * to cycle the frames forward and backward per cycle.
  */
 module.exports = function (opts) {
     var timeLastFrame,
         timeSinceLastFrame = 0,
         updating = false,
         frames = opts.frames || 1,
-        size = opts.size || Dimension(),
+        size = opts.size,
         start = opts.start || Point(),
-        start = Point(
-            size.width * start.x,
-            size.height * start.y
-        ),
+        firstFrame = Point(),
         direction = 1;
 
     return {
@@ -32,7 +29,14 @@ module.exports = function (opts) {
         frame: 0,
         speed: opts.speed || 0,
         load: function (cb) {
-            opts.sheet.load(cb);
+            opts.sheet.load(function (img) {
+                size = size || Dimension(img.width, img.height);
+                firstFrame = Point(
+                    size.width * start.x,
+                    size.height * start.y
+                );
+                cb(img);
+            });
         },
         start: function () {
             timeLastFrame = Date.now();
@@ -107,8 +111,8 @@ module.exports = function (opts) {
 
             // Draw the frame and restore the canvas.
             ctx.drawImage(opts.sheet,
-                start.x + offset,
-                start.y,
+                firstFrame.x + offset,
+                firstFrame.y,
                 size.width,
                 size.height,
                 -finalSize.width / 2,

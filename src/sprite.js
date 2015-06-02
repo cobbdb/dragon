@@ -6,8 +6,9 @@ var BaseClass = require('baseclassjs'),
 
 /**
  * ##### Sprite
- * @param {Array|AnimationStrip} opts.strips
- * @param {String} opts.startingStrip
+ * @param {Map Of AnimationStrip} [opts.strips]
+ * @param {String} [opts.startingStrip] Defaults to first
+ * strip name.
  * @param {Point} [opts.pos] Defaults to (0,0).
  * @param {Number} [opts.scale] Defaults to 1.
  * @param {Dimension} [opts.size] Defaults to strip size.
@@ -19,10 +20,8 @@ var BaseClass = require('baseclassjs'),
  * of the sprite.
  * @param {Boolean} [opts.drawing] Defaults to false.
  * @param {Boolean} [opts.updating] Defaults to false.
- *
- * ##### Collidable
  * @param {Shape} [opts.mask] Defaults to Rectangle.
- * @param {String} opts.name
+ * @param {String} [opts.name]
  * @param {Array|CollisionHandler} [opts.collisionSets]
  * @param {Object} [opts.on] Dictionary of events.
  * @param {Object} [opts.one] Dictionary of one-time events.
@@ -31,6 +30,11 @@ module.exports = function (opts) {
     var loaded = false,
         stripMap = opts.strips || {},
         pos = opts.pos || Point();
+
+    opts.name = opts.name || 'dragon-sprite';
+    opts.startingStrip = (
+        opts.startingStrip || global.Object.keys(stripMap)[0]
+    );
 
     if (!opts.freemask) {
         opts.mask = opts.mask || Rectangle();

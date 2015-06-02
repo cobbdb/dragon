@@ -23,7 +23,7 @@ module.exports = function (opts) {
 
     return Item().extend({
         id: Counter.nextId,
-        name: opts.name,
+        name: opts.name || 'dragon-collidable',
         mask: opts.mask || Rectangle(),
         offset: opts.offset || Point(),
         move: function (pos) {
