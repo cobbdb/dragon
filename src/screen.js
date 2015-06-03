@@ -77,8 +77,11 @@ module.exports = function (opts) {
         addSprites: function (opts) {
             this.base.add(opts);
         },
-        removeSprite: function (sprite) {
-            this.base.remove(sprite);
+        /**
+         * @param {String} name
+         */
+        removeSprite: function (name) {
+            this.base.remove(name);
         },
         /**
          * Flush all sprites from this screen immediately.

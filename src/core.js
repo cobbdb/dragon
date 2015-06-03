@@ -1,3 +1,6 @@
+var Game = require('./game.js'),
+    Util = require('./util.js');
+
 module.exports = {
     Shape: require('./shape.js'),
     Circle: require('./circle.js'),
@@ -11,6 +14,8 @@ module.exports = {
     FrameCounter: require('./frame-counter.js'),
     IdCounter: require('./id-counter.js'),
     random: require('./random.js'),
+    range: Util.range,
+    shuffle: Utile.shuffle,
     Mouse: require('./mouse.js'),
     Keyboard: require('./keyboard.js'),
 
@@ -23,7 +28,12 @@ module.exports = {
     CollisionHandler: require('./collision-handler.js'),
     collisions: require('./dragon-collisions.js'),
 
-    Game: require('./game.js'),
+    screen: Game.screen,
+    addScreens: Game.addScreen,
+    removeScreen: Game.removeScreen,
+    run: Game.run,
+    kill: Game.kill,
+
     canvas: require('./canvas.js'),
     Screen: require('./screen.js'),
     Collidable: require('./collidable.js'),

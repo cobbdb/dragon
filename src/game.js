@@ -45,8 +45,11 @@ module.exports = {
             });
         }
     },
-    removeScreen: function (screen) {
-        screen.removed = true;
+    /**
+     * @param {String} name
+     */
+    removeScreen: function (name) {
+        screenMap[name].removed = true;
         screenRemoved = true;
     },
     /**

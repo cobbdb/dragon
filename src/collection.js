@@ -23,14 +23,20 @@ module.exports = function () {
             }
             return this;
         },
-        remove: function (item) {
-            item.removed = true;
+        /**
+         * @param {String} name
+         */
+        remove: function (name) {
+            this.map[name].removed = true;
             removed = true;
         },
         clear: function () {
             this.set = [];
             this.map = {};
         },
+        /**
+         * @param {String} name
+         */
         get: function (name) {
             return this.map[name];
         },
