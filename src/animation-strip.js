@@ -19,7 +19,7 @@ module.exports = function (opts) {
         timeSinceLastFrame = 0,
         updating = false,
         frames = opts.frames || 1,
-        size = opts.size,
+        size = opts.size || Dimension(),
         start = opts.start || Point(),
         firstFrame = Point(),
         direction = 1;
@@ -29,8 +29,10 @@ module.exports = function (opts) {
         frame: 0,
         speed: opts.speed || 0,
         load: function (cb) {
+            cb = cb || function () {};
             opts.sheet.load(function (img) {
-                size = size || Dimension(img.width, img.height);
+                size.width = size.width || img.width;
+                size.height = size.height || img.height;
                 firstFrame = Point(
                     size.width * start.x,
                     size.height * start.y

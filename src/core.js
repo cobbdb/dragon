@@ -15,7 +15,7 @@ module.exports = {
     IdCounter: require('./id-counter.js'),
     random: require('./random.js'),
     range: Util.range,
-    shuffle: Utile.shuffle,
+    shuffle: Util.shuffle,
     Mouse: require('./mouse.js'),
     Keyboard: require('./keyboard.js'),
 
@@ -29,9 +29,9 @@ module.exports = {
     collisions: require('./dragon-collisions.js'),
 
     screen: Game.screen,
-    addScreens: Game.addScreen,
+    addScreens: Game.addScreens,
     removeScreen: Game.removeScreen,
-    run: Game.run,
+    run: Game.run.bind(Game),
     kill: Game.kill,
 
     canvas: require('./canvas.js'),
