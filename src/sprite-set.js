@@ -7,7 +7,7 @@ module.exports = function () {
 
     return Collection().extend({
         add: function (opts) {
-            var id, onload, set,
+            var id, onload, set, addQueue,
                 thatbase = this.base;
             opts = opts || {};
             onload = opts.onload || function () {};
@@ -23,8 +23,9 @@ module.exports = function () {
                         if (loadQueue[id] === 0) {
                             spritesToAdd = spritesToAdd.concat(set);
                             if (opts.force) {
-                                thatbase.add(spritesToAdd);
+                                addQueue = spritesToAdd;
                                 spritesToAdd = [];
+                                thatbase.add(addQueue);
                             }
                             onload();
                         }
@@ -35,9 +36,12 @@ module.exports = function () {
             }
         },
         update: function () {
+            var addQueue;
             this.base.update();
-            this.base.add(spritesToAdd);
+
+            addQueue = spritesToAdd;
             spritesToAdd = [];
+            this.base.add(addQueue);
         }
     });
 };

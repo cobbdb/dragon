@@ -84,6 +84,8 @@ module.exports = {
         });
     },
     update: function () {
+        var addQueue;
+
         masks.update();
 
         // Update the screen.
@@ -97,8 +99,10 @@ module.exports = {
         dragonCollisions.handleCollisions();
 
         if (screensToAdd.length) {
+            addQueue = screensToAdd;
+            screensToAdd = [];
             // Update the master screen list after updates.
-            screensToAdd.forEach(function (screen) {
+            addQueue.forEach(function (screen) {
                 screens.push(screen);
                 if (screen.name) {
                     screenMap[screen.name] = screen;
@@ -109,7 +113,6 @@ module.exports = {
             screens.sort(function (a, b) {
                 return a.depth - b.depth;
             });
-            screensToAdd = [];
         }
     },
     draw: function () {
