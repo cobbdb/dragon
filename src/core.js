@@ -16,6 +16,8 @@ module.exports = {
     random: require('./random.js'),
     range: Util.range,
     shuffle: Util.shuffle,
+    mergeLeft: Util.mergeLeft,
+    mergeDefault: Util.mergeDefault,
     Mouse: require('./mouse.js'),
     Keyboard: require('./keyboard.js'),
 
