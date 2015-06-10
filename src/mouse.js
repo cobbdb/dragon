@@ -21,6 +21,9 @@ if (canvas.mobile) {
     endEventName = 'mouseup';
 }
 
+/**
+ * @return {Point}
+ */
 function getOffset(event) {
     if (canvas.mobile) {
         return Point(
@@ -81,20 +84,32 @@ module.exports = {
             return isHolding;
         }
     },
+    /**
+     * @return {Point}
+     */
     get offset () {
         return current;
     },
     on: {
-        down: function (cb) {
-            canvas.addEventListener(startEventName, cb);
+        down: function (cb, thisArg) {
+            canvas.addEventListener(
+                startEventName,
+                cb.bind(thisArg)
+            );
         },
         click: function (cb) {},
         dclick: function (cb) {},
-        up: function (cb) {
-            document.addEventListener(endEventName, cb);
+        up: function (cb, thisArg) {
+            document.addEventListener(
+                endEventName,
+                cb.bind(thisArg)
+            );
         },
-        move: function (cb) {
-            canvas.addEventListener(moveEventName, cb);
+        move: function (cb, thisArg) {
+            canvas.addEventListener(
+                moveEventName,
+                cb.bind(thisArg)
+            );
         }
     },
     eventName: {

@@ -6,7 +6,9 @@ var Counter = require('./id-counter.js'),
 
 /**
  * @param {Shape} [opts.mask] Defaults to Rectangle.
- * @param {String} opts.name
+ * @param {String} [opts.name]
+ * @param {Boolean} [opts.solid] True to collide with other
+ * solid sprites.
  * @param {Array|CollisionHandler} [opts.collisionSets]
  * @param {Object} [opts.on] Dictionary of events.
  * @param {Object} [opts.one] Dictionary of one-time events.

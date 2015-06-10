@@ -18,6 +18,8 @@ var BaseClass = require('baseclassjs'),
  * @param {Boolean} [opts.freemask] Defaults to false. True
  * to decouple the position of the mask from the position
  * of the sprite.
+ * @param {Boolean} [opts.solid] True to collide with other
+ * solid sprites.
  * @param {Boolean} [opts.drawing] Defaults to false.
  * @param {Boolean} [opts.updating] Defaults to false.
  * @param {Shape} [opts.mask] Defaults to Rectangle.
