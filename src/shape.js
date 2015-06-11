@@ -15,6 +15,9 @@ module.exports = function (opts) {
     return BaseClass({
         x: pos.x,
         y: pos.y,
+        pos: function () {
+            return Point(this.x, this.y);
+        },
         name: opts.name,
         move: BaseClass.Abstract,
         resize: BaseClass.Abstract,

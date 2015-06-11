@@ -38,6 +38,9 @@ module.exports = function (opts) {
                                 pivot.trigger('collide/' + other.name, other);
                             }
                             pivot.trigger('colliding/' + other.name, other);
+                            if (pivot.solid && other.solid) {
+                                pivot.trigger('dragon/colliding/solid', other);
+                            }
                         } else {
                             if (colliding) {
                                 pivot.removeCollision(other.id);
