@@ -2,7 +2,8 @@ var BaseClass = require('baseclassjs'),
     Collidable = require('./collidable.js'),
     Point = require('./point.js'),
     Dimension = require('./dimension.js'),
-    Rectangle = require('./rectangle.js');
+    Rectangle = require('./rectangle.js'),
+    Util = require('./util.js');
 
 /**
  * ##### Sprite
@@ -33,10 +34,14 @@ module.exports = function (opts) {
         stripMap = opts.strips || {},
         pos = opts.pos || Point();
 
-    opts.name = opts.name || 'dragon-sprite';
-    opts.startingStrip = (
-        opts.startingStrip || global.Object.keys(stripMap)[0]
-    );
+    Util.mergeDefaults(opts, {
+        name: 'dragon-sprite',
+        startingStrip: opts.startingStrip || global.Object.keys(stripMap)[0],
+        one: {}
+    });
+    opts.one.ready = opts.one.ready || function () {
+        this.start();
+    };
 
     if (!opts.freemask) {
         opts.mask = opts.mask || Rectangle();
@@ -49,10 +54,6 @@ module.exports = function (opts) {
             pos.y + opts.offset.y
         );
     }
-    opts.one = opts.one || {};
-    opts.one.ready = opts.one.ready || function () {
-        this.start();
-    };
 
     return Collidable(opts).extend({
         strip: stripMap[opts.startingStrip],

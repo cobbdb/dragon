@@ -1,21 +1,22 @@
 var BaseClass = require('baseclassjs'),
-    EventHandler = require('./event-handler.js'),
     Counter = require('./id-counter.js'),
     SpriteSet = require('./sprite-set.js');
 
 /**
+ * # Screen
  * @param {Array|Sprite} [opts.spriteSet]
  * @param {Array|CollisionHandler} [opts.collisionSets]
  * @param {String} opts.name
  * @param {Number} [opts.depth] Defaults to 0.
  * @param {Object} [opts.on] Dictionary of events.
  * @param {Object} [opts.one] Dictionary of one-time events.
+ * @return {Screen}
  */
 module.exports = function (opts) {
     var loaded = false,
         collisionMap = {};
 
-    return SpriteSet().extend({
+    return SpriteSet(opts).extend({
         name: opts.name,
         updating: false,
         drawing: false,
@@ -122,10 +123,5 @@ module.exports = function (opts) {
                 collisionMap[i].teardown();
             }
         }
-    }).implement(
-        EventHandler({
-            events: opts.on,
-            singles: opts.one
-        })
-    );
+    });
 };

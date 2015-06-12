@@ -1,7 +1,18 @@
 var BaseClass = require('baseclassjs'),
-    Eventable = require('./event-handler.js');
+    Eventable = require('./interfaces/eventable.js');
 
-module.exports = function () {
+/**
+ * # Collection Item
+ * Item is the most basic contract in the Dragon game engine. Almost
+ * everything in the engine is derived from Item - including Sprites
+ * and Screens.
+ * @param {Map Of Functions} [opts.on] Dictionary of events.
+ * @param {Map of Functions} [opts.one] Dictionary of one-time events.
+ * @return {Item}
+ */
+module.exports = function (opts) {
+    opts = opts || {};
+
     return BaseClass({
         name: 'dragon-item',
         depth: 0,
@@ -11,6 +22,9 @@ module.exports = function () {
         draw: BaseClass.Abstract,
         teardown: BaseClass.Abstract
     }).implement(
-        Eventable()
+        Eventable({
+            events: opts.on,
+            singles: opts.one
+        })
     );
 };

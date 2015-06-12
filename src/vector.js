@@ -1,5 +1,3 @@
-var Polar = require('./polar.js');
-
 /**
  * @param {Number} [x] Defaults to 0.
  * @param {Number} [y] Defaults to 0.
@@ -28,17 +26,35 @@ function Vector(x, y) {
                 this.y === other.y
             );
         },
-        scale: function (scale) {
-            return Vector(
-                this.x * scale,
-                this.y * scale
-            );
-        },
         toPolar: function () {
+            var Polar = require('./polar.js');
             return Polar(
                 Math.atan(this.y / this.x),
                 this.magnitude
             );
+        },
+        /**
+         * @param {Vector} scale
+         */
+        multiply: function (scale) {
+            this.x *= scale.x;
+            this.y *= scale.y;
+            return this;
+        },
+        divide: function (scale) {
+            this.x /= scale.x;
+            this.y /= scale.y;
+            return this;
+        },
+        add: function (scale) {
+            this.x += scale.x;
+            this.y += scale.y;
+            return this;
+        },
+        subtract: function (scale) {
+            this.x -= scale.x;
+            this.y -= scale.y;
+            return this;
         }
     };
 }

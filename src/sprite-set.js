@@ -1,11 +1,16 @@
 var Counter = require('./id-counter.js'),
     Collection = require('./collection.js');
 
-module.exports = function () {
+/**
+ * # Sprite Set
+ * Item Collection specifically for handing Sprites.
+ * @return {SpriteSet}
+ */
+module.exports = function (opts) {
     var spritesToAdd = [],
         loadQueue = {};
 
-    return Collection().extend({
+    return Collection(opts).extend({
         add: function (opts) {
             var id, onload, set, addQueue,
                 thatbase = this.base;

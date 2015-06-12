@@ -97,8 +97,8 @@ module.exports = {
                 cb.bind(thisArg)
             );
         },
-        click: function (cb) {},
-        dclick: function (cb) {},
+        click: function (cb, thisArg) {},
+        dclick: function (cb, thisArg) {},
         up: function (cb, thisArg) {
             document.addEventListener(
                 endEventName,
@@ -110,7 +110,20 @@ module.exports = {
                 moveEventName,
                 cb.bind(thisArg)
             );
-        }
+        },
+        drag: function (cb, thisArg) {
+            canvas.addEventListener(moveEventName, function () {
+                if (isDragging) {
+                    cb.call(thisArg);
+                }
+            });
+        },
+        /**
+         * @param {String} dir Swipe direction.
+         * @param {Function cb
+         * @param {Any} thisArg
+         */
+        swipe: function (dir, cb, thisArg) {}
     },
     eventName: {
         start: startEventName,

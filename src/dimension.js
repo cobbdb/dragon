@@ -1,3 +1,9 @@
+/**
+ * # Dimension
+ * @param {Number} w
+ * @param {Number} h
+ * @return {Dimension}
+ */
 function Dimension(w, h) {
     return {
         width: w || 0,
@@ -11,11 +17,28 @@ function Dimension(w, h) {
                 this.height === other.height
             );
         },
-        scale: function (scale) {
-            return Dimension(
-                this.width * scale,
-                this.height * scale
-            );
+        /**
+         * @param {Dimension} scale
+         */
+        multiply: function (scale) {
+            this.width *= scale.width;
+            this.height *= scale.height;
+            return this;
+        },
+        divide: function (scale) {
+            this.width /= scale.width;
+            this.height /= scale.height;
+            return this;
+        },
+        add: function (scale) {
+            this.width += scale.width;
+            this.height += scale.height;
+            return this;
+        },
+        subtract: function (scale) {
+            this.width -= scale.width;
+            this.height -= scale.height;
+            return this;
         }
     };
 }

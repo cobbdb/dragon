@@ -40,7 +40,7 @@ module.exports = {
             root[key] = other[key];
         }
     },
-    mergeDefault: function (root, other) {
+    mergeDefaults: function (root, other) {
         var key;
         for (key in other) {
             if (!(key in root)) {

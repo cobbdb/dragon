@@ -2,6 +2,7 @@ var Game = require('./game.js'),
     Util = require('./util.js');
 
 module.exports = {
+    // Classes
     Shape: require('./shape.js'),
     Circle: require('./circle.js'),
     Rectangle: require('./rectangle.js'),
@@ -21,7 +22,6 @@ module.exports = {
     Mouse: require('./mouse.js'),
     Keyboard: require('./keyboard.js'),
 
-    EventHandler: require('./event-handler.js'),
     SpriteSheet: require('./spritesheet.js'),
     AnimationStrip: require('./animation-strip.js'),
     Audio: require('./audio.js'),
@@ -42,10 +42,15 @@ module.exports = {
     Sprite: require('./sprite.js'),
     ClearSprite: require('./clear-sprite.js'),
 
+    // UI Builtins
     ui: {
         Slider: require('./ui/slider.js'),
         Button: require('./ui/button.js'),
         Label: require('./ui/label.js'),
         Decal: require('./ui/decal.js')
-    }
+    },
+
+    // Interfaces
+    fadeable: require('./interfaces/fadeable.js'),
+    Eventable: require('./interfaces/eventable.js')
 };

@@ -1,3 +1,9 @@
+/**
+ * # Point
+ * @param {Number} x
+ * @param {Number} y
+ * @return {Point}
+ */
 function Point(x, y) {
     return {
         x: x || 0,
@@ -20,21 +26,25 @@ function Point(x, y) {
         },
         /**
          * @param {Point} offset
+         * @param {Boolean} [shallow] True to mutate.
          * @return {Point} This point after shifting.
          */
-        shift: function (offset) {
-            this.x += offset.x;
-            this.y += offset.y;
-            return this;
+        shift: function (offset, shallow) {
+            var target = shallow ? this : Point();
+            target.x += offset.x;
+            target.y += offset.y;
+            return target;
         },
         /**
          * @param {Point} pos
+         * @param {Boolean} [shallow] True to mutate.
          * @return {Point} This point after moving.
          */
-        move: function (pos) {
-            this.x = pos.x;
-            this.y = pos.y;
-            return this;
+        move: function (pos, shallow) {
+            var target = deep ? this : Point();
+            target.x = pos.x;
+            target.y = pos.y;
+            return target;
         }
     };
 }

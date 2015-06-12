@@ -1,5 +1,4 @@
 var Counter = require('./id-counter.js'),
-    EventHandler = require('./event-handler.js'),
     Rectangle = require('./rectangle.js'),
     Point = require('./point.js'),
     Item = require('./item.js');
@@ -34,7 +33,7 @@ module.exports = function (opts) {
         }
     };
 
-    return Item().extend({
+    return Item(opts).extend({
         id: Counter.nextId,
         name: opts.name || 'dragon-collidable',
         solid: opts.solid || false,
@@ -42,10 +41,7 @@ module.exports = function (opts) {
         offset: opts.offset || Point(),
         move: function (pos) {
             var curPos = this.mask.pos(),
-                newPos = Point(
-                    pos.x + this.offset.x,
-                    pos.y + this.offset.y
-                );
+                newPos = pos.shift(this.offset);
             if (!newPos.equals(curPos)) {
                 lastPos = curPos;
                 this.mask.move(
@@ -87,10 +83,5 @@ module.exports = function (opts) {
                 already = collisionsThisFrame[id];
             return !self && !already;
         }
-    }).implement(
-        EventHandler({
-            events: opts.on,
-            singles: opts.one
-        })
-    );
+    });
 };

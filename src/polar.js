@@ -1,5 +1,3 @@
-var Vector = require('./vector.js');
-
 function isEqual(my, other, tfactor, mfactor) {
     var mag = my.magnitude === mfactor * other.magnitude,
         mytheta = (my.theta % Math.PI).toFixed(5),
@@ -28,6 +26,7 @@ function Polar(theta, mag) {
             );
         },
         toVector: function () {
+            var Vector = require('./vector.js');
             return Vector(
                 this.magnitude * Math.cos(this.theta),
                 this.magnitude * Math.sin(this.theta)

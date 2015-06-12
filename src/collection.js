@@ -1,8 +1,14 @@
 var Item = require('./item.js');
 
-module.exports = function () {
+/**
+ * # Collection
+ * Item Collections are sets of Items with methods for
+ * for manipulating Items.
+ * @return {Collection}
+ */
+module.exports = function (opts) {
     var removed = false;
-    return Item().extend({
+    return Item(opts).extend({
         name: 'dragon-collection',
         set: [],
         map: {},
