@@ -20,12 +20,13 @@ module.exports = function (opts) {
         handleCollisions: function () {
             activeCollisions.forEach(function (pivot) {
                 activeCollisions.forEach(function (other) {
-                    var intersects, colliding,
+                    var intersects, colliding, solids,
                         valid = pivot.canCollideWith(other.id);
 
                     if (valid) {
-                        intersects = pivot.intersects(other.mask),
+                        intersects = pivot.intersects(other.mask);
                         colliding = pivot.isCollidingWith(other.id);
+                        solids = pivot.solid && other.solid;
                         /**
                          * (colliding) ongoing intersection
                          * (collide) first collided: no collide -> colliding
@@ -36,10 +37,13 @@ module.exports = function (opts) {
                             pivot.addCollision(other.id);
                             if (!colliding) {
                                 pivot.trigger('collide/' + other.name, other);
+                                if (solids) {
+                                    pivot.trigger('collide/$/solid', other);
+                                }
                             }
                             pivot.trigger('colliding/' + other.name, other);
-                            if (pivot.solid && other.solid) {
-                                pivot.trigger('dragon/colliding/solid', other);
+                            if (solids) {
+                                pivot.trigger('colliding/$/solid', other);
                             }
                         } else {
                             if (colliding) {

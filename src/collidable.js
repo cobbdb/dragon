@@ -18,24 +18,20 @@ module.exports = function (opts) {
         collisionsThisFrame = {},
         collisionSets = [],
         updated = false,
-        lastPos = Point();
+        lastPos;
 
     if (opts.collisionSets) {
         collisionSets = [].concat(opts.collisionSets);
     }
 
     opts.on = opts.on || {};
-    opts.on['dragon/colliding/solid'] = function (other) {
-            if (this.name === 'drag' && lastPos.x !== this.pos.x) {
-                var logit = true;
-                console.debug('>>>', lastPos.x, lastPos.y);
-            }
-        this.move(
-            lastPos.x,
-            lastPos.y
-        );
-            if (logit)
-                console.debug('\t>', lastPos.x, lastPos.y);
+    opts.on['colliding/$/solid'] = function (other) {
+        if (lastPos) {
+            this.move(
+                lastPos.x,
+                lastPos.y
+            );
+        }
     };
 
     return Item().extend({
@@ -45,11 +41,18 @@ module.exports = function (opts) {
         mask: opts.mask || Rectangle(),
         offset: opts.offset || Point(),
         move: function (pos) {
-            lastPos = this.mask.pos();
-            this.mask.move(
-                pos.x + this.offset.x,
-                pos.y + this.offset.y
-            );
+            var curPos = this.mask.pos(),
+                newPos = Point(
+                    pos.x + this.offset.x,
+                    pos.y + this.offset.y
+                );
+            if (!newPos.equals(curPos)) {
+                lastPos = curPos;
+                this.mask.move(
+                    newPos.x,
+                    newPos.y
+                );
+            }
         },
         intersects: function (mask) {
             return this.mask.intersects(mask);
