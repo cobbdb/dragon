@@ -30,7 +30,7 @@ function Point(x, y) {
          * @return {Point} This point after shifting.
          */
         shift: function (offset, shallow) {
-            var target = shallow ? this : Point();
+            var target = shallow ? this : this.clone();
             target.x += offset.x;
             target.y += offset.y;
             return target;
@@ -41,7 +41,7 @@ function Point(x, y) {
          * @return {Point} This point after moving.
          */
         move: function (pos, shallow) {
-            var target = deep ? this : Point();
+            var target = shallow ? this : this.clone();
             target.x = pos.x;
             target.y = pos.y;
             return target;

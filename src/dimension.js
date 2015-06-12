@@ -19,26 +19,32 @@ function Dimension(w, h) {
         },
         /**
          * @param {Dimension} scale
+         * @param {Boolean} [shallow] True to mutate.
+         * @return {Dimension}
          */
-        multiply: function (scale) {
-            this.width *= scale.width;
-            this.height *= scale.height;
-            return this;
+        multiply: function (scale, shallow) {
+            var target = shallow ? this : this.clone();
+            target.width *= scale.width;
+            target.height *= scale.height;
+            return target;
         },
-        divide: function (scale) {
-            this.width /= scale.width;
-            this.height /= scale.height;
-            return this;
+        divide: function (scale, shallow) {
+            var target = shallow ? this : this.clone();
+            target.width /= scale.width;
+            target.height /= scale.height;
+            return target;
         },
-        add: function (scale) {
-            this.width += scale.width;
-            this.height += scale.height;
-            return this;
+        add: function (scale, shallow) {
+            var target = shallow ? this : this.clone();
+            target.width += scale.width;
+            target.height += scale.height;
+            return target;
         },
-        subtract: function (scale) {
-            this.width -= scale.width;
-            this.height -= scale.height;
-            return this;
+        subtract: function (scale, shallow) {
+            var target = shallow ? this : this.clone();
+            target.width -= scale.width;
+            target.height -= scale.height;
+            return target;
         }
     };
 }
