@@ -53,13 +53,16 @@ module.exports = function (pos, rad) {
             ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
             ctx.stroke();
         },
-        move: function (x, y) {
-            this.x = x;
-            this.y = y;
-            this.top = y - this.radius;
-            this.right = x + this.radius;
-            this.bottom = y + this.radius;
-            this.left = x - this.radius;
+        /**
+         * @param {Point} pos
+         */
+        move: function (pos) {
+            this.x = pos.x;
+            this.y = pos.y;
+            this.top = pos.y - this.radius;
+            this.right = pos.x + this.radius;
+            this.bottom = pos.y + this.radius;
+            this.left = pos.x - this.radius;
         },
         resize: function (rad) {
             this.radius = rad;

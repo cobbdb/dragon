@@ -25,17 +25,6 @@ function Point(x, y) {
             );
         },
         /**
-         * @param {Point} offset
-         * @param {Boolean} [shallow] True to mutate.
-         * @return {Point} This point after shifting.
-         */
-        shift: function (offset, shallow) {
-            var target = shallow ? this : this.clone();
-            target.x += offset.x;
-            target.y += offset.y;
-            return target;
-        },
-        /**
          * @param {Point} pos
          * @param {Boolean} [shallow] True to mutate.
          * @return {Point} This point after moving.
@@ -44,6 +33,35 @@ function Point(x, y) {
             var target = shallow ? this : this.clone();
             target.x = pos.x;
             target.y = pos.y;
+            return target;
+        },
+        /**
+         * @param {Point} offset
+         * @param {Boolean} [shallow] True to mutate.
+         * @return {Point} This point after shifting.
+         */
+        multiply: function (scale, shallow) {
+            var target = shallow ? this : this.clone();
+            target.x *= scale.x;
+            target.y *= scale.y;
+            return target;
+        },
+        divide: function (scale, shallow) {
+            var target = shallow ? this : this.clone();
+            target.x /= scale.x;
+            target.y /= scale.y;
+            return target;
+        },
+        add: function (scale, shallow) {
+            var target = shallow ? this : this.clone();
+            target.x += scale.x;
+            target.y += scale.y;
+            return target;
+        },
+        subtract: function (scale, shallow) {
+            var target = shallow ? this : this.clone();
+            target.x -= scale.x;
+            target.y -= scale.y;
             return target;
         }
     };

@@ -46,13 +46,16 @@ module.exports = function (pos, size) {
         right: pos.x + size.width || 0,
         bottom: pos.y + size.height || 0,
         left: pos.x || 0,
-        move: function (x, y) {
-            this.x = x;
-            this.y = y;
-            this.top = y;
-            this.right = x + this.width;
-            this.bottom = y + this.height;
-            this.left = x;
+        /**
+         * @param {Point} pos
+         */
+        move: function (pos) {
+            this.x = pos.x;
+            this.y = pos.y;
+            this.top = pos.y;
+            this.right = pos.x + this.width;
+            this.bottom = pos.y + this.height;
+            this.left = pos.x;
         },
         resize: function (size) {
             this.width = size.width;

@@ -37,6 +37,7 @@ module.exports = function (opts) {
     Util.mergeDefaults(opts, {
         name: 'dragon-sprite',
         startingStrip: opts.startingStrip || global.Object.keys(stripMap)[0],
+        mask: Rectangle(),
         one: {}
     });
     opts.one.ready = opts.one.ready || function () {
@@ -44,14 +45,9 @@ module.exports = function (opts) {
     };
 
     if (!opts.freemask) {
-        opts.mask = opts.mask || Rectangle();
-        opts.offset = Point(
-            opts.mask.x,
-            opts.mask.y
-        );
+        opts.offset = opts.mask.pos();
         opts.mask.move(
-            pos.x + opts.offset.x,
-            pos.y + opts.offset.y
+            pos.add(opts.offset)
         );
     }
 
@@ -138,6 +134,11 @@ module.exports = function (opts) {
                 onload();
             }
         },
+        /**
+         * Move the Sprite and its mask unless freemask.
+         * @param {Number} x
+         * @param {Number} y
+         */
         move: function (x, y) {
             this.pos.x = x;
             this.pos.y = y;

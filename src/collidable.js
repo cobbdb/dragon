@@ -39,15 +39,16 @@ module.exports = function (opts) {
         solid: opts.solid || false,
         mask: opts.mask || Rectangle(),
         offset: opts.offset || Point(),
+        /**
+         * Move the mask.
+         * @param {Point} pos Point to move mask to.
+         */
         move: function (pos) {
             var curPos = this.mask.pos(),
-                newPos = pos.shift(this.offset);
+                newPos = pos.add(this.offset);
             if (!newPos.equals(curPos)) {
-                lastPos = curPos;
-                this.mask.move(
-                    newPos.x,
-                    newPos.y
-                );
+                lastPos = curPos.subtract(this.offset);
+                this.mask.move(newPos);
             }
         },
         intersects: function (mask) {
