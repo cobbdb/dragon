@@ -39,7 +39,8 @@ module.exports = function (opts) {
             y1: (clas.y === 'down') ? a : b
         };
     }
-    function slope(E) {
+    function slope(cur, last) {
+        var E = cur.subtract(last);
         return E.y / E.x;
     }
     function lerp(type, m, T, O) {
@@ -75,7 +76,13 @@ module.exports = function (opts) {
     opts.on = opts.on || {};
     opts.on['colliding/$/solid'] = function (other) {
         if (lastPos) {
-            //flush();
+            var f = 123;
+            var p = 123;
+            var s = 123;
+            var m = slope(this.mask, lastPos);
+            var T = 123;
+            var O = 123;
+            flush(f, p, s, m, T, O);
         }
     };
 
@@ -93,7 +100,8 @@ module.exports = function (opts) {
             var curPos = this.mask.pos(),
                 newPos = pos.add(this.offset);
             if (!newPos.equals(curPos)) {
-                lastPos = curPos.subtract(this.offset);
+                //lastPos = curPos.subtract(this.offset);
+                lastPos = curPos;
                 this.mask.move(newPos);
             }
         },
