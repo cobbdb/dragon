@@ -23,13 +23,59 @@ module.exports = function (opts) {
         collisionSets = [].concat(opts.collisionSets);
     }
 
+    function classify(E, S) {
+        return {
+            x: (E.x - S.x > 0) ? 'right' : 'left',
+            y: (E.y - S.y > 0) ? 'down' : 'up'
+        };
+    }
+    function magnitude(clas, O, T) {
+        var a = Math.abs(O.bottom - T.top),
+            b = Math.abs(O.top - T.bottom),
+            c = Math.abs(O.right - T.left),
+            d = Math.abs(O.left - T.right);
+        return {
+            x1: (clas.x === 'right') ? c : d,
+            y1: (clas.y === 'down') ? a : b
+        };
+    }
+    function slope(E) {
+        return E.y / E.x;
+    }
+    function lerp(type, m, T, O) {
+        if (type === 'theta') {
+            O.y = T.top - O.height;
+            O.x = O.y / m;
+        } else if (type === 'beta') {
+            O.y = T.bottom;
+            O.x = O.y / m;
+        } else if (type === 'phi') {
+            O.x = T.left - O.width;
+            O.y = m * O.x;
+        } else if (type === 'eta') {
+            O.x = T.right;
+            O.y = m * O.x;
+        }
+    }
+    function flush(f, p, s, m, T, O) {
+        if (f) {
+            if (p) {
+                lerp('theta', m, T, O);
+            } else {
+                lerp('beta', m, T, O);
+            }
+        } else {
+            if (s) {
+                lerp('phi', m, T, O);
+            } else {
+                lerp('eta', m, T, O);
+            }
+        }
+    }
     opts.on = opts.on || {};
     opts.on['colliding/$/solid'] = function (other) {
         if (lastPos) {
-            this.move(
-                lastPos.x,
-                lastPos.y
-            );
+            //flush();
         }
     };
 
@@ -41,7 +87,7 @@ module.exports = function (opts) {
         offset: opts.offset || Point(),
         /**
          * Move the mask.
-         * @param {Point} pos Point to move mask to.
+         * @param {Point} pos
          */
         move: function (pos) {
             var curPos = this.mask.pos(),
