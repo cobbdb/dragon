@@ -40,26 +40,27 @@ module.exports = function (opts) {
         };
     }
     function flush(f, p, s, m, T, O) {
-        var target = Point();
+        var target = Point(),
+            b = T.y - m * T.x;
         if (f) {
             if (p) { // down
                 // theta
                 target.y = O.top - T.height;
-                target.x = target.y / m;
+                target.x = (target.y - b) / m;
             } else { // up
                 // beta
                 target.y = O.bottom;
-                target.x = target.y / m;
+                target.x = (target.y - b) / m;
             }
         } else {
             if (s) { // right
                 // phi
                 target.x = O.left - T.width;
-                target.y = m * target.x;
+                target.y = m * target.x + b;
             } else { // left
                 // eta
                 target.x = O.right;
-                target.y = m * target.x;
+                target.y = m * target.x + b;
             }
         }
         return target;
