@@ -38,7 +38,7 @@ function Point(x, y) {
         /**
          * @param {Point} offset
          * @param {Boolean} [shallow] True to mutate.
-         * @return {Point} This point after shifting.
+         * @return {Point|Vector} This point after shifting.
          */
         multiply: function (scale, shallow) {
             var target = shallow ? this : this.clone();

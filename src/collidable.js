@@ -23,66 +23,61 @@ module.exports = function (opts) {
         collisionSets = [].concat(opts.collisionSets);
     }
 
-    function classify(E, S) {
+    function classify(E) {
         return {
-            x: (E.x - S.x > 0) ? 'right' : 'left',
-            y: (E.y - S.y > 0) ? 'down' : 'up'
+            x: (E.x > 0) ? 'right' : 'left',
+            y: (E.y > 0) ? 'down' : 'up'
         };
     }
-    function magnitude(clas, O, T) {
-        var a = Math.abs(O.bottom - T.top),
-            b = Math.abs(O.top - T.bottom),
-            c = Math.abs(O.right - T.left),
-            d = Math.abs(O.left - T.right);
+    function magnitude(clas, T, O) {
+        var a = Math.abs(T.bottom - O.top),
+            b = Math.abs(T.top - O.bottom),
+            c = Math.abs(T.right - O.left),
+            d = Math.abs(T.left - O.right);
         return {
             x1: (clas.x === 'right') ? c : d,
             y1: (clas.y === 'down') ? a : b
         };
     }
-    function slope(cur, last) {
-        var E = cur.subtract(last);
-        return E.y / E.x;
-    }
-    function lerp(type, m, T, O) {
-        if (type === 'theta') {
-            O.y = T.top - O.height;
-            O.x = O.y / m;
-        } else if (type === 'beta') {
-            O.y = T.bottom;
-            O.x = O.y / m;
-        } else if (type === 'phi') {
-            O.x = T.left - O.width;
-            O.y = m * O.x;
-        } else if (type === 'eta') {
-            O.x = T.right;
-            O.y = m * O.x;
-        }
-    }
     function flush(f, p, s, m, T, O) {
+        var target = Point();
         if (f) {
-            if (p) {
-                lerp('theta', m, T, O);
-            } else {
-                lerp('beta', m, T, O);
+            if (p) { // down
+                // theta
+                target.y = O.top - T.height;
+                target.x = target.y / m;
+            } else { // up
+                // beta
+                target.y = O.bottom;
+                target.x = target.y / m;
             }
         } else {
-            if (s) {
-                lerp('phi', m, T, O);
-            } else {
-                lerp('eta', m, T, O);
+            if (s) { // right
+                // phi
+                target.x = O.left - T.width;
+                target.y = m * target.x;
+            } else { // left
+                // eta
+                target.x = O.right;
+                target.y = m * target.x;
             }
         }
+        return target;
     }
     opts.on = opts.on || {};
     opts.on['colliding/$/solid'] = function (other) {
         if (lastPos) {
-            var f = 123;
-            var p = 123;
-            var s = 123;
-            var m = slope(this.mask, lastPos);
-            var T = 123;
-            var O = 123;
-            flush(f, p, s, m, T, O);
+            var E = this.mask.pos().subtract(lastPos);
+            var m = E.y / E.x;
+            var clas = classify(E);
+            var mag = magnitude(clas, this.mask, other.mask);
+            var f = mag.y1 < mag.x1;
+            var p = clas.x === 'right';
+            var s = clas.y === 'down';
+            var T = this.mask;
+            var O = other.mask;
+            var target = flush(f, p, s, m, T, O);
+            this.move(target);
         }
     };
 

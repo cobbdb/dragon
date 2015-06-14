@@ -136,19 +136,19 @@ module.exports = function (opts) {
         },
         /**
          * Move the Sprite and its mask unless freemask.
-         * @param {Number} x
-         * @param {Number} y
+         * @param {Point} pos
          */
-        move: function (x, y) {
-            this.pos.x = x;
-            this.pos.y = y;
+        move: function (pos) {
+            this.pos.move(pos, true);
             if (!opts.freemask) {
                 this.base.move(this.pos);
             }
         },
-        shift: function (vx, vy) {
-            this.pos.x += vx || this.speed.x;
-            this.pos.y += vy || this.speed.y;
+        /**
+         * @param {Point|Vector} offset
+         */
+        shift: function (offset) {
+            this.pos.add(offset || this.speed, true);
             if (!opts.freemask) {
                 this.base.move(this.pos);
             }
