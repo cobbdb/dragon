@@ -11,14 +11,14 @@ module.exports = function (opts) {
 
     opts = opts || {};
     for (name in opts.events) {
-        events[name] = [
+        events[name] = [].concat(
             opts.events[name]
-        ];
+        );
     }
     for (name in opts.singles) {
-        singles[name] = [
+        singles[name] = [].concat(
             opts.singles[name]
-        ];
+        );
     }
 
     return BaseClass.Interface({

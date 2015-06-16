@@ -81,14 +81,19 @@ module.exports = function (opts) {
             this.move(target);
         }
     };
-    opts.on['collide/screendrag'] = function () {
-        if (!this.dragging) {
-            this.dragging = true;
-            Mouse.on.up(function () {
-                this.dragging = false;
-            }, this);
+
+    // Provide easy way to track when dragged.
+    opts.on['collide/screendrag'] = [].concat(
+        opts.on['collide/screendrag'] || [],
+        function () {
+            if (!this.dragging) {
+                this.dragging = true;
+                Mouse.on.up(function () {
+                    this.dragging = false;
+                }, this);
+            }
         }
-    };
+    );
 
     return Item(opts).extend({
         id: Counter.nextId,
