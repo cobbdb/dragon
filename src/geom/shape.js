@@ -15,6 +15,12 @@ module.exports = function (opts) {
     return BaseClass({
         x: pos.x,
         y: pos.y,
+        width: 0,
+        height: 0,
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
         pos: function () {
             return Point(this.x, this.y);
         },

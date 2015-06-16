@@ -46,6 +46,12 @@ module.exports = function (pos, size) {
         right: pos.x + size.width || 0,
         bottom: pos.y + size.height || 0,
         left: pos.x || 0,
+        center: function () {
+            return Point(
+                this.x + this.width / 2,
+                this.y + this.height / 2
+            );
+        },
         /**
          * @param {Point} pos
          */

@@ -34,6 +34,7 @@ module.exports = {
     collisions: require('./dragon-collisions.js'),
 
     screen: Game.screen,
+    sprite: Game.sprite,
     addScreens: Game.addScreens,
     removeScreen: Game.removeScreen,
     run: Game.run.bind(Game),

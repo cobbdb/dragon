@@ -46,6 +46,9 @@ module.exports = function (pos, rad) {
         right: pos.x + rad,
         bottom: pos.y + rad,
         left: pos.x - rad,
+        center: function () {
+            return Point(this.x, this.y);
+        },
         draw: function (ctx) {
             ctx.beginPath();
             ctx.lineWidth = 1;
