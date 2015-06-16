@@ -18,9 +18,9 @@ module.exports = function (opts) {
         depth: 0,
         updating: true,
         drawing: true,
-        update: BaseClass.Abstract,
-        draw: BaseClass.Abstract,
-        teardown: BaseClass.Abstract
+        update: BaseClass.Stub,
+        draw: BaseClass.Stub,
+        teardown: BaseClass.Stub
     }).implement(
         Eventable({
             events: opts.on,
