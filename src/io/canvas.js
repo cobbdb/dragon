@@ -1,4 +1,4 @@
-var mobile = require('./detect-mobile.js'),
+var mobile = require('../util/detect-mobile.js'),
     canvas = document.createElement('canvas');
 
 if (mobile) {

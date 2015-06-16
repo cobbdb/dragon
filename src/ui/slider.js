@@ -1,13 +1,15 @@
 var Sprite = require('../sprite.js'),
-    Dimension = require('../dimension.js'),
-    Rectangle = require('../rectangle.js'),
-    Point = require('../point.js'),
+    Dimension = require('../geom/dimension.js'),
+    Rectangle = require('../geom/rectangle.js'),
+    Point = require('../geom/point.js'),
     AnimationStrip = require('../animation-strip.js'),
     SpriteSheet = require('../spritesheet.js'),
     ClearSprite = require('../clear-sprite.js'),
     collisions = require('../dragon-collisions.js');
 
 /**
+ * @class Slider
+ * @extends ClearSprite
  * @param {Function} [opts.onslide] Called on slide event. Accepts
  * current percentage as a number between 0 and 100.
  * @param {Point} opts.pos

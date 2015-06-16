@@ -1,5 +1,5 @@
-var Point = require('./point.js'),
-    Vector = require('./vector.js'),
+var Point = require('../geom/point.js'),
+    Vector = require('../geom/vector.js'),
     canvas = require('./canvas.js'),
     isDown = false,
     isDragging = false,

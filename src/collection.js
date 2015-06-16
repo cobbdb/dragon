@@ -1,10 +1,10 @@
 var Item = require('./item.js');
 
 /**
- * # Collection
+ * @class Collection
  * Item Collections are sets of Items with methods for
  * for manipulating Items.
- * @return {Collection}
+ * @extends Item
  */
 module.exports = function (opts) {
     var removed = false;

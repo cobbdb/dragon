@@ -1,4 +1,5 @@
 /**
+ * @class Vector
  * @param {Number} [x] Defaults to 0.
  * @param {Number} [y] Defaults to 0.
  */

@@ -1,8 +1,7 @@
 /**
- * # Dimension
+ * @class Dimension
  * @param {Number} w
  * @param {Number} h
- * @return {Dimension}
  */
 function Dimension(w, h) {
     return {

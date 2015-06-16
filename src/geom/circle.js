@@ -64,7 +64,11 @@ module.exports = function (pos, rad) {
             this.bottom = pos.y + this.radius;
             this.left = pos.x - this.radius;
         },
-        resize: function (rad) {
+        /**
+         * @param {Dimension} size
+         */
+        resize: function (size) {
+            var rad = global.Math.max(size.width, size.height);
             this.radius = rad;
             this.width = rad * 2;
             this.height = rad * 2;

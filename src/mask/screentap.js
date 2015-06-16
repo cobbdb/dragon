@@ -1,15 +1,19 @@
-var Collidable = require('./collidable.js'),
-    Circle = require('./circle.js'),
-    Point = require('./point.js'),
-    Mouse = require('./mouse.js'),
-    dragonCollisions = require('./dragon-collisions.js'),
+var CollisionItem = require('../collision-item.js'),
+    Circle = require('../geom/circle.js'),
+    Point = require('../geom/point.js'),
+    Mouse = require('../io/mouse.js'),
+    dragonCollisions = require('../dragon-collisions.js'),
     tapping = false;
 
 Mouse.on.down(function () {
     tapping = true;
 });
 
-module.exports = Collidable({
+/**
+ * @class ScreenTap
+ * @extends CollisionItem
+ */
+module.exports = CollisionItem({
     name: 'screentap',
     mask: Circle(Point(), 8),
     collisionSets: dragonCollisions

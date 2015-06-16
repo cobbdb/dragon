@@ -1,8 +1,7 @@
 /**
- * # Point
+ * @class Point
  * @param {Number} x
  * @param {Number} y
- * @return {Point}
  */
 function Point(x, y) {
     return {

@@ -1,5 +1,4 @@
-var CollisionHandler = require('./collision-handler.js'),
-    Dimension = require('./dimension.js');
+var CollisionHandler = require('./collision-handler.js');
 
 module.exports = CollisionHandler({
     name: 'dragon'

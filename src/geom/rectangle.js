@@ -57,6 +57,9 @@ module.exports = function (pos, size) {
             this.bottom = pos.y + this.height;
             this.left = pos.x;
         },
+        /**
+         * @param {Dimension} size
+         */
         resize: function (size) {
             this.width = size.width;
             this.height = size.height;

@@ -1,10 +1,14 @@
-var Collidable = require('./collidable.js'),
-    Circle = require('./circle.js'),
-    Point = require('./point.js'),
-    Mouse = require('./mouse.js'),
-    dragonCollisions = require('./dragon-collisions.js');
+var CollisionItem = require('../collision-item.js'),
+    Circle = require('../geom/circle.js'),
+    Point = require('../geom/point.js'),
+    Mouse = require('../io/mouse.js'),
+    dragonCollisions = require('../dragon-collisions.js');
 
-module.exports = Collidable({
+/**
+ * @class ScreenDrag
+ * @extends CollisionItem
+ */
+module.exports = CollisionItem({
     name: 'screendrag',
     mask: Circle(Point(), 8),
     collisionSets: dragonCollisions

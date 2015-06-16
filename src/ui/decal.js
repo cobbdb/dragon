@@ -3,10 +3,10 @@ var Sprite = require('../sprite.js'),
     SpriteSheet = require('../spritesheet.js');
 
 /**
- * # Decal (Sprite)
- * ### **$.ui.Decal()**
+ * @class Decal
  * A decal is a sprite that has no collision logic and
  * displays as an image only.
+ * @extends Sprite
  * @param {String} opts.strip.src
  * @param {Dimension} opts.strip.size
  * @param {Point} opts.pos
@@ -24,6 +24,5 @@ module.exports = function (opts) {
             size: opts.strip.size
         })
     };
-    opts.startingStrip = 'decal';
     return Sprite(opts);
 };

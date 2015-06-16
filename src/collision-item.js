@@ -1,16 +1,15 @@
-var Counter = require('./id-counter.js'),
-    Rectangle = require('./rectangle.js'),
-    Point = require('./point.js'),
+var Counter = require('./util/id-counter.js'),
+    Rectangle = require('./geom/rectangle.js'),
+    Point = require('./geom/point.js'),
     Item = require('./item.js');
 
 /**
+ * @class CollisionItem
+ * @extends Item
  * @param {Shape} [opts.mask] Defaults to Rectangle.
- * @param {String} [opts.name]
  * @param {Boolean} [opts.solid] True to collide with other
  * solid sprites.
  * @param {Array|CollisionHandler} [opts.collisionSets]
- * @param {Map Of Functions} [opts.on] Dictionary of events.
- * @param {Map of Functions} [opts.one] Dictionary of one-time events.
  */
 module.exports = function (opts) {
     var activeCollisions = {},

@@ -1,31 +1,34 @@
 var Game = require('./game.js'),
-    Util = require('./util.js');
+    SetUtil = require('./util/set.js'),
+    ObjUtil = require('./util/object.js');
 
 module.exports = {
     // Classes
-    Shape: require('./shape.js'),
-    Circle: require('./circle.js'),
-    Rectangle: require('./rectangle.js'),
+    Shape: require('./geom/shape.js'),
+    Circle: require('./geom/circle.js'),
+    Rectangle: require('./geom/rectangle.js'),
+    Dimension: require('./geom/dimension.js'),
+    Point: require('./geom/point.js'),
+    Vector: require('./geom/vector.js'),
+    Polar: require('./geom/polar.js'),
 
-    Dimension: require('./dimension.js'),
-    Point: require('./point.js'),
-    Vector: require('./vector.js'),
-    Polar: require('./polar.js'),
+    FrameCounter: require('./util/frame-counter.js'),
+    IdCounter: require('./util/id-counter.js'),
+    random: require('./util/random.js'),
+    range: SetUtil.range,
+    shuffle: SetUtil.shuffle,
+    mergeLeft: ObjUtil.mergeLeft,
+    mergeDefault: ObjUtil.mergeDefault,
 
-    FrameCounter: require('./frame-counter.js'),
-    IdCounter: require('./id-counter.js'),
-    random: require('./random.js'),
-    range: Util.range,
-    shuffle: Util.shuffle,
-    mergeLeft: Util.mergeLeft,
-    mergeDefault: Util.mergeDefault,
-    Mouse: require('./mouse.js'),
-    Keyboard: require('./keyboard.js'),
+    // I/O
+    Mouse: require('./io/mouse.js'),
+    Keyboard: require('./io/keyboard.js'),
+    Audio: require('./io/audio.js'),
+    Font: require('./io/font.js'),
+    canvas: require('./io/canvas.js'),
 
     SpriteSheet: require('./spritesheet.js'),
     AnimationStrip: require('./animation-strip.js'),
-    Audio: require('./audio.js'),
-    Font: require('./font.js'),
 
     CollisionHandler: require('./collision-handler.js'),
     collisions: require('./dragon-collisions.js'),
@@ -36,9 +39,8 @@ module.exports = {
     run: Game.run.bind(Game),
     kill: Game.kill,
 
-    canvas: require('./canvas.js'),
     Screen: require('./screen.js'),
-    Collidable: require('./collidable.js'),
+    CollisionItem: require('./collision-item.js'),
     Sprite: require('./sprite.js'),
     ClearSprite: require('./clear-sprite.js'),
 
@@ -51,6 +53,6 @@ module.exports = {
     },
 
     // Interfaces
-    fadeable: require('./interfaces/fadeable.js'),
-    Eventable: require('./interfaces/eventable.js')
+    fadeable: require('./interface/fadeable.js'),
+    Eventable: require('./interface/eventable.js')
 };

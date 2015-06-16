@@ -1,12 +1,13 @@
 var Sprite = require('../sprite.js'),
-    Dimension = require('../dimension.js'),
-    Rectangle = require('../rectangle.js'),
-    Point = require('../point.js'),
+    Rectangle = require('../geom/rectangle.js'),
+    Point = require('../geom/point.js'),
     AnimationStrip = require('../animation-strip.js'),
     SpriteSheet = require('../spritesheet.js'),
     collisions = require('../dragon-collisions.js');
 
 /**
+ * @class Button
+ * @extends Sprite
  * @param {Function} opts.onpress
  * @param {String} opts.up.src
  * @param {Dimension} opts.up.size

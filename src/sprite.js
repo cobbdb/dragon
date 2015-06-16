@@ -1,60 +1,30 @@
-var BaseClass = require('baseclassjs'),
-    Collidable = require('./collidable.js'),
-    Point = require('./point.js'),
-    Dimension = require('./dimension.js'),
-    Rectangle = require('./rectangle.js'),
-    Util = require('./util.js');
+var ClearSprite = require('./clear-sprite.js'),
+    Point = require('./geom/point.js'),
+    Dimension = require('./geom/dimension.js'),
+    Rectangle = require('./geom/rectangle.js'),
+    Util = require('./util/object.js');
 
 /**
- * ##### Sprite
+ * @class Sprite
+ * Most common use-case sprite that contains collision
+ * logic and textures.
+ * @extends ClearSprite
  * @param {Map Of AnimationStrip} [opts.strips]
  * @param {String} [opts.startingStrip] Defaults to first
  * strip name.
- * @param {Point} [opts.pos] Defaults to (0,0).
- * @param {Number} [opts.scale] Defaults to 1.
- * @param {Dimension} [opts.size] Defaults to strip size.
- * @param {Number} [opts.depth] Defaults to 0.
- * @param {Number} [opts.rotation] Defaults to 0.
- * @param {Point} [opts.speed] Defaults to (0,0).
- * @param {Boolean} [opts.freemask] Defaults to false. True
- * to decouple the position of the mask from the position
- * of the sprite.
- * @param {Boolean} [opts.solid] True to collide with other
- * solid sprites.
- * @param {Boolean} [opts.drawing] Defaults to false.
- * @param {Boolean} [opts.updating] Defaults to false.
- * @param {Shape} [opts.mask] Defaults to Rectangle.
- * @param {String} [opts.name]
- * @param {Array|CollisionHandler} [opts.collisionSets]
- * @param {Object} [opts.on] Dictionary of events.
- * @param {Object} [opts.one] Dictionary of one-time events.
  */
 module.exports = function (opts) {
     var loaded = false,
-        stripMap = opts.strips || {},
-        pos = opts.pos || Point();
+        stripMap = opts.strips || {};
 
     Util.mergeDefaults(opts, {
-        name: 'dragon-sprite',
+        name: 'dragon-texture-sprite',
         startingStrip: opts.startingStrip || global.Object.keys(stripMap)[0],
-        mask: Rectangle(),
-        one: {}
+        size: (stripMap[opts.startingStrip] || {}).size
     });
-    opts.one.ready = opts.one.ready || function () {
-        this.start();
-    };
 
-    if (!opts.freemask) {
-        opts.offset = opts.mask.pos();
-        opts.mask.move(
-            pos.add(opts.offset)
-        );
-    }
-
-    return Collidable(opts).extend({
+    return ClearSprite(opts).extend({
         strip: stripMap[opts.startingStrip],
-        updating: opts.updating || false,
-        drawing: opts.drawing || false,
         useStrip: function (name) {
             // Do nothing if already using this strip.
             if (this.strip !== stripMap[name]) {
@@ -66,55 +36,37 @@ module.exports = function (opts) {
         getStrip: function (name) {
             return stripMap[name];
         },
-        pos: pos,
-        scale: opts.scale || 1,
-        size: opts.size || (stripMap[opts.startingStrip] || {}).size,
-        trueSize: function () {
-            return this.size.scale(this.scale);
-        },
-        rotation: opts.rotation || 0,
-        depth: opts.depth || 0,
-        speed: opts.speed || Point(),
         start: function () {
-            this.updating = true;
-            this.drawing = true;
+            this.base.start();
             this.strip.start();
-            this.trigger('start');
         },
         pause: function () {
-            this.updating = false;
-            this.drawing = true;
+            this.base.pause();
             this.strip.pause();
-            this.trigger('pause');
         },
         stop: function () {
-            this.updating = false;
-            this.drawing = false;
+            this.base.stop();
             this.strip.stop();
-            this.trigger('stop');
         },
         update: function () {
             if (this.updating) {
-                this.shift();
                 this.strip.update();
-                this.base.update();
             }
+            this.base.update();
         },
         draw: function (ctx) {
-            var stripSize;
-
             if (this.drawing) {
-                stripSize = this.strip.size;
                 this.strip.draw(
                     ctx,
                     this.pos,
                     Dimension(
-                        this.scale * this.size.width / stripSize.width,
-                        this.scale * this.size.height / stripSize.height
+                        this.scale * this.size.width / this.strip.size.width,
+                        this.scale * this.size.height / this.strip.size.height
                     ),
                     this.rotation
                 );
             }
+            this.base.draw(ctx);
         },
         load: function (onload) {
             var name, loadQueue;
@@ -132,25 +84,6 @@ module.exports = function (opts) {
                 }
             } else {
                 onload();
-            }
-        },
-        /**
-         * Move the Sprite and its mask unless freemask.
-         * @param {Point} pos
-         */
-        move: function (pos) {
-            this.pos.move(pos, true);
-            if (!opts.freemask) {
-                this.base.move(this.pos);
-            }
-        },
-        /**
-         * @param {Point|Vector} offset
-         */
-        shift: function (offset) {
-            this.pos.add(offset || this.speed, true);
-            if (!opts.freemask) {
-                this.base.move(this.pos);
             }
         }
     });

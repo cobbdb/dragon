@@ -1,11 +1,7 @@
-var Point = require('./point.js'),
-    Circle = require('./circle.js'),
-    Collidable = require('./collidable.js'),
-    FrameCounter = require('./frame-counter.js'),
-    Mouse = require('./mouse.js'),
-    canvas = require('./canvas.js'),
+var FrameCounter = require('./util/frame-counter.js'),
+    canvas = require('./io/canvas.js'),
     ctx = canvas.ctx,
-    Counter = require('./id-counter.js'),
+    Counter = require('./util/id-counter.js'),
     dragonCollisions = require('./dragon-collisions.js'),
     debug = false,
     screens = [],
@@ -17,7 +13,7 @@ var Point = require('./point.js'),
     masks = require('./dragon-masks.js');
 
 module.exports = {
-    debug: require('./debug-console.js'),
+    debug: require('./util/debug-console.js'),
     screen: function (name) {
         return screenMap[name];
     },

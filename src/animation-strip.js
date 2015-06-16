@@ -1,6 +1,6 @@
-var Dimension = require('./dimension.js'),
-    Point = require('./point.js'),
-    log = require('./log.js');
+var Dimension = require('./geom/dimension.js'),
+    Point = require('./geom/point.js'),
+    log = require('./util/log.js');
 
 /**
  * @param {SpriteSheet} opts.sheet

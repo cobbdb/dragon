@@ -1,4 +1,4 @@
-var createImage = require('./image.js'),
+var createImage = require('./io/image.js'),
     cache = {};
 
 /**

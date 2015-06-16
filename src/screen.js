@@ -1,6 +1,4 @@
-var BaseClass = require('baseclassjs'),
-    Counter = require('./id-counter.js'),
-    SpriteSet = require('./sprite-set.js');
+var SpriteSet = require('./sprite-set.js');
 
 /**
  * # Screen

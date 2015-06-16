@@ -1,4 +1,4 @@
-var Counter = require('./id-counter.js'),
+var Counter = require('./util/id-counter.js'),
     Collection = require('./collection.js');
 
 /**
