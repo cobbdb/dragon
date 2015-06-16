@@ -1,7 +1,8 @@
 var Counter = require('./util/id-counter.js'),
     Rectangle = require('./geom/rectangle.js'),
     Point = require('./geom/point.js'),
-    Item = require('./item.js');
+    Item = require('./item.js'),
+    Mouse = require('./io/mouse.js');
 
 /**
  * @class CollisionItem
@@ -80,10 +81,19 @@ module.exports = function (opts) {
             this.move(target);
         }
     };
+    opts.on['collide/screendrag'] = function () {
+        if (!this.dragging) {
+            this.dragging = true;
+            Mouse.on.up(function () {
+                this.dragging = false;
+            }, this);
+        }
+    };
 
     return Item(opts).extend({
         id: Counter.nextId,
         name: opts.name || 'dragon-collidable',
+        dragging: false,
         solid: opts.solid || false,
         mask: opts.mask || Rectangle(),
         offset: opts.offset || Point(),
@@ -100,6 +110,9 @@ module.exports = function (opts) {
                 this.mask.move(newPos);
             }
         },
+        /**
+         * @param {Shape} mask
+         */
         intersects: function (mask) {
             return this.mask.intersects(mask);
         },
