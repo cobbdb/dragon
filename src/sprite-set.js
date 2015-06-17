@@ -2,9 +2,9 @@ var Counter = require('./util/id-counter.js'),
     Collection = require('./collection.js');
 
 /**
- * # Sprite Set
+ * @class SpriteSet
+ * @extends Collection
  * Item Collection specifically for handing Sprites.
- * @return {SpriteSet}
  */
 module.exports = function (opts) {
     var spritesToAdd = [],

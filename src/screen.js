@@ -1,14 +1,14 @@
 var SpriteSet = require('./sprite-set.js');
 
 /**
- * # Screen
+ * @class Screen
+ * @extends SpriteSet
  * @param {Array|Sprite} [opts.spriteSet]
  * @param {Array|CollisionHandler} [opts.collisionSets]
  * @param {String} opts.name
  * @param {Number} [opts.depth] Defaults to 0.
  * @param {Object} [opts.on] Dictionary of events.
  * @param {Object} [opts.one] Dictionary of one-time events.
- * @return {Screen}
  */
 module.exports = function (opts) {
     var loaded = false,

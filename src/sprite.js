@@ -20,8 +20,8 @@ module.exports = function (opts) {
     Util.mergeDefaults(opts, {
         name: 'dragon-texture-sprite',
         startingStrip: opts.startingStrip || global.Object.keys(stripMap)[0],
-        size: (stripMap[opts.startingStrip] || {}).size
     });
+    opts.size = opts.size || (stripMap[opts.startingStrip] || {}).size;
 
     return ClearSprite(opts).extend({
         strip: stripMap[opts.startingStrip],

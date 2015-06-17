@@ -15,13 +15,9 @@ var Counter = require('./util/id-counter.js'),
 module.exports = function (opts) {
     var activeCollisions = {},
         collisionsThisFrame = {},
-        collisionSets = [],
         updated = false,
-        lastPos;
-
-    if (opts.collisionSets) {
-        collisionSets = [].concat(opts.collisionSets);
-    }
+        lastPos,
+        collisionSets = [].concat(opts.collisionSets || []);
 
     function classify(E) {
         return {
