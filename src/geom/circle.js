@@ -19,10 +19,10 @@ module.exports = function (pos, rad) {
                 var vect,
                     pt = Point(this.x, this.y);
 
-                if (this.x > rect.right) pt.x = rect.right;
-                else if (this.x < rect.x) pt.x = rect.x;
-                if (this.y > rect.bottom) pt.y = rect.bottom;
-                else if (this.y < rect.y) pt.y = rect.y;
+                if (this.x >= rect.right) pt.x = rect.right;
+                else if (this.x <= rect.x) pt.x = rect.x;
+                if (this.y >= rect.bottom) pt.y = rect.bottom;
+                else if (this.y <= rect.y) pt.y = rect.y;
 
                 vect = Vector(
                     this.x - pt.x,

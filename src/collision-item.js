@@ -139,6 +139,9 @@ module.exports = function (opts) {
         clearCollisions: function () {
             activeCollisions = {};
         },
+        /**
+         * @param {Number} id
+         */
         isCollidingWith: function (id) {
             return activeCollisions[id] || false;
         },
