@@ -2,6 +2,9 @@
  * @param {String} opts.name
  */
 module.exports = function (opts) {
+    /**
+     * @type {Array Of CollisionItem}
+     */
     var activeCollisions = [];
 
     return {

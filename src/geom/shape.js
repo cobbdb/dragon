@@ -27,6 +27,9 @@ module.exports = function (opts) {
         name: opts.name,
         move: BaseClass.Abstract,
         resize: BaseClass.Abstract,
+        /**
+         * @param {Shape} other
+         */
         intersects: function (other) {
             return intersectMap[other.name].call(this, other);
         },

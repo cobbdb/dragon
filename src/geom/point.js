@@ -3,7 +3,7 @@
  * @param {Number} x
  * @param {Number} y
  */
-function Point(x, y) {
+module.exports = function (x, y) {
     return {
         x: x || 0,
         y: y || 0,
@@ -11,7 +11,7 @@ function Point(x, y) {
          * @return {Point}
          */
         clone: function () {
-            return Point(this.x, this.y);
+            return module.exports(this.x, this.y);
         },
         /**
          * @param {Point} other
@@ -64,6 +64,4 @@ function Point(x, y) {
             return target;
         }
     };
-}
-
-module.exports = Point;
+};

@@ -22,7 +22,7 @@ module.exports = {
 
     // I/O
     Mouse: require('./io/mouse.js'),
-    Keyboard: require('./io/keyboard.js'),
+    Key: require('./io/keyboard.js'),
     Audio: require('./io/audio.js'),
     Font: require('./io/font.js'),
     canvas: require('./io/canvas.js'),

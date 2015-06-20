@@ -64,6 +64,14 @@ module.exports = function (pos, size) {
             this.left = pos.x;
         },
         /**
+         * @param {Point} offset
+         */
+        shift: function (offset) {
+            this.move(
+                this.pos().add(offset)
+            );
+        },
+        /**
          * @param {Dimension} size
          */
         resize: function (size) {
