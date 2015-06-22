@@ -20,7 +20,14 @@ module.exports = function (opts) {
         collisionSets = [].concat(opts.collisionSets || []);
 
     opts.on = opts.on || {};
+    /**
+     * So, basiclly shifting (speed) is fine, but
+     * dragging - lastPos is not pos last frame, it
+     * is the point where the drag was engaged.
+     * dragging can't be treated the same as speed.
+     */
     opts.on['colliding/$/solid'] = function (other) {
+        // if (moved) {
         if (lastPos) {
             var C = this.mask.pos();
             var S = other.mask;
@@ -96,7 +103,9 @@ module.exports = function (opts) {
         move: function (pos) {
             var curPos = this.mask.pos(),
                 newPos = pos.add(this.offset);
+            // moved = false;
             if (!newPos.equals(curPos)) {
+                // moved = true;
                 lastPos = curPos;
                 this.mask.move(newPos);
             }
