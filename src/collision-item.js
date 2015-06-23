@@ -17,6 +17,7 @@ module.exports = function (opts) {
         collisionsThisFrame = {},
         updated = false,
         lastPos,
+        moved = false,
         collisionSets = [].concat(opts.collisionSets || []);
 
     opts.on = opts.on || {};
@@ -27,8 +28,7 @@ module.exports = function (opts) {
      * dragging can't be treated the same as speed.
      */
     opts.on['colliding/$/solid'] = function (other) {
-        // if (moved) {
-        if (lastPos) {
+        if (moved) {
             var C = this.mask.pos();
             var S = other.mask;
             var E = C.subtract(lastPos);
@@ -103,9 +103,8 @@ module.exports = function (opts) {
         move: function (pos) {
             var curPos = this.mask.pos(),
                 newPos = pos.add(this.offset);
-            // moved = false;
             if (!newPos.equals(curPos)) {
-                // moved = true;
+                moved = true;
                 lastPos = curPos;
                 this.mask.move(newPos);
             }
@@ -125,6 +124,7 @@ module.exports = function (opts) {
             }
         },
         teardown: function () {
+            moved = false;
             updated = false;
             collisionsThisFrame = {};
         },
