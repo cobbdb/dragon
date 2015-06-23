@@ -1,6 +1,7 @@
 var Point = require('../geom/point.js'),
     Vector = require('../geom/vector.js'),
     canvas = require('./canvas.js'),
+    dragStart = null,
     isDown = false,
     isDragging = false,
     isHolding = false,
@@ -53,6 +54,7 @@ document.addEventListener(
     endEventName,
     function (event) {
         isDown = isDragging = isHolding = false;
+        dragStart = null;
     }
 );
 canvas.addEventListener(
@@ -61,12 +63,13 @@ canvas.addEventListener(
         last = current;
         current = getOffset(event);
 
-        if (isDown) {
+        if (isDown && !isDragging) {
             shift.x = current.x - last.x;
             shift.y = current.y - last.y;
             // Drag threshold.
             if (shift.magnitude > 1) {
                 isDragging = true;
+                dragStart = current;
             }
         }
     }
@@ -89,6 +92,9 @@ module.exports = {
      */
     get offset () {
         return current;
+    },
+    get dragStart () {
+        return dragStart;
     },
     on: {
         down: function (cb, thisArg) {

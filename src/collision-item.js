@@ -22,57 +22,32 @@ module.exports = function (opts) {
 
     opts.on = opts.on || {};
     /**
-     * So, basiclly shifting (speed) is fine, but
-     * dragging - lastPos is not pos last frame, it
-     * is the point where the drag was engaged.
-     * dragging can't be treated the same as speed.
+     * @param {CollisionItem} other
      */
     opts.on['colliding/$/solid'] = function (other) {
+        // if (moved) needs to go away.. too situational
         if (moved) {
-            var C = this.mask.pos();
-            var S = other.mask;
-            var E = C.subtract(lastPos);
-            if (E.x !== 0) {
-                var m = E.y / E.x;
-                var b = C.y - m * C.x;
-
-                var pos = Point();
-                pos.x = S.right;
-                pos.y = m * pos.x + b;
-                var R = Rectangle(pos.clone(), this.size);
-                pos.x = S.x - this.size.width;
-                pos.y = m * pos.x + b;
-                var L = Rectangle(pos.clone(), this.size);
-                pos.y = S.y - this.size.height;
-                pos.x = (pos.y - b) / m;
-                var T = Rectangle(pos.clone(), this.size);
-                pos.y = S.bottom;
-                pos.x = (pos.y - b) / m;
-                var B = Rectangle(pos.clone(), this.size);
-
-                var set = [R, L, T, B];
-                set = set.filter(function (item) {
-                    return item.intersects(S);
-                });
-            } else {
-                var pos = Point();
-                pos.x = C.x;
-                pos.y = S.y - this.size.height;
-                var T = Rectangle(pos.clone(), this.size);
-                pos.x = C.x;
-                pos.y = S.bottom;
-                var B = Rectangle(pos.clone(), this.size);
-                set = [T, B];
+            var top = this.mask.bottom - other.mask.top,
+                right = other.mask.right - this.mask.left,
+                bottom = other.mask.bottom - this.mask.top,
+                left = this.mask.right - other.mask.left,
+                min = global.Math.min(top, right, bottom, left),
+                target = this.pos.clone();
+            switch (min) {
+                case top:
+                    target.y = other.mask.y - this.mask.height;
+                    break;
+                case right:
+                    target.x = other.mask.right;
+                    break;
+                case bottom:
+                    target.y = other.mask.bottom;
+                    break;
+                default:
+                    target.x = other.mask.x - this.mask.width;
+                    break;
             }
-
-            var A = set[0].pos().subtract(lastPos);
-            A.multiply(A, true);
-            var magA = A.x + A.y;
-            var B = set[1].pos().subtract(lastPos);
-            B.multiply(B, true);
-            var magB = B.x + B.y;
-            var target = (magA < magB) ? set[0] : set[1];
-            this.move(target.pos());
+            this.move(target);
         }
     };
 
@@ -105,7 +80,6 @@ module.exports = function (opts) {
                 newPos = pos.add(this.offset);
             if (!newPos.equals(curPos)) {
                 moved = true;
-                lastPos = curPos;
                 this.mask.move(newPos);
             }
         },
