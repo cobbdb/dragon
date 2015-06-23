@@ -16,17 +16,18 @@ module.exports = function (opts) {
     var activeCollisions = {},
         collisionsThisFrame = {},
         updated = false,
-        lastPos,
         moved = false,
         collisionSets = [].concat(opts.collisionSets || []);
 
     opts.on = opts.on || {};
+
     /**
      * @param {CollisionItem} other
      */
     opts.on['colliding/$/solid'] = function (other) {
         // if (moved) needs to go away.. too situational
         if (moved) {
+            console.debug(this.name, '\tsolid collide()');
             var top = this.mask.bottom - other.mask.top,
                 right = other.mask.right - this.mask.left,
                 bottom = other.mask.bottom - this.mask.top,
@@ -76,6 +77,7 @@ module.exports = function (opts) {
          * @param {Point} pos
          */
         move: function (pos) {
+            console.debug(this.name, 'move()');
             var curPos = this.mask.pos(),
                 newPos = pos.add(this.offset);
             if (!newPos.equals(curPos)) {

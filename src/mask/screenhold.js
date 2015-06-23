@@ -11,16 +11,22 @@ var CollisionItem = require('../collision-item.js'),
 module.exports = CollisionItem({
     name: 'screenhold',
     mask: Circle(Point(), 8),
-    collisionSets: dragonCollisions
+    collisionSets: dragonCollisions,
+    updating: false,
+    drawing: false
 }).extend({
     update: function () {
-        if (Mouse.is.down && !Mouse.is.dragging) {
-            this.move(Mouse.offset);
-        } else {
-            this.move(
-                Point(-999, -999)
-            );
-        }
+        this.move(Mouse.offset);
         this.base.update();
     }
 });
+
+Mouse.on.down(function () {
+    this.start();
+}, module.exports);
+Mouse.on.drag(function () {
+    this.stop();
+}, module.exports);
+Mouse.on.up(function () {
+    this.stop();
+}, module.exports);

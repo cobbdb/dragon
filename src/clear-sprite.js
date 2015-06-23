@@ -1,6 +1,7 @@
 var BaseClass = require('baseclassjs'),
     CollisionItem = require('./collision-item.js'),
     Point = require('./geom/point.js'),
+    Vector = require('./geom/vector.js'),
     Dimension = require('./geom/dimension.js'),
     Rectangle = require('./geom/rectangle.js'),
     Util = require('./util/object.js');
@@ -56,25 +57,12 @@ module.exports = function (opts) {
         },
         rotation: opts.rotation || 0,
         depth: opts.depth || 0,
-        speed: opts.speed || Point(),
-        start: function () {
-            this.updating = true;
-            this.drawing = true;
-            this.trigger('start');
-        },
-        pause: function () {
-            this.updating = false;
-            this.drawing = true;
-            this.trigger('pause');
-        },
-        stop: function () {
-            this.updating = false;
-            this.drawing = false;
-            this.trigger('stop');
-        },
+        speed: opts.speed || Vector(),
         update: function () {
             if (this.updating) {
-                this.shift();
+                if (!this.speed.is.zero) {
+                    this.shift();
+                }
                 this.base.update();
             }
         },

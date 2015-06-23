@@ -1,20 +1,30 @@
+var ZERO = require('./zero.js');
+
 /**
  * @class Dimension
  * @param {Number} w
  * @param {Number} h
  */
-function Dimension(w, h) {
-    return {
+module.exports = function (w, h) {
+    var self = {
         width: w || 0,
         height: h || 0,
         clone: function () {
-            return Dimension(this.width, this.height);
+            return module.exports(this.width, this.height);
         },
         equals: function (other) {
             return (
                 this.width === other.width &&
                 this.height === other.height
             );
+        },
+        is: {
+            /**
+             * @return {Boolean}
+             */
+            get zero () {
+                return self.equals(ZERO);
+            }
         },
         /**
          * @param {Dimension} scale
@@ -46,6 +56,5 @@ function Dimension(w, h) {
             return target;
         }
     };
-}
-
-module.exports = Dimension;
+    return self;
+};

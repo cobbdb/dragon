@@ -17,11 +17,26 @@ module.exports = function (opts) {
     return BaseClass({
         name: opts.name || 'dragon-item',
         depth: 0,
-        updating: true,
-        drawing: true,
+        updating: (typeof opts.updating === 'boolean') ? opts.updating : true,
+        drawing: (typeof opts.drawing === 'boolean') ? opts.drawing : true,
         update: BaseClass.Stub,
         draw: BaseClass.Stub,
-        teardown: BaseClass.Stub
+        teardown: BaseClass.Stub,
+        start: function () {
+            this.updating = true;
+            this.drawing = true;
+            this.trigger('start');
+        },
+        pause: function () {
+            this.updating = false;
+            this.drawing = true;
+            this.trigger('pause');
+        },
+        stop: function () {
+            this.updating = false;
+            this.drawing = false;
+            this.trigger('stop');
+        }
     }).implement(
         Eventable({
             events: opts.on,

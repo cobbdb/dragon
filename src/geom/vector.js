@@ -1,10 +1,12 @@
+var ZERO = require('./zero.js');
+
 /**
  * @class Vector
  * @param {Number} [x] Defaults to 0.
  * @param {Number} [y] Defaults to 0.
  */
-function Vector(x, y) {
-    return {
+module.exports = function (x, y) {
+    var self = {
         x: x || 0,
         y: y || 0,
         get magnitude () {
@@ -16,7 +18,7 @@ function Vector(x, y) {
             );
         },
         clone: function () {
-            return Vector(
+            return module.exports(
                 this.x,
                 this.y
             );
@@ -26,6 +28,14 @@ function Vector(x, y) {
                 this.x === other.x &&
                 this.y === other.y
             );
+        },
+        is: {
+            /**
+             * @return {Boolean} True if equal to <0,0>.
+             */
+            get zero () {
+                return self.equals(ZERO);
+            }
         },
         toPolar: function () {
             var Polar = require('./polar.js');
@@ -58,6 +68,5 @@ function Vector(x, y) {
             return this;
         }
     };
-}
-
-module.exports = Vector;
+    return self;
+};

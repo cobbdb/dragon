@@ -1,10 +1,12 @@
+var ZERO = require('./zero.js');
+
 /**
  * @class Point
  * @param {Number} x
  * @param {Number} y
  */
 module.exports = function (x, y) {
-    return {
+    var self = {
         x: x || 0,
         y: y || 0,
         /**
@@ -23,6 +25,14 @@ module.exports = function (x, y) {
                 this.y === other.y
             );
         },
+        is: {
+            /**
+             * @return {Boolean} True if equal to (0,0).
+             */
+            get zero () {
+                return self.equals(ZERO);
+            }
+        },
         /**
          * @param {Point} pos
          * @param {Boolean} [shallow] True to mutate.
@@ -35,9 +45,9 @@ module.exports = function (x, y) {
             return target;
         },
         /**
-         * @param {Point} offset
+         * @param {Point|Vector} offset
          * @param {Boolean} [shallow] True to mutate.
-         * @return {Point|Vector} This point after shifting.
+         * @return {Point} This point after shifting.
          */
         multiply: function (scale, shallow) {
             var target = shallow ? this : this.clone();
@@ -64,4 +74,5 @@ module.exports = function (x, y) {
             return target;
         }
     };
+    return self;
 };
