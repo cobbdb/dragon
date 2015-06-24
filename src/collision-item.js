@@ -18,38 +18,8 @@ module.exports = function (opts) {
         updated = false,
         collisionSets = [].concat(opts.collisionSets || []);
 
-    opts.on = opts.on || {};
-
-    /**
-     * @param {CollisionItem} other
-     */
-    opts.on['colliding/$/solid'] = function (other) {
-        if (!other.isCollidingWith(this.id)) {
-            var top = this.mask.bottom - other.mask.top,
-                right = other.mask.right - this.mask.left,
-                bottom = other.mask.bottom - this.mask.top,
-                left = this.mask.right - other.mask.left,
-                min = global.Math.min(top, right, bottom, left),
-                target = this.pos.clone();
-            switch (min) {
-                case top:
-                    target.y = other.mask.y - this.mask.height;
-                    break;
-                case right:
-                    target.x = other.mask.right;
-                    break;
-                case bottom:
-                    target.y = other.mask.bottom;
-                    break;
-                default:
-                    target.x = other.mask.x - this.mask.width;
-                    break;
-            }
-            this.move(target);
-        }
-    };
-
     // Provide easy way to track when dragged.
+    opts.on = opts.on || {};
     opts.on['collide/screendrag'] = [].concat(
         opts.on['collide/screendrag'] || [],
         function () {
@@ -77,6 +47,32 @@ module.exports = function (opts) {
             this.mask.move(
                 pos.add(this.offset)
             );
+        },
+        /**
+         * @param {CollisionItem} other
+         */
+        flushWith: function (other) {
+            var top = this.mask.bottom - other.mask.top,
+                right = other.mask.right - this.mask.left,
+                bottom = other.mask.bottom - this.mask.top,
+                left = this.mask.right - other.mask.left,
+                min = global.Math.min(top, right, bottom, left),
+                target = this.pos.clone();
+            switch (min) {
+                case top:
+                    target.y = other.mask.y - this.mask.height;
+                    break;
+                case right:
+                    target.x = other.mask.right;
+                    break;
+                case bottom:
+                    target.y = other.mask.bottom;
+                    break;
+                default:
+                    target.x = other.mask.x - this.mask.width;
+                    break;
+            }
+            this.move(target);
         },
         /**
          * @param {Shape} mask

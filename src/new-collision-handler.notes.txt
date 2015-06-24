@@ -1,0 +1,18 @@
+﻿/**
+ * Conceptual changes from original implementation:
+ * - CollisionItem only tracks collisionsThisFrame
+ * - collisionsThisFrame is cleared during teardown
+ * - collisionsThisFrame is rebuilt each frame
+ */
+
+// Collection of all items in this collision set.
+set = [...]
+
+// Build collision lists per item.
+set.forEach (pivot, other)
+    if pivot intersects other
+        pivot.addCollision(other)
+
+// Fire off collision logic
+set.forEach (pivot, other)
+    
