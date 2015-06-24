@@ -15,4 +15,17 @@ set.forEach (pivot, other)
 
 // Fire off collision logic
 set.forEach (pivot, other)
-    
+
+
+/**
+ * Problem is that when 3 things are colliding,
+ * A + B + C
+ * if B is moved to be flush with A, it may very
+ * still be intersecting C.
+ * So it would need to
+ * . flush with A
+ * . check if intersecting other stuff
+ * . repeat if so, but flush in a different direction
+ * But.. what if there are no ways to flush with A?
+ * And.. how do you check if intersecting other stuff?
+ */
