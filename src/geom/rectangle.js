@@ -17,10 +17,10 @@ module.exports = function (pos, size) {
         intersects: {
             rectangle: function (rect) {
                 return (
-                    this.x <= rect.right &&
-                    this.right >= rect.x &&
-                    this.y <= rect.bottom &&
-                    this.bottom >= rect.y
+                    this.x < rect.right &&
+                    this.right > rect.x &&
+                    this.y < rect.bottom &&
+                    this.bottom > rect.y
                 );
             },
             circle: function (circ) {

@@ -83,10 +83,8 @@ module.exports = function (opts) {
          * @param {Point|Vector} offset
          */
         shift: function (offset) {
-            this.pos.add(offset || this.speed, true);
-            if (!opts.freemask) {
-                this.base.move(this.pos);
-            }
+            var target = this.pos.add(offset || this.speed);
+            this.move(target);
         }
     });
 };

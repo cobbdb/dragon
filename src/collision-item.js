@@ -26,8 +26,8 @@ module.exports = function (opts) {
      */
     opts.on['colliding/$/solid'] = function (other) {
         // if (moved) needs to go away.. too situational
-        if (moved) {
-            console.debug(this.name, '\tsolid collide()');
+        //if (true) {//moved) {
+        if (!other.isCollidingWith(this.id)) {
             var top = this.mask.bottom - other.mask.top,
                 right = other.mask.right - this.mask.left,
                 bottom = other.mask.bottom - this.mask.top,
@@ -77,7 +77,6 @@ module.exports = function (opts) {
          * @param {Point} pos
          */
         move: function (pos) {
-            console.debug(this.name, 'move()');
             var curPos = this.mask.pos(),
                 newPos = pos.add(this.offset);
             if (!newPos.equals(curPos)) {
@@ -104,10 +103,16 @@ module.exports = function (opts) {
             updated = false;
             collisionsThisFrame = {};
         },
+        /**
+         * @param {Number} id
+         */
         addCollision: function (id) {
             activeCollisions[id] = true;
             collisionsThisFrame[id] = true;
         },
+        /**
+         * @param {Number} id
+         */
         removeCollision: function (id) {
             activeCollisions[id] = false;
         },
@@ -120,6 +125,9 @@ module.exports = function (opts) {
         isCollidingWith: function (id) {
             return activeCollisions[id] || false;
         },
+        /**
+         * @param {Number} id
+         */
         canCollideWith: function (id) {
             var self = this.id === id,
                 already = collisionsThisFrame[id];

@@ -13,32 +13,32 @@ module.exports = Collection().add([
     CollisionItem({
         name: 'screenedge/top',
         mask: Rectangle(
-            Point(0, -9),
-            Dimension(canvas.width, 10)
+            Point(0, -20),
+            Dimension(canvas.width, 20)
         ),
         collisionSets: dragonCollisions
     }),
     CollisionItem({
         name: 'screenedge/right',
         mask: Rectangle(
-            Point(canvas.width - 1, 0),
-            Dimension(10, canvas.height)
+            Point(canvas.width, 0),
+            Dimension(20, canvas.height)
         ),
         collisionSets: dragonCollisions
     }),
     CollisionItem({
         name: 'screenedge/bottom',
         mask: Rectangle(
-            Point(0, canvas.height - 1),
-            Dimension(canvas.width, 10)
+            Point(0, canvas.height),
+            Dimension(canvas.width, 20)
         ),
         collisionSets: dragonCollisions
     }),
     CollisionItem({
         name: 'screenedge/left',
         mask: Rectangle(
-            Point(-9, 0),
-            Dimension(10, canvas.height)
+            Point(-20, 0),
+            Dimension(20, canvas.height)
         ),
         collisionSets: dragonCollisions
     })
