@@ -2,14 +2,13 @@ var Counter = require('./util/id-counter.js'),
     Rectangle = require('./geom/rectangle.js'),
     Point = require('./geom/point.js'),
     Item = require('./item.js'),
-    Mouse = require('./io/mouse.js');
+    Mouse = require('./io/mouse.js'),
+    Util = require('./util/object.js');
 
 /**
  * @class CollisionItem
  * @extends Item
  * @param {Shape} [opts.mask] Defaults to Rectangle.
- * @param {Boolean} [opts.solid] True to collide with other
- * solid sprites.
  * @param {Array|CollisionHandler} [opts.collisionSets]
  */
 module.exports = function (opts) {
@@ -18,10 +17,15 @@ module.exports = function (opts) {
         updated = false,
         collisionSets = [].concat(opts.collisionSets || []);
 
+    Util.mergeDefaults(opts, {
+        name: 'dragon-collidable',
+        kind: 'dragon-collidable',
+        on: {}
+    });
+
     // Provide easy way to track when dragged.
-    opts.on = opts.on || {};
-    opts.on['collide/screendrag'] = [].concat(
-        opts.on['collide/screendrag'] || [],
+    opts.on['collide#screendrag'] = [].concat(
+        opts.on['collide#screendrag'] || [],
         function () {
             if (!this.dragging) {
                 this.dragging = true;
@@ -34,9 +38,7 @@ module.exports = function (opts) {
 
     return Item(opts).extend({
         id: Counter.nextId,
-        name: opts.name || 'dragon-collidable',
         dragging: false,
-        solid: opts.solid || false,
         mask: opts.mask || Rectangle(),
         offset: opts.offset || Point(),
         /**

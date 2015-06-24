@@ -8,6 +8,7 @@ var BaseClass = require('baseclassjs'),
  * and Screens.
  * @implements Eventable
  * @param {String} [name]
+ * @param {String} [kind]
  * @param {Map Of Functions} [opts.on] Dictionary of events.
  * @param {Map of Functions} [opts.one] Dictionary of one-time events.
  */
@@ -16,6 +17,7 @@ module.exports = function (opts) {
 
     return BaseClass({
         name: opts.name || 'dragon-item',
+        kind: opts.kind || 'dragon-item',
         depth: 0,
         updating: (typeof opts.updating === 'boolean') ? opts.updating : true,
         drawing: (typeof opts.drawing === 'boolean') ? opts.drawing : true,

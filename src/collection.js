@@ -10,6 +10,7 @@ module.exports = function (opts) {
     var removed = false;
     return Item(opts).extend({
         name: 'dragon-collection',
+        kind: 'dragon-collection',
         set: [],
         map: {},
         /**

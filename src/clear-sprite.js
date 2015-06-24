@@ -27,6 +27,7 @@ module.exports = function (opts) {
 
     Util.mergeDefaults(opts, {
         name: 'dragon-sprite',
+        kind: 'dragon-sprite',
         mask: Rectangle(),
         one: {}
     });

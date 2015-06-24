@@ -39,21 +39,19 @@ module.exports = function (opts) {
                         if (intersects) {
                             pivot.addCollision(other.id);
                             if (!colliding) {
-                                pivot.trigger('collide/' + other.name, other);
-                                if (solids) {
-                                    pivot.trigger('collide/$/solid', other);
-                                }
+                                pivot.trigger('collide#' + other.name, other);
+                                pivot.trigger('collide.' + other.kind, other);
                             }
-                            pivot.trigger('colliding/' + other.name, other);
-                            if (solids) {
-                                pivot.trigger('colliding/$/solid', other);
-                            }
+                            pivot.trigger('colliding#' + other.name, other);
+                            pivot.trigger('colliding.' + other.kind, other);
                         } else {
                             if (colliding) {
                                 pivot.removeCollision(other.id);
-                                pivot.trigger('separate/' + other.name, other);
+                                pivot.trigger('separate#' + other.name, other);
+                                pivot.trigger('separate.' + other.kind, other);
                             }
-                            pivot.trigger('miss/' + other.name, other);
+                            pivot.trigger('miss#' + other.name, other);
+                            pivot.trigger('miss.' + other.kind, other);
                         }
                     }
                 });

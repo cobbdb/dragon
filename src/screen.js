@@ -1,23 +1,24 @@
-var SpriteSet = require('./sprite-set.js');
+var SpriteSet = require('./sprite-set.js'),
+    Util = require('./util/object.js');
 
 /**
  * @class Screen
  * @extends SpriteSet
  * @param {Array|Sprite} [opts.spriteSet]
  * @param {Array|CollisionHandler} [opts.collisionSets]
- * @param {String} opts.name
- * @param {Number} [opts.depth] Defaults to 0.
- * @param {Object} [opts.on] Dictionary of events.
- * @param {Object} [opts.one] Dictionary of one-time events.
  */
 module.exports = function (opts) {
     var loaded = false,
         collisionMap = {};
 
-    return SpriteSet(opts).extend({
-        name: opts.name,
+    Util.mergeDefaults(opts, {
+        name: 'dragon-screen',
+        kind: 'dragon-screen',
         updating: false,
-        drawing: false,
+        drawing: false
+    });
+
+    return SpriteSet(opts).extend({
         load: function (cb) {
             if (!loaded) {
                 this.addCollisionSets(opts.collisionSets);
