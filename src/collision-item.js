@@ -16,7 +16,6 @@ module.exports = function (opts) {
     var activeCollisions = {},
         collisionsThisFrame = {},
         updated = false,
-        moved = false,
         collisionSets = [].concat(opts.collisionSets || []);
 
     opts.on = opts.on || {};
@@ -25,8 +24,6 @@ module.exports = function (opts) {
      * @param {CollisionItem} other
      */
     opts.on['colliding/$/solid'] = function (other) {
-        // if (moved) needs to go away.. too situational
-        //if (true) {//moved) {
         if (!other.isCollidingWith(this.id)) {
             var top = this.mask.bottom - other.mask.top,
                 right = other.mask.right - this.mask.left,
@@ -77,12 +74,9 @@ module.exports = function (opts) {
          * @param {Point} pos
          */
         move: function (pos) {
-            var curPos = this.mask.pos(),
-                newPos = pos.add(this.offset);
-            if (!newPos.equals(curPos)) {
-                moved = true;
-                this.mask.move(newPos);
-            }
+            this.mask.move(
+                pos.add(this.offset)
+            );
         },
         /**
          * @param {Shape} mask
@@ -99,7 +93,6 @@ module.exports = function (opts) {
             }
         },
         teardown: function () {
-            moved = false;
             updated = false;
             collisionsThisFrame = {};
         },
