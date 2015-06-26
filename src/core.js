@@ -18,7 +18,7 @@ module.exports = {
     range: SetUtil.range,
     shuffle: SetUtil.shuffle,
     mergeLeft: ObjUtil.mergeLeft,
-    mergeDefault: ObjUtil.mergeDefault,
+    mergeDefaults: ObjUtil.mergeDefaults,
 
     // I/O
     Mouse: require('./io/mouse.js'),

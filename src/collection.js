@@ -1,4 +1,5 @@
-var Item = require('./item.js');
+var Item = require('./item.js'),
+    Util = require('./util/object.js');
 
 /**
  * @class Collection
@@ -8,9 +9,13 @@ var Item = require('./item.js');
  */
 module.exports = function (opts) {
     var removed = false;
-    return Item(opts).extend({
+
+    Util.mergeDefaults(opts, {
         name: 'dragon-collection',
-        kind: 'dragon-collection',
+        kind: 'dragon-collection'
+    });
+
+    return Item(opts).extend({
         set: [],
         map: {},
         /**

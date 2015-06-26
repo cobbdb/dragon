@@ -16,6 +16,9 @@ module.exports = CollisionItem({
     update: function () {
         this.move(Mouse.offset);
         this.base.update();
+    },
+    teardown: function () {
+        this.base.teardown();
         this.stop();
     }
 });

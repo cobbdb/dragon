@@ -15,7 +15,7 @@ set.forEach (pivot, other)
 
 // Fire off collision logic
 set.forEach (pivot, other)
-
+    
 
 /**
  * Problem is that when 3 things are colliding,
@@ -29,3 +29,6 @@ set.forEach (pivot, other)
  * But.. what if there are no ways to flush with A?
  * And.. how do you check if intersecting other stuff?
  */
+
+foreach pivot, other
+    

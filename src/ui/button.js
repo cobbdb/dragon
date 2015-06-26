@@ -47,11 +47,10 @@ module.exports = function (opts) {
         pos: opts.pos,
         size: opts.size,
         on: {
-            'colliding/screentap': function () {
-                this.useStrip('down');
+            'colliding#screentap': function () {
                 opts.onpress.call(this);
             },
-            'colliding/screenhold': function () {
+            'colliding#screenhold': function () {
                 this.useStrip('down');
             }
         }
