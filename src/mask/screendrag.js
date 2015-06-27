@@ -11,19 +11,16 @@ var CollisionItem = require('../collision-item.js'),
 module.exports = CollisionItem({
     name: 'screendrag',
     mask: Circle(Point(), 8),
-    collisionSets: dragonCollisions,
-    updating: false,
-    drawing: false
+    collisionSets: dragonCollisions
 }).extend({
     update: function () {
-        this.move(Mouse.offset);
+        if (Mouse.is.dragging) {
+            this.move(Mouse.offset);
+        } else {
+            this.move(
+                Point(-999, -999)
+            );
+        }
         this.base.update();
     }
 });
-
-Mouse.on.drag(function () {
-    this.start();
-}, module.exports);
-Mouse.on.up(function () {
-    this.stop();
-}, module.exports);

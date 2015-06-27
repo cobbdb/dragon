@@ -44,8 +44,8 @@ module.exports = function (opts) {
                             pivot.trigger('colliding#' + other.name, other);
                             pivot.trigger('colliding.' + other.kind, other);
                         } else {
+                            pivot.removeCollision(other.id);
                             if (colliding) {
-                                pivot.removeCollision(other.id);
                                 pivot.trigger('separate#' + other.name, other);
                                 pivot.trigger('separate.' + other.kind, other);
                             }

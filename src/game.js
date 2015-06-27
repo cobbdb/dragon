@@ -1,9 +1,7 @@
 var FrameCounter = require('./util/frame-counter.js'),
-    canvas = require('./io/canvas.js'),
-    ctx = canvas.ctx,
+    ctx = require('./io/canvas.js').ctx,
     Counter = require('./util/id-counter.js'),
     dragonCollisions = require('./dragon-collisions.js'),
-    debug = false,
     screens = [],
     screenMap = {},
     screensToAdd = [],
@@ -13,7 +11,7 @@ var FrameCounter = require('./util/frame-counter.js'),
     masks = require('./dragon-masks.js');
 
 module.exports = {
-    debug: require('./util/debug-console.js'),
+    debug: false,
     screen: function (name) {
         return screenMap[name];
     },
@@ -63,7 +61,7 @@ module.exports = {
                 }
             };
 
-        debug = debugMode;
+        this.debug = debugMode;
         if (debugMode) {
             window.Dragon = this;
         }
@@ -114,10 +112,10 @@ module.exports = {
     draw: function () {
         screens.forEach(function (screen) {
             if (screen.drawing) {
-                screen.draw(ctx, debug);
+                screen.draw(ctx);
             }
         });
-        if (debug) {
+        if (this.debug) {
             FrameCounter.draw(ctx);
             dragonCollisions.draw(ctx);
         }

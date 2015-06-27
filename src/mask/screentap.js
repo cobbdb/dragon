@@ -2,7 +2,12 @@ var CollisionItem = require('../collision-item.js'),
     Circle = require('../geom/circle.js'),
     Point = require('../geom/point.js'),
     Mouse = require('../io/mouse.js'),
-    dragonCollisions = require('../dragon-collisions.js');
+    dragonCollisions = require('../dragon-collisions.js'),
+    tapping = false;
+
+Mouse.on.down(function () {
+    tapping = true;
+});
 
 /**
  * @class ScreenTap
@@ -14,15 +19,14 @@ module.exports = CollisionItem({
     collisionSets: dragonCollisions
 }).extend({
     update: function () {
-        this.move(Mouse.offset);
+        if (tapping) {
+            tapping = false;
+            this.move(Mouse.offset);
+        } else {
+            this.move(
+                Point(-999, -999)
+            );
+        }
         this.base.update();
-    },
-    teardown: function () {
-        this.base.teardown();
-        this.stop();
     }
 });
-
-Mouse.on.down(function () {
-    this.start();
-}, module.exports);

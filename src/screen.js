@@ -1,5 +1,6 @@
 var SpriteSet = require('./sprite-set.js'),
-    Util = require('./util/object.js');
+    Util = require('./util/object.js'),
+    Game = require('./game.js');
 
 /**
  * @class Screen
@@ -102,11 +103,11 @@ module.exports = function (opts) {
                 }
             }
         },
-        draw: function (ctx, debug) {
+        draw: function (ctx) {
             var name;
             if (this.drawing) {
                 this.base.draw(ctx);
-                if (debug) {
+                if (Game.debug) {
                     for (name in collisionMap) {
                         collisionMap[name].draw(ctx);
                     }

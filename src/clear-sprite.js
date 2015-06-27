@@ -54,7 +54,9 @@ module.exports = function (opts) {
         scale: opts.scale || 1,
         size: size,
         trueSize: function () {
-            return this.size.scale(this.scale);
+            return this.size.multiply(
+                Dimension(this.scale, this.scale)
+            );
         },
         rotation: opts.rotation || 0,
         depth: opts.depth || 0,
