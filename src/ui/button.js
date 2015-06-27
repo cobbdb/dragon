@@ -31,15 +31,11 @@ module.exports = function (opts) {
         ),
         strips: {
             up: AnimationStrip({
-                sheet: SpriteSheet({
-                    src: opts.up.src
-                }),
+                src: opts.up.src,
                 size: opts.up.size
             }),
             down: AnimationStrip({
-                sheet: SpriteSheet({
-                    src: opts.down.src || opts.up.src
-                }),
+                src: opts.down.src || opts.up.src,
                 size: opts.down.size || opts.up.size
             })
         },

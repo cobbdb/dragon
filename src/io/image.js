@@ -1,3 +1,6 @@
+/**
+ * @param {String} src
+ */
 module.exports = function (src) {
     var img = new Image();
     img.ready = false;

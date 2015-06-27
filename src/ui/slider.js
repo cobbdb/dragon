@@ -36,9 +36,7 @@ module.exports = function (opts) {
             ),
             strips: {
                 'slider': AnimationStrip({
-                    sheet: SpriteSheet({
-                        src: opts.src.lane
-                    }),
+                    src: opts.src.lane,
                     size: Dimension(32, 8)
                 })
             },
@@ -75,9 +73,7 @@ module.exports = function (opts) {
             ),
             strips: {
                 'slider': AnimationStrip({
-                    sheet: SpriteSheet({
-                        src: opts.src.knob
-                    }),
+                    src: opts.src.knob,
                     size: Dimension(8, 16)
                 })
             },

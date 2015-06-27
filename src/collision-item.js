@@ -51,9 +51,11 @@ module.exports = function (opts) {
             );
         },
         /**
+         * Moves flush against another CollisionItem in the
+         * direction of the nearest side.
          * @param {CollisionItem} other
          */
-        flushWith: function (other) {
+        flush: function (other) {
             var top = this.mask.bottom - other.mask.top,
                 right = other.mask.right - this.mask.left,
                 bottom = other.mask.bottom - this.mask.top,

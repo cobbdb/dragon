@@ -18,9 +18,7 @@ module.exports = function (opts) {
     opts.name = opts.name || 'dragon-ui-decal';
     opts.strips = {
         decal: AnimationStrip({
-            sheet: SpriteSheet({
-                src: opts.strip.src
-            }),
+            src: opts.strip.src,
             size: opts.strip.size
         })
     };

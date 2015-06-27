@@ -1,16 +1,17 @@
 var Dimension = require('./geom/dimension.js'),
     Point = require('./geom/point.js'),
-    log = require('./util/log.js');
+    log = require('./util/log.js'),
+    SpriteSheet = require('./spritesheet.js');
 
 /**
- * @param {SpriteSheet} opts.sheet
+ * @param {String} opts.src URL of the sprite sheet.
  * @param {Point} [opts.start] Defaults to (0,0). Index in the
  * sprite sheet of the first frame.
  * @param {Dimension} [opts.size] Defaults to (0,0). Size of
  * each frame in the sprite sheet.
  * @param {Number} [opts.frames] Defaults to 1. Number of
  * frames in this strip.
- * @param {Number} [opts.speed] Number of frames per second.
+ * @param {Number} [opts.speed] Defaults to 0. Number of frames per second.
  * @param {Boolean} [opts.sinusoid] Defaults to false. True
  * to cycle the frames forward and backward per cycle.
  */
@@ -22,7 +23,10 @@ module.exports = function (opts) {
         size = opts.size || Dimension(),
         start = opts.start || Point(),
         firstFrame = Point(),
-        direction = 1;
+        direction = 1,
+        sheet = SpriteSheet({
+            src: opts.src
+        });
 
     return {
         size: size,
@@ -30,7 +34,7 @@ module.exports = function (opts) {
         speed: opts.speed || 0,
         load: function (cb) {
             cb = cb || function () {};
-            opts.sheet.load(function (img) {
+            sheet.load(function (img) {
                 size.width = size.width || img.width;
                 size.height = size.height || img.height;
                 firstFrame = Point(
@@ -112,7 +116,7 @@ module.exports = function (opts) {
             ctx.rotate(rotation);
 
             // Draw the frame and restore the canvas.
-            ctx.drawImage(opts.sheet,
+            ctx.drawImage(sheet,
                 firstFrame.x + offset,
                 firstFrame.y,
                 size.width,
