@@ -2,6 +2,7 @@ var FrameCounter = require('./util/frame-counter.js'),
     ctx = require('./io/canvas.js').ctx,
     Counter = require('./util/id-counter.js'),
     dragonCollisions = require('./dragon-collisions.js'),
+    pipeline = require('./assets/pipeline.js'),
     screens = [],
     screenMap = {},
     screensToAdd = [],
@@ -47,9 +48,12 @@ module.exports = {
         screenRemoved = true;
     },
     /**
-     * @param {Boolean} [debugMode] Defaults to false.
+     * @param {Boolean} [opts.debug] Defaults to false.
+     * @param {Map Of Strings} opts.image
+     * @param {Map Of Objects} opts.audio
+     * @param {Object|Array Of Objects} opts.font
      */
-    run: function (debugMode) {
+    run: function (opts) {
         var that = this,
             step = function () {
                 that.update();
@@ -57,19 +61,21 @@ module.exports = {
                 that.teardown();
                 FrameCounter.countFrame();
                 if (running) {
-                    window.requestAnimationFrame(step);
+                    global.requestAnimationFrame(step);
                 }
             };
 
-        this.debug = debugMode;
-        if (debugMode) {
-            window.Dragon = this;
+        this.debug = opts.debug || false;
+        if (this.debug) {
+            global.Dragon = this;
         }
 
-        if (!running) {
-            running = true;
-            window.requestAnimationFrame(step);
-        }
+        pipeline.load(opts, function () {
+            if (!running) {
+                running = true;
+                global.requestAnimationFrame(step);
+            }
+        });
     },
     kill: function () {
         running = false;

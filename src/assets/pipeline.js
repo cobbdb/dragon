@@ -18,23 +18,32 @@ module.exports = {
         }
     },
     /**
-     * @param {Function} opts.done
+     * Batch load assets.
      * @param {Map Of Strings} opts.image
-     * @param {Map Of Strings} opts.audio
-     * @param {Map Of Objects} opts.font
+     * @param {Map Of Objects} opts.audio
+     * @param {Object|Array Of Objects} opts.font
+     * @param {Function} done
      */
-    load: function (opts) {
-        var name, conf;
+    load: function (opts, done) {
+        var name,
+            count = 0;
 
         Util.mergeDefaults(opts, {
-            done: function () {},
             image: {},
             audio: {},
-            font: {}
+            font: []
         });
+        done = done || function () {};
+        opts.font = [].concat(opts.font);
 
+        count += global.Object.keys(opts.image).length;
+        count += global.Object.keys(opts.audio).length;
+        count += opts.font.length;
         function onload() {
-            opts.done();
+            count -= 1;
+            if (count === 0) {
+                done();
+            }
         }
 
         for (name in opts.image) {
@@ -53,13 +62,10 @@ module.exports = {
                 );
             }
         }
-        for (name in opts.font) {
-            if (!(name in cache.font)) {
-                cache.font[name] = Font(
-                    opts.font[name],
-                    onload
-                );
+        opts.font.forEach(function (conf) {
+            if (!(conf.name in cache.font)) {
+                cache.font[conf.name] = Font(conf, onload);
             }
-        }
+        });
     }
 };

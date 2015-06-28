@@ -25,8 +25,6 @@ module.exports = {
     Key: require('./io/keyboard.js'),
     canvas: require('./io/canvas.js'),
 
-    // Assets
-    Pipeline: require('./assets/pipeline.js'),
     AnimationStrip: require('./animation-strip.js'),
 
     CollisionHandler: require('./collision-handler.js'),

@@ -86,9 +86,6 @@ module.exports = function (opts) {
                 this.base.update();
             }
         },
-        load: function (onload) {
-            onload();
-        },
         /**
          * Move the Sprite and its mask unless freemask.
          * @param {Point} pos

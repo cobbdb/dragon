@@ -1,10 +1,11 @@
 var Dimension = require('./geom/dimension.js'),
     Point = require('./geom/point.js'),
     log = require('./util/log.js'),
+    pipeline = require('./assets/pipeline.js'),
     SpriteSheet = require('./spritesheet.js');
 
 /**
- * @param {String} opts.src URL of the sprite sheet.
+ * @param {String} opts.img Name of the sprite sheet image.
  * @param {Point} [opts.start] Defaults to (0,0). Index in the
  * sprite sheet of the first frame.
  * @param {Dimension} [opts.size] Defaults to (0,0). Size of
@@ -24,9 +25,7 @@ module.exports = function (opts) {
         start = opts.start || Point(),
         firstFrame = Point(),
         direction = 1,
-        sheet = SpriteSheet({
-            src: opts.src
-        });
+        sheet = pipeline.get.image(opts.img);
 
     return {
         size: size,
