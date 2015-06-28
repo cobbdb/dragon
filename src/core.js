@@ -23,11 +23,10 @@ module.exports = {
     // I/O
     Mouse: require('./io/mouse.js'),
     Key: require('./io/keyboard.js'),
-    Audio: require('./io/audio.js'),
-    Font: require('./io/font.js'),
     canvas: require('./io/canvas.js'),
 
-    SpriteSheet: require('./spritesheet.js'),
+    // Assets
+    Pipeline: require('./assets/pipeline.js'),
     AnimationStrip: require('./animation-strip.js'),
 
     CollisionHandler: require('./collision-handler.js'),

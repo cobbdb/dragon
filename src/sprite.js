@@ -61,8 +61,8 @@ module.exports = function (opts) {
                     ctx,
                     this.pos,
                     Dimension(
-                        this.scale * this.size.width / this.strip.size.width,
-                        this.scale * this.size.height / this.strip.size.height
+                        this.size().width / this.strip.size.width,
+                        this.size().height / this.strip.size.height
                     ),
                     this.rotation
                 );

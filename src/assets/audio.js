@@ -3,13 +3,13 @@
  * @param {Boolean} [opts.loop] Defaults to false.
  * @param {Number} [opts.volume] Defaults to 1. Volume
  * level between 0 and 1.
- * @param {Function} [opts.on.load]
  * @param {Function} [opts.on.play]
  * @param {Function} [opts.on.playing]
  * @param {Function} [opts.on.ended]
+ * @param {Function} [onload]
  * @return {Audio}
  */
-module.exports = function (opts) {
+module.exports = function (opts, onload) {
     var audio = document.createElement('audio'),
         oldplay = audio.play;
     audio.loop = opts.loop || false;
@@ -35,7 +35,7 @@ module.exports = function (opts) {
     };
 
     opts.on = opts.on || {};
-    audio.onloadeddata = opts.on.load;
+    audio.onloadeddata = onload;
     audio.onplay = opts.on.play;
     audio.onplaying = opts.on.playing;
     audio.onended = opts.on.ended;

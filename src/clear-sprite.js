@@ -23,7 +23,9 @@ var BaseClass = require('baseclassjs'),
  */
 module.exports = function (opts) {
     var pos = opts.pos || Point(),
-        size = opts.size || Dimension();
+        size = opts.size || Dimension(),
+        scale = opts.scale || 1,
+        adjsize = size.multiply(Dimension(scale, scale));
 
     Util.mergeDefaults(opts, {
         name: 'dragon-sprite',
@@ -51,12 +53,27 @@ module.exports = function (opts) {
         updating: opts.updating || false,
         drawing: opts.drawing || false,
         pos: pos,
-        scale: opts.scale || 1,
-        size: size,
-        trueSize: function () {
-            return this.size.multiply(
-                Dimension(this.scale, this.scale)
-            );
+        scale: function (newval) {
+            if (newval) {
+                scale = newval;
+                adjsize = size.multiply(Dimension(scale, scale));
+                if (!opts.freemask) {
+                    this.mask.resize(adjsize);
+                }
+            } else {
+                return scale;
+            }
+        },
+        size: function (newval) {
+            if (newval) {
+                size = newval;
+                adjsize = size.multiply(Dimension(scale, scale));
+                if (!opts.freemask) {
+                    this.mask.resize(adjsize);
+                }
+            } else {
+                return adjsize;
+            }
         },
         rotation: opts.rotation || 0,
         depth: opts.depth || 0,
