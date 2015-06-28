@@ -11,6 +11,89 @@ var FrameCounter = require('./util/frame-counter.js'),
     running = false,
     masks = require('./dragon-masks.js');
 
+/**
+ * Start the heartbeat of the engine.
+ */
+function run() {
+    function step() {
+        update();
+        draw();
+        teardown();
+        FrameCounter.countFrame();
+        global.requestAnimationFrame(step);
+    }
+    global.requestAnimationFrame(step);
+}
+
+/**
+ * Resolve pre-draw logic.
+ */
+function update() {
+    var addQueue;
+
+    masks.update();
+
+    // Update the screen.
+    screens.forEach(function (screen) {
+        if (screen.updating) {
+            screen.update();
+        }
+    });
+
+    // Settle screen tap events.
+    dragonCollisions.handleCollisions();
+
+    if (screensToAdd.length) {
+        addQueue = screensToAdd;
+        screensToAdd = [];
+        // Update the master screen list after updates.
+        addQueue.forEach(function (screen) {
+            screens.push(screen);
+            if (screen.name) {
+                screenMap[screen.name] = screen;
+            }
+            screen.trigger('ready');
+        });
+        // Larger depth value is closer to viewer.
+        screens.sort(function (a, b) {
+            return a.depth - b.depth;
+        });
+    }
+}
+/**
+ * Resolve draw events.
+ */
+function draw() {
+    screens.forEach(function (screen) {
+        if (screen.drawing) {
+            screen.draw(ctx);
+        }
+    });
+    if (this.debug) {
+        FrameCounter.draw(ctx);
+        dragonCollisions.draw(ctx);
+    }
+}
+/**
+ * Resolve post-draw events.
+ */
+function teardown() {
+    dragonCollisions.teardown();
+    masks.teardown();
+
+    screens.forEach(function (screen) {
+        screen.teardown();
+    });
+    if (screenRemoved) {
+        // Remove any stale screens.
+        screens = screens.filter(function (screen) {
+            // true to keep, false to drop.
+            return !screen.removed;
+        });
+        screenRemoved = false;
+    }
+}
+
 module.exports = {
     debug: false,
     screen: function (name) {
@@ -48,98 +131,20 @@ module.exports = {
         screenRemoved = true;
     },
     /**
-     * @param {Boolean} [opts.debug] Defaults to false.
-     * @param {Map Of Strings} opts.image
-     * @param {Map Of Objects} opts.audio
-     * @param {Object|Array Of Objects} opts.font
+     * Check if assets are done loading then start the engine.
+     * @param {Boolean} debugMode
      */
-    run: function (opts) {
-        var that = this,
-            step = function () {
-                that.update();
-                that.draw();
-                that.teardown();
-                FrameCounter.countFrame();
-                if (running) {
-                    global.requestAnimationFrame(step);
+    start: function (debugMode) {
+        var hash;
+        if (!running) {
+            running = true;
+            hash = global.setInterval(function () {
+                if (pipeline.ready) {
+                    run();
+                    global.clearInterval(hash);
                 }
-            };
-
-        this.debug = opts.debug || false;
-        if (this.debug) {
-            global.Dragon = this;
+            }, 500);
         }
-
-        pipeline.load(opts, function () {
-            if (!running) {
-                running = true;
-                global.requestAnimationFrame(step);
-            }
-        });
-    },
-    kill: function () {
-        running = false;
-        screens.forEach(function (screen) {
-            screen.stop();
-        });
-    },
-    update: function () {
-        var addQueue;
-
-        masks.update();
-
-        // Update the screen.
-        screens.forEach(function (screen) {
-            if (screen.updating) {
-                screen.update();
-            }
-        });
-
-        // Settle screen tap events.
-        dragonCollisions.handleCollisions();
-
-        if (screensToAdd.length) {
-            addQueue = screensToAdd;
-            screensToAdd = [];
-            // Update the master screen list after updates.
-            addQueue.forEach(function (screen) {
-                screens.push(screen);
-                if (screen.name) {
-                    screenMap[screen.name] = screen;
-                }
-                screen.trigger('ready');
-            });
-            // Larger depth value is closer to viewer.
-            screens.sort(function (a, b) {
-                return a.depth - b.depth;
-            });
-        }
-    },
-    draw: function () {
-        screens.forEach(function (screen) {
-            if (screen.drawing) {
-                screen.draw(ctx);
-            }
-        });
-        if (this.debug) {
-            FrameCounter.draw(ctx);
-            dragonCollisions.draw(ctx);
-        }
-    },
-    teardown: function () {
-        dragonCollisions.teardown();
-        masks.teardown();
-
-        screens.forEach(function (screen) {
-            screen.teardown();
-        });
-        if (screenRemoved) {
-            // Remove any stale screens.
-            screens = screens.filter(function (screen) {
-                // true to keep, false to drop.
-                return !screen.removed;
-            });
-            screenRemoved = false;
-        }
+        this.debug = debugMode || false;
     }
 };

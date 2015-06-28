@@ -2,6 +2,11 @@
     Img = require('./image.js'),
     Audio = require('./audio.js'),
     Font = require('./font.js'),
+    Game = require('../game.js'),
+    count = 0,
+    onload = function () {
+        count -= 1;
+    },
     cache = {
         image: {},
         audio: {},
@@ -9,6 +14,9 @@
     };
 
 module.exports = {
+    get ready () {
+        return count === 0;
+    },
     get: {
         image: function (name) {
             return cache.image[name];
@@ -17,55 +25,27 @@ module.exports = {
             return cache.audio[name];
         }
     },
-    /**
-     * Batch load assets.
-     * @param {Map Of Strings} opts.image
-     * @param {Map Of Objects} opts.audio
-     * @param {Object|Array Of Objects} opts.font
-     * @param {Function} done
-     */
-    load: function (opts, done) {
-        var name,
-            count = 0;
-
-        Util.mergeDefaults(opts, {
-            image: {},
-            audio: {},
-            font: []
-        });
-        done = done || function () {};
-        opts.font = [].concat(opts.font);
-
-        count += global.Object.keys(opts.image).length;
-        count += global.Object.keys(opts.audio).length;
-        count += opts.font.length;
-        function onload() {
-            count -= 1;
-            if (count === 0) {
-                done();
-            }
-        }
-
-        for (name in opts.image) {
+    add: {
+        image: function (name, url) {
+            count += 1;
             if (!(name in cache.image)) {
-                cache.image[name] = Img(
-                    opts.image[name],
-                    onload
-                );
+                cache.image[name] = Img(url, onload);
             }
-        }
-        for (name in opts.audio) {
+            return cache.image[name];
+        },
+        audio: function (name, conf) {
+            count += 1;
             if (!(name in cache.audio)) {
-                cache.audio[name] = Audio(
-                    opts.audio[name],
-                    onload
-                );
+                cache.audio[name] = Audio(conf, onload);
             }
+            return cache.audio[name];
+        },
+        font: function (name, conf) {
+            count += 1;
+            if (!(name in cache.font)) {
+                cache.font[name] = Font(conf, onload);
+            }
+            return true;
         }
-        opts.font.forEach(function (conf) {
-            if (!(conf.name in cache.font)) {
-                cache.font[conf.name] = Font(conf, onload);
-            }
-        });
     }
 };
