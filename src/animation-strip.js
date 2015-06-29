@@ -23,10 +23,13 @@ module.exports = function (img, opts) {
     Util.mergeDefaults(opts, {
         kind: 'dragon-animation-strip',
         sinusoid: false,
-        size: Dimension(img.width, img.height),
         start: Point(),
         frames: 1
     });
+    opts.size = opts.size || Dimension(
+        img.width / opts.frames,
+        img.height
+    );
     firstFrame = Point(
         opts.size.width * opts.start.x,
         opts.size.height * opts.start.y

@@ -19,4 +19,9 @@ document.body.appendChild(canvas);
 canvas.mobile = mobile;
 canvas.ctx = canvas.getContext('2d');
 
+global.Cocoon.Utils.setAntialias(false);
+canvas.ctx.webkitImageSmoothingEnabled = false;
+canvas.ctx.mozImageSmoothingEnabled = false;
+canvas.ctx.imageSmoothingEnabled = false;
+
 module.exports = canvas;
