@@ -1,5 +1,4 @@
-var BaseClass = require('baseclassjs'),
-    CollisionItem = require('./collision-item.js'),
+var CollisionItem = require('./collision-item.js'),
     Point = require('./geom/point.js'),
     Vector = require('./geom/vector.js'),
     Dimension = require('./geom/dimension.js'),
@@ -31,6 +30,8 @@ module.exports = function (opts) {
         name: 'dragon-sprite',
         kind: 'dragon-sprite',
         mask: Rectangle(),
+        updating: false,
+        drawing: false,
         one: {}
     });
     opts.one.ready = opts.one.ready || function () {
@@ -50,8 +51,6 @@ module.exports = function (opts) {
     }
 
     return CollisionItem(opts).extend({
-        updating: opts.updating || false,
-        drawing: opts.drawing || false,
         pos: pos,
         scale: function (newval) {
             if (newval) {
@@ -76,15 +75,12 @@ module.exports = function (opts) {
             }
         },
         rotation: opts.rotation || 0,
-        depth: opts.depth || 0,
         speed: opts.speed || Vector(),
         update: function () {
-            if (this.updating) {
-                if (!this.speed.is.zero) {
-                    this.shift();
-                }
-                this.base.update();
+            if (!this.speed.is.zero) {
+                this.shift();
             }
+            this.base.update();
         },
         /**
          * Move the Sprite and its mask unless freemask.

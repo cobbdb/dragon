@@ -3,7 +3,7 @@ var Util = require('./util/object.js');
 /**
  * @class CollisionHandler
  * @extends Item
- * @param {String} opts.name
+ * @param {String} [opts.name]
  */
 module.exports = function (opts) {
     /**
