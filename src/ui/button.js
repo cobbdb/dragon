@@ -41,7 +41,7 @@ module.exports = function (opts) {
     opts.strips.up = AnimationStrip(opts.up.image, {
         size: opts.up.size
     });
-    opts.strips.down = AnimationStrip(opts.down.src, {
+    opts.strips.down = AnimationStrip(opts.down.image, {
         size: opts.down.size
     });
 
