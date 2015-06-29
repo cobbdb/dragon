@@ -1,4 +1,8 @@
+var Util = require('./util/object.js');
+
 /**
+ * @class CollisionHandler
+ * @extends Item
  * @param {String} opts.name
  */
 module.exports = function (opts) {
@@ -7,8 +11,12 @@ module.exports = function (opts) {
      */
     var activeCollisions = [];
 
-    return {
-        name: opts.name,
+    Util.mergeDefaults(opts, {
+        name: 'dragon-collision-handler',
+        kind: 'dragon-collision-handler'
+    });
+
+    return Item(opts).extend({
         draw: function (ctx) {
             activeCollisions.forEach(function (collidable) {
                 collidable.mask.draw(ctx);
@@ -59,5 +67,5 @@ module.exports = function (opts) {
         teardown: function () {
             this.clearCollisions();
         }
-    };
+    });
 };

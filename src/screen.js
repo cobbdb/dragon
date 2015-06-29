@@ -1,16 +1,15 @@
-var SpriteSet = require('./sprite-set.js'),
+var Collection = require('./collection.js'),
     Util = require('./util/object.js'),
     Game = require('./game.js');
 
 /**
  * @class Screen
- * @extends SpriteSet
- * @param {Array|Sprite} [opts.spriteSet]
- * @param {Array|CollisionHandler} [opts.collisionSets]
+ * @extends Collection
+ * @param {Array|Sprite} [opts.sprites]
+ * @param {Array|CollisionHandler} [opts.collisions]
  */
 module.exports = function (opts) {
-    var loaded = false,
-        collisionMap = {};
+    var collisions = Collection().add(opts.collisions);
 
     Util.mergeDefaults(opts, {
         name: 'dragon-screen',
@@ -19,64 +18,38 @@ module.exports = function (opts) {
         drawing: false
     });
 
-    return SpriteSet(opts).extend({
+    return Collection(opts).add(opts.sprites).extend({
         load: function (cb) {
-            if (!loaded) {
-                this.addCollisionSets(opts.collisionSets);
-                this.base.add({
-                    set: opts.spriteSet,
-                    onload: cb,
-                    force: true
-                });
-                loaded = true;
-            }
+            cb();
         },
         start: function () {
-            this.updating = true;
-            this.drawing = true;
-            this.trigger('start');
+            collisions.start();
+            this.base.start();
         },
         pause: function () {
-            this.updating = false;
-            this.drawing = true;
-            this.trigger('pause');
+            collisions.pause();
+            this.base.pause();
         },
         stop: function () {
-            this.updating = false;
-            this.drawing = false;
-            this.trigger('stop');
-        },
-        depth: opts.depth || 0,
-        collision: function (name) {
-            return collisionMap[name];
+            collisions.stop();
+            this.base.stop();
         },
         /**
          * @param {Array|CollisionHandler} set
          */
-        addCollisionSets: function (set) {
-            if (set) {
-                set = [].concat(set);
-                set.forEach(function (handler) {
-                    collisionMap[handler.name] = handler;
-                });
-            }
-        },
+        addCollisions: collisions.add,
+        /**
+         * @param {String} name
+         * @return {Sprite}
+         */
         sprite: function (name) {
             return this.base.get(name);
         },
         /**
-         * Loads sprites into this screen together
-         * as a batch. None of the batch will be
-         * loaded into the screen until all sprites
-         * are ready.
-         * @param {Array|Sprite} opts.set
-         * @param {Function} [onload]
-         * @param {Boolean} [force] Defaults to false. True
-         * to ingest sprites immediately outside of the normal
-         * game pulse.
+         * @param {Array|Sprite} set
          */
-        addSprites: function (opts) {
-            this.base.add(opts);
+        addSprites: function (set) {
+            this.base.add(set);
         },
         /**
          * @param {String} name
@@ -91,37 +64,20 @@ module.exports = function (opts) {
             this.base.clear();
         },
         update: function () {
-            var i;
-
-            if (this.updating) {
-                // Update sprites.
-                this.base.update();
-
-                // Process collisions.
-                for (i in collisionMap) {
-                    collisionMap[i].handleCollisions();
-                }
-            }
+            this.base.update();
+            collisions.set.forEach(function (handler) {
+                handler.handleCollisions();
+            });
         },
         draw: function (ctx) {
-            var name;
-            if (this.drawing) {
-                this.base.draw(ctx);
-                if (Game.debug) {
-                    for (name in collisionMap) {
-                        collisionMap[name].draw(ctx);
-                    }
-                }
+            this.base.draw(ctx);
+            if (Game.debug) {
+                collisions.draw(ctx);
             }
         },
         teardown: function () {
-            var i;
-
             this.base.teardown();
-
-            for (i in collisionMap) {
-                collisionMap[i].teardown();
-            }
+            collisions.teardown();
         }
     });
 };

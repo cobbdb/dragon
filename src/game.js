@@ -95,7 +95,14 @@ function teardown() {
 }
 
 module.exports = {
+    /**
+     * @type {Boolean}
+     */
     debug: false,
+    /**
+     * @param {String} name
+     * @return {Screen}
+     */
     screen: function (name) {
         return screenMap[name];
     },

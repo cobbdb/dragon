@@ -7,7 +7,7 @@
  * @param {Function} [opts.on.playing]
  * @param {Function} [opts.on.ended]
  * @param {Function} [onload]
- * @return {Audio}
+ * @return {Audio} HTML5 Audio instance.
  */
 module.exports = function (opts, onload) {
     var audio = document.createElement('audio'),

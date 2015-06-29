@@ -3,9 +3,9 @@ var Item = require('./item.js'),
 
 /**
  * @class Collection
+ * @extends Item
  * Item Collections are sets of Items with methods for
  * for manipulating Items.
- * @extends Item
  */
 module.exports = function (opts) {
     var removed = false;
@@ -19,11 +19,13 @@ module.exports = function (opts) {
         set: [],
         map: {},
         /**
-         * @param {Array Of Items} items
+         * @param {Array|Item} set
+         * @return {Collection} This collection.
          */
-        add: function (items) {
-            if (items.length) {
-                items.forEach(function (item) {
+        add: function (set) {
+            if (set) {
+                set = [].concat(set);
+                set.forEach(function (item) {
                     this.set.push(item);
                     this.map[item.name] = item;
                     item.trigger('ready');
@@ -48,6 +50,7 @@ module.exports = function (opts) {
         },
         /**
          * @param {String} name
+         * @return {Item}
          */
         get: function (name) {
             return this.map[name];

@@ -7,6 +7,7 @@ var Str = require('curb'),
  * @param {String} [opts.style]
  * @param {String|Number} [opts.weight]
  * @param {Function} [onload]
+ * @return {Boolean} Always returns true.
  */
 module.exports = function (opts, onload) {
     var style = global.document.createElement('style');
