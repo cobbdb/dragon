@@ -1,9 +1,10 @@
 var Game = require('./game.js'),
     SetUtil = require('./util/set.js'),
-    ObjUtil = require('./util/object.js');
+    ObjUtil = require('./util/object.js'),
+    heartbeat = require('./heartbeat.js');
 
 module.exports = {
-    // Classes
+    // Geometry
     Shape: require('./geom/shape.js'),
     Circle: require('./geom/circle.js'),
     Rectangle: require('./geom/rectangle.js'),
@@ -12,6 +13,7 @@ module.exports = {
     Vector: require('./geom/vector.js'),
     Polar: require('./geom/polar.js'),
 
+    // Utility
     FrameCounter: require('./util/frame-counter.js'),
     IdCounter: require('./util/id-counter.js'),
     random: require('./util/random.js'),
@@ -25,19 +27,22 @@ module.exports = {
     Key: require('./io/keyboard.js'),
     canvas: require('./io/canvas.js'),
 
+    // Assets
     pipeline: require('./assets/pipeline.js'),
     AnimationStrip: require('./animation-strip.js'),
 
+    // Collisions
     CollisionHandler: require('./collision-handler.js'),
     collisions: require('./dragon-collisions.js'),
 
+    // Game Control
+    start: heartbeat.start,
     screen: Game.screen,
     sprite: Game.sprite,
     addScreens: Game.addScreens,
     removeScreen: Game.removeScreen,
-    run: Game.run.bind(Game),
-    kill: Game.kill,
 
+    // Core Components
     Screen: require('./screen.js'),
     CollisionItem: require('./collision-item.js'),
     Sprite: require('./sprite.js'),
