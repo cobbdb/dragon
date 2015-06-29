@@ -21,10 +21,11 @@ function run() {
  */
 module.exports = {
     /**
-     * Check if assets are done loading then start the engine.
+     * Start the game after assets are done loading.
+     * @param {Array|Screen} screens
      * @param {Boolean} debugMode
      */
-    start: function (debugMode) {
+    start: function (screens, debugMode) {
         var hash;
         Game.debug = debugMode;
 
@@ -33,7 +34,7 @@ module.exports = {
             hash = global.setInterval(function () {
                 if (pipeline.ready) {
                     global.clearInterval(hash);
-                    Game.load();
+                    Game.addScreens(screens);
                     run();
                 }
             }, 500);

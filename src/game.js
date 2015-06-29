@@ -1,25 +1,15 @@
 var FrameCounter = require('./util/frame-counter.js'),
     ctx = require('./io/canvas.js').ctx,
     collisions = require('./dragon-collisions.js'),
-    masks = require('./dragon-masks.js'),
-    pipeline = require('./assets/pipeline.js'),
-    queue = [],
-    loaded = false;
+    masks = require('./dragon-masks.js');
 
 module.exports = Collection({
     name: 'dragon-game'
 }).extend({
     /**
-     * Ingest all queued Screens. Fails silently
-     * if pipeline is not finished loading.
+     * @type {Boolean}
      */
-    load: function () {
-        if (pipeline.ready) {
-            loaded = true;
-            this.base.add(queue);
-            queue = [];
-        }
-    },
+    debug: false,
     update: function () {
         masks.update();
         this.base.update();
@@ -39,10 +29,6 @@ module.exports = Collection({
         this.base.teardown();
     },
     /**
-     * @type {Boolean}
-     */
-    debug: false,
-    /**
      * @param {String} name
      * @return {Screen}
      */
@@ -53,13 +39,7 @@ module.exports = Collection({
      * @param {Array|Screen} set
      */
     addScreens: function (set) {
-        // Immediately ingest if adding screens
-        // after the initial setup phase.
-        if (loaded) {
-            this.base.add(set);
-        } else {
-            queue = queue.concat(set);
-        }
+        this.base.add(set);
     },
     /**
      * @param {String} name
