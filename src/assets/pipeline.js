@@ -22,54 +22,53 @@ module.exports = {
     },
     get: {
         /**
-         * @param {String} name
+         * @param {String} url
          * @return {Image}
          */
-        image: function (name) {
-            return cache.image[name];
+        image: function (url) {
+            return cache.image[url];
         },
         /**
-         * @param {String} name
+         * @param {String} url
          * @return {Audio}
          */
-        audio: function (name) {
-            return cache.audio[name];
+        audio: function (url) {
+            return cache.audio[url];
         }
     },
     add: {
         /**
-         * @param {String} name
          * @param {String} url
          * @return {Image} HTML5 Image instance.
          */
-        image: function (name, url) {
+        image: function (url) {
             count += 1;
-            if (!(name in cache.image)) {
-                cache.image[name] = Img(url, onload);
+            if (!(url in cache.image)) {
+                cache.image[url] = Img(url, onload);
             }
-            return cache.image[name];
+            return cache.image[url];
         },
         /**
-         * @param {String} name
+         * @param {String} url
          * @param {Object} conf
          * @return {Audio} HTML5 Audio instance.
          */
-        audio: function (name, conf) {
+        audio: function (url, conf) {
             count += 1;
-            if (!(name in cache.audio)) {
-                cache.audio[name] = Audio(conf, onload);
+            if (!(url in cache.audio)) {
+                cache.audio[url] = Audio(url, conf, onload);
             }
-            return cache.audio[name];
+            return cache.audio[url];
         },
         /**
-         * @param {String} name
+         * @param {String} family
          * @param {Object} conf
          * @return {Boolean} Always returns true.
          */
-        font: function (name, conf) {
+        font: function (family, conf) {
             count += 1;
-            if (!(name in cache.font)) {
-                cache.font[name] = Font(conf, onload);
+            if (!(family in cache.font)) {
+                cache.font[family] = Font(family, conf, onload);
             }
             return true;
         }

@@ -1,5 +1,5 @@
 /**
- * @param {String} opts.src
+ * @param {String} url
  * @param {Boolean} [opts.loop] Defaults to false.
  * @param {Number} [opts.volume] Defaults to 1. Volume
  * level between 0 and 1.
@@ -9,7 +9,7 @@
  * @param {Function} [onload]
  * @return {Audio} HTML5 Audio instance.
  */
-module.exports = function (opts, onload) {
+module.exports = function (url, opts, onload) {
     var audio = document.createElement('audio'),
         oldplay = audio.play;
     audio.loop = opts.loop || false;
@@ -40,6 +40,6 @@ module.exports = function (opts, onload) {
     audio.onplaying = opts.on.playing;
     audio.onended = opts.on.ended;
 
-    audio.src = 'assets/sound/' + opts.src;
+    audio.src = 'assets/sound/' + url;
     return audio;
 };
