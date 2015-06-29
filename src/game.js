@@ -1,10 +1,7 @@
 var FrameCounter = require('./util/frame-counter.js'),
     ctx = require('./io/canvas.js').ctx,
-    Counter = require('./util/id-counter.js'),
     collisions = require('./dragon-collisions.js'),
-    pipeline = require('./assets/pipeline.js'),
-    masks = require('./dragon-masks.js'),
-    running = false;
+    masks = require('./dragon-masks.js');
 
 module.exports = Collection().extend({
     update: function () {
@@ -13,7 +10,7 @@ module.exports = Collection().extend({
         // Settle screen tap events.
         collisions.handleCollisions();
     },
-    draw: function (ctx) {
+    draw: function () {
         this.base.draw(ctx);
         if (this.debug) {
             FrameCounter.draw(ctx);
@@ -34,7 +31,7 @@ module.exports = Collection().extend({
      * @return {Screen}
      */
     screen: function (name) {
-        return screenMap[name];
+        return this.base.get(name);
     },
     /**
      * @param {Array|Screen} set
