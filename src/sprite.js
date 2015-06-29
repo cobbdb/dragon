@@ -47,23 +47,21 @@ module.exports = function (opts) {
             this.strip.stop();
         },
         update: function () {
-            if (this.updating) {
+            if (this.strip.updating) {
                 this.strip.update();
             }
             this.base.update();
         },
         draw: function (ctx) {
-            if (this.drawing) {
-                this.strip.draw(
-                    ctx,
-                    this.pos,
-                    Dimension(
-                        this.size().width / this.strip.size.width,
-                        this.size().height / this.strip.size.height
-                    ),
-                    this.rotation
-                );
-            }
+            this.strip.draw(
+                ctx,
+                this.pos,
+                Dimension(
+                    this.size().width / this.strip.size.width,
+                    this.size().height / this.strip.size.height
+                ),
+                this.rotation
+            );
             this.base.draw(ctx);
         }
     });

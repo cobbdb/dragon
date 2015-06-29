@@ -1,11 +1,8 @@
 var Dimension = require('./geom/dimension.js'),
-    Point = require('./geom/point.js'),
-    log = require('./util/log.js'),
-    pipeline = require('./assets/pipeline.js'),
-    SpriteSheet = require('./spritesheet.js');
+    Point = require('./geom/point.js');
 
 /**
- * @param {String} opts.img Name of the sprite sheet image.
+ * @param {Image} img HTML5 Image instance.
  * @param {Point} [opts.start] Defaults to (0,0). Index in the
  * sprite sheet of the first frame.
  * @param {Dimension} [opts.size] Defaults to (0,0). Size of
@@ -16,77 +13,83 @@ var Dimension = require('./geom/dimension.js'),
  * @param {Boolean} [opts.sinusoid] Defaults to false. True
  * to cycle the frames forward and backward per cycle.
  */
-module.exports = function (opts) {
+module.exports = function (img, opts) {
     var timeLastFrame,
         timeSinceLastFrame = 0,
         updating = false,
-        frames = opts.frames || 1,
-        size = opts.size || Dimension(),
-        start = opts.start || Point(),
-        firstFrame = Point(),
-        direction = 1,
-        sheet = pipeline.get.image(opts.img);
+        firstFrame,
+        direction = 1;
+
+    Util.mergeDefaults(opts, {
+        kind: 'dragon-animation-strip',
+        sinusoid: false,
+        size: Dimension(img.width, img.height),
+        start: Point(),
+        frames: 1
+    });
+    firstFrame = Point(
+        opts.size.width * opts.start.x,
+        opts.size.height * opts.start.y
+    );
 
     return {
-        size: size,
+        size: opts.size,
         frame: 0,
         speed: opts.speed || 0,
-        load: function (cb) {
-            cb = cb || function () {};
-            sheet.load(function (img) {
-                size.width = size.width || img.width;
-                size.height = size.height || img.height;
-                firstFrame = Point(
-                    size.width * start.x,
-                    size.height * start.y
-                );
-                cb(img);
-            });
-        },
+        /**
+         * Begin the animation. Will not truly start
+         * unless `speed` is greater than zero.
+         */
         start: function () {
-            timeLastFrame = Date.now();
-            updating = true;
+            timeLastFrame = global.Date.now();
+            // `updating` should never be true when
+            // speed is zero.
+            updating = this.speed > 0;
         },
         /**
-         * Pausing halts the update loop but
-         * retains animation position.
+         * Stop the animation, but retain position.
          */
         pause: function () {
             updating = false;
         },
         /**
-         * Stopping halts update loop and
-         * resets the animation.
+         * Stop the animation and reset position.
          */
         stop: function () {
-            updating = false;
             timeSinceLastFrame = 0;
             this.frame = 0;
             direction = 1;
+            updating = false;
         },
+        /**
+         * Advance the animation.
+         * Should not be called when `updating` is false.
+         */
         update: function () {
             var now, elapsed, timeBetweenFrames;
 
-            if (updating && this.speed) {
-                timeBetweenFrames = (1 / this.speed) * 1000;
-                now = Date.now();
-                elapsed = now - timeLastFrame;
-                timeSinceLastFrame += elapsed;
-                if (timeSinceLastFrame >= timeBetweenFrames) {
-                    timeSinceLastFrame = 0;
-                    this.nextFrame();
-                }
-                timeLastFrame = now;
+            timeBetweenFrames = (1 / this.speed) * 1000;
+            now = global.Date.now();
+            elapsed = now - timeLastFrame;
+            timeSinceLastFrame += elapsed;
+            if (timeSinceLastFrame >= timeBetweenFrames) {
+                timeSinceLastFrame = 0;
+                this.nextFrame();
             }
+            timeLastFrame = now;
         },
+        /**
+         * Calculate the next animation frame index.
+         * @return {Number} Frame index.
+         */
         nextFrame: function () {
             this.frame += direction;
             if (opts.sinusoid) {
-                if (this.frame % (frames - 1) === 0) {
+                if (this.frame % (opts.frames - 1) === 0) {
                     direction *= -1;
                 }
             } else {
-                this.frame %= frames;
+                this.frame %= opts.frames;
             }
             return this.frame;
         },
@@ -98,12 +101,12 @@ module.exports = function (opts) {
          */
         draw: function (ctx, pos, scale, rotation) {
             var finalSize,
-                offset = this.frame * size.width;
+                offset = this.frame * this.size.width;
             scale = scale || Dimension(1, 1);
             rotation = rotation || 0;
             finalSize = Dimension(
-                size.width * scale.width,
-                size.height * scale.height
+                this.size.width * scale.width,
+                this.size.height * scale.height
             );
 
             // Apply the canvas transforms.
@@ -115,11 +118,11 @@ module.exports = function (opts) {
             ctx.rotate(rotation);
 
             // Draw the frame and restore the canvas.
-            ctx.drawImage(sheet,
+            ctx.drawImage(img,
                 firstFrame.x + offset,
                 firstFrame.y,
-                size.width,
-                size.height,
+                this.size.width,
+                this.size.height,
                 -finalSize.width / 2,
                 -finalSize.height / 2,
                 finalSize.width,

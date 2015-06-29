@@ -1,3 +1,8 @@
+/**
+ * Slider is now deprecated.. probably forever.
+ * @deprecated
+ */
+
 var Sprite = require('../sprite.js'),
     Dimension = require('../geom/dimension.js'),
     Rectangle = require('../geom/rectangle.js'),

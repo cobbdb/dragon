@@ -1,4 +1,5 @@
-var ClearSprite = require('../clear-sprite.js');
+var ClearSprite = require('../clear-sprite.js'),
+    Util = require('../util/object.js');
 
 /**
  * @class Label
@@ -6,14 +7,15 @@ var ClearSprite = require('../clear-sprite.js');
  * Labels do not have collision logic nor are they displayed
  * from image assets. Labels instead contain only text.
  * @param {String} opts.text
- * @param {Number} [opts.depth]
  * @param {Function} [opts.style]
- * @param {Point} opts.pos
- * @param {String} [opts.name] Defaults to `dragon-ui-label`.
  */
 module.exports = function (opts) {
-    opts.style = opts.style || function () {};
-    opts.name = opts.name || 'dragon-ui-label';
+    Util.mergeDefaults(opts, {
+        name: 'dragon-ui-label',
+        kind: 'dragon-ui-label',
+        text: '',
+        style: function () {}
+    });
 
     return ClearSprite(opts).extend({
         text: opts.text,
