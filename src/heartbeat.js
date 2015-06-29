@@ -33,6 +33,7 @@ module.exports = {
             hash = global.setInterval(function () {
                 if (pipeline.ready) {
                     global.clearInterval(hash);
+                    Game.load();
                     run();
                 }
             }, 500);

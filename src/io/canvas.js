@@ -1,11 +1,11 @@
 var mobile = require('../util/detect-mobile.js'),
-    canvas = document.createElement('canvas');
+    canvas = global.document.createElement('canvas');
 
 if (mobile) {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.width = global.innerWidth;
+    canvas.height = global.innerHeight;
 } else {
-    if (localStorage.drago === 'landscape') {
+    if (global.localStorage.drago === 'landscape') {
         canvas.width = 480;
         canvas.height = 320;
     } else {
@@ -15,7 +15,7 @@ if (mobile) {
     canvas.style.border = '1px solid #000';
 }
 
-document.body.appendChild(canvas);
+global.document.body.appendChild(canvas);
 canvas.mobile = mobile;
 canvas.ctx = canvas.getContext('2d');
 
