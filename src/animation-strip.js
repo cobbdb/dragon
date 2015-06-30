@@ -2,7 +2,7 @@ var Dimension = require('./geom/dimension.js'),
     Point = require('./geom/point.js');
 
 /**
- * @param {Image} opts.sheet HTML5 Image instance.
+ * @param {String} opts.src URL path to image.
  * @param {Point} [opts.start] Defaults to (0,0). Index in the
  * sprite sheet of the first frame.
  * @param {Dimension} [opts.size] Defaults to (0,0). Size of
@@ -14,7 +14,7 @@ var Dimension = require('./geom/dimension.js'),
  * to cycle the frames forward and backward per cycle.
  */
 module.exports = function (opts) {
-    var img = opts.sheet,
+    var img = $.image(opts.src),
         timeLastFrame,
         timeSinceLastFrame = 0,
         updating = false,
