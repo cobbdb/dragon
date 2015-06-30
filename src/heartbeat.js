@@ -22,10 +22,11 @@ function run() {
 module.exports = {
     /**
      * Start the game after assets are done loading.
-     * @param {Array|Screen} screens
+     * @param {Function} setup Generates initial set
+     * of Screens. Expected to return {Array|Screen}.
      * @param {Boolean} debugMode
      */
-    start: function (screens, debugMode) {
+    start: function (setup, debugMode) {
         var hash;
         Game.debug = debugMode;
 
@@ -34,7 +35,9 @@ module.exports = {
             hash = global.setInterval(function () {
                 if (pipeline.ready) {
                     global.clearInterval(hash);
-                    Game.addScreens(screens);
+                    Game.addScreens(
+                        setup()
+                    );
                     run();
                 }
             }, 500);
