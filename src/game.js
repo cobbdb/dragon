@@ -3,6 +3,10 @@ var FrameCounter = require('./util/frame-counter.js'),
     collisions = require('./dragon-collisions.js'),
     masks = require('./dragon-masks.js');
 
+/**
+ * @class Game
+ * @extends Collection
+ */
 module.exports = Collection({
     name: 'dragon-game'
 }).extend({
