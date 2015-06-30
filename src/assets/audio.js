@@ -1,19 +1,23 @@
 /**
+ * @class Audio
+ * @extends HTML5 Audio
  * @param {String} url
- * @param {Boolean} [opts.loop] Defaults to false.
- * @param {Number} [opts.volume] Defaults to 1. Volume
- * level between 0 and 1.
- * @param {Function} [opts.on.play]
- * @param {Function} [opts.on.playing]
- * @param {Function} [opts.on.ended]
  * @param {Function} [onload]
- * @return {Audio} HTML5 Audio instance.
  */
-module.exports = function (url, opts, onload) {
+module.exports = function (url, onload) {
     var audio = document.createElement('audio'),
         oldplay = audio.play;
-    audio.loop = opts.loop || false;
-    audio.volume = opts.volume || 1;
+    audio.onloadeddata = onload;
+
+    /**
+     * @type {Boolean} loop Defaults to false.
+     */
+    audio.loop = false;
+    /**
+     * @type {Number} volume Defaults to 1. Volume
+     * level between 0 and 1.
+     */
+    audio.volume = 1;
 
     /**
      * @param {Boolean} [force] Defaults to false. Force
@@ -34,11 +38,19 @@ module.exports = function (url, opts, onload) {
         this.currentTime = 0;
     };
 
-    opts.on = opts.on || {};
-    audio.onloadeddata = onload;
-    audio.onplay = opts.on.play;
-    audio.onplaying = opts.on.playing;
-    audio.onended = opts.on.ended;
+    /**
+     * @type {Function} onplay Called each time play begins.
+     */
+    audio.onplay = function () {};
+    /**
+     * @type {Function} onplaying Called continuously
+     * when playing.
+     */
+    audio.onplaying = function () {};
+    /**
+     * @type {Function} onended Called when play ends.
+     */
+    audio.onended = function () {};
 
     audio.src = 'assets/sound/' + url;
     return audio;

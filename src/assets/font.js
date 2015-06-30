@@ -1,5 +1,5 @@
 var Str = require('curb'),
-    tpl = "@font-face{font-family:'%s';font-style:%s;font-weight:%s;src:url(assets/fonts/%s);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2212,U+2215,U+E0FF,U+EFFD,U+F000}";
+    tpl = "@font-face{font-family:'%s';font-style:%s;font-weight:%s;src:url(%s);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2212,U+2215,U+E0FF,U+EFFD,U+F000}";
 
 /**
  * @param {String} family
@@ -15,7 +15,7 @@ module.exports = function (family, opts, onload) {
         family,
         opts.style || 'normal',
         opts.weight || '400',
-        opts.src
+        'assets/font/' + opts.src
     );
     style.onload = onload;
     global.document.body.appendChild(style);

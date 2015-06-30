@@ -9,13 +9,13 @@ var Counter = require('./util/id-counter.js'),
  * @class CollisionItem
  * @extends Item
  * @param {Shape} [opts.mask] Defaults to Rectangle.
- * @param {Array|CollisionHandler} [opts.collisionSets]
+ * @param {Array|CollisionHandler} [opts.collisions]
  */
 module.exports = function (opts) {
     var activeCollisions = {},
         collisionsThisFrame = {},
         updated = false,
-        collisionSets = [].concat(opts.collisionSets || []);
+        collisionSets = [].concat(opts.collisions || []);
 
     Util.mergeDefaults(opts, {
         name: 'dragon-collidable',

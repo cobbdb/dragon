@@ -9,17 +9,12 @@ var Sprite = require('../sprite.js'),
  * @class Button
  * @extends Sprite
  * @param {Image} opts.up.image
- * @param {Dimension} [opts.up.size]
  * @param {Image} [opts.down.image]
- * @param {Dimension} [opts.down.size]
  * @param {Function} [opts.onpress]
  */
 module.exports = function (opts) {
     Util.mergeDefaults(opts, {
-        down: {
-            image: opts.up.image,
-            size: opts.up.size
-        },
+        down: opts.up,
         name: 'dragon-ui-button',
         kind: 'dragon-ui-button',
         on: {},
@@ -38,11 +33,11 @@ module.exports = function (opts) {
     opts.on['separate#screenhold'] = function () {
         this.useStrip('up');
     };
-    opts.strips.up = AnimationStrip(opts.up.image, {
-        size: opts.up.size
+    opts.strips.up = AnimationStrip({
+        sheet: $.image(opts.up)
     });
-    opts.strips.down = AnimationStrip(opts.down.image, {
-        size: opts.down.size
+    opts.strips.down = AnimationStrip({
+        sheet: $.image(opts.down)
     });
 
     return Sprite(opts);

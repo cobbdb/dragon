@@ -3,17 +3,30 @@
     Audio = require('./audio.js'),
     Font = require('./font.js'),
     Game = require('../game.js'),
+    dir = require('../../assets/directory.json'),
+    loaded = false,
     count = 0,
     onload = function () {
         count -= 1;
     },
     cache = {
         image: {},
-        audio: {},
+        sound: {},
         font: {}
     };
 
 module.exports = {
+    /**
+     * Ingest all images and sounds from the asset
+     * directory listing - directory.json.
+     */
+    load: function () {
+        if (!loaded) {
+            loaded = true;
+            dir.img.forEach(this.add.image);
+            dir.sound.forEach(this.add.sound);
+        }
+    },
     /**
      * @return {Boolean}
      */
@@ -32,8 +45,8 @@ module.exports = {
          * @param {String} url
          * @return {Audio}
          */
-        audio: function (url) {
-            return cache.audio[url];
+        sound: function (url) {
+            return cache.sound[url];
         }
     },
     add: {
@@ -50,15 +63,14 @@ module.exports = {
         },
         /**
          * @param {String} url
-         * @param {Object} conf
          * @return {Audio} HTML5 Audio instance.
          */
-        audio: function (url, conf) {
+        sound: function (url) {
             count += 1;
-            if (!(url in cache.audio)) {
-                cache.audio[url] = Audio(url, conf, onload);
+            if (!(url in cache.sound)) {
+                cache.sound[url] = Audio(url, onload);
             }
-            return cache.audio[url];
+            return cache.sound[url];
         },
         /**
          * @param {String} family

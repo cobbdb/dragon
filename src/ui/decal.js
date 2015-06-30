@@ -7,8 +7,7 @@ var Sprite = require('../sprite.js'),
  * @extends Sprite
  * A decal is a sprite that has no collision logic and
  * displays as an image only.
- * @param {Image} opts.strip.image
- * @param {Dimension} opts.strip.size
+ * @param {Image} opts.sheet
  */
 module.exports = function (opts) {
     Util.mergeDefaults(opts, {
@@ -17,8 +16,8 @@ module.exports = function (opts) {
         strips: {},
         startingStrip: 'decal'
     });
-    opts.strips.decal = AnimationStrip(opts.strip.image, {
-        size: opts.strip.size
+    opts.strips.decal = AnimationStrip({
+        sheet: $.image(opts.src)
     });
     return Sprite(opts);
 };

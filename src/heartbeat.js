@@ -29,6 +29,7 @@ module.exports = {
     start: function (setup, debugMode) {
         var hash;
         Game.debug = debugMode;
+        pipeline.load();
 
         if (!running) {
             running = true;

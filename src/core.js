@@ -1,7 +1,8 @@
 var Game = require('./game.js'),
     SetUtil = require('./util/set.js'),
     ObjUtil = require('./util/object.js'),
-    heartbeat = require('./heartbeat.js');
+    heartbeat = require('./heartbeat.js'),
+    pipeline = require('./assets/pipeline.js');
 
 module.exports = {
     // Geometry
@@ -28,7 +29,9 @@ module.exports = {
     canvas: require('./io/canvas.js'),
 
     // Assets
-    pipeline: require('./assets/pipeline.js'),
+    addFont: pipeline.add.font,
+    image: pipeline.get.image,
+    sound: pipeline.get.audio,
     AnimationStrip: require('./animation-strip.js'),
 
     // Collisions
