@@ -2,7 +2,7 @@ var Dimension = require('./geom/dimension.js'),
     Point = require('./geom/point.js');
 
 /**
- * @param {String} opts.src URL path to image.
+ * @param {String} opts.src Image filename.
  * @param {Point} [opts.start] Defaults to (0,0). Index in the
  * sprite sheet of the first frame.
  * @param {Dimension} [opts.size] Defaults to (0,0). Size of
