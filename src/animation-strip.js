@@ -1,6 +1,7 @@
 var Dimension = require('./geom/dimension.js'),
     Point = require('./geom/point.js'),
-    pipeline = require('./assets/pipeline.js');
+    pipeline = require('./assets/pipeline.js'),
+    Util = require('./util/object.js');
 
 /**
  * @param {String} src Image filename.
@@ -22,7 +23,7 @@ module.exports = function (src, opts) {
         firstFrame,
         direction = 1;
 
-    Util.mergeDefaults(opts, {
+    opts = Util.mergeDefaults(opts, {
         kind: 'dragon-animation-strip',
         sinusoid: false,
         start: Point(),

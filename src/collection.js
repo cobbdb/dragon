@@ -10,7 +10,7 @@ var Item = require('./item.js'),
 module.exports = function (opts) {
     var removed = false;
 
-    Util.mergeDefaults(opts, {
+    opts = Util.mergeDefaults(opts, {
         name: 'dragon-collection',
         kind: 'dragon-collection'
     });

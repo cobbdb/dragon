@@ -12,6 +12,7 @@
         for (key in other) {
             root[key] = other[key];
         }
+        return root;
     },
     /**
      * Shallow merge default properties from right
@@ -28,5 +29,6 @@
                 root[key] = other[key];
             }
         }
+        return root;
     }
 };

@@ -4,7 +4,8 @@
     Font = require('./font.js'),
     Game = require('../game.js'),
     heartbeat = require('../heartbeat.js'),
-    dir = require('../../assets/directory.json'),
+    path = require('path'),
+    dir = require('../../../../assets/directory.json'),
     loaded = false,
     /**
      * Count of assets currently loading.

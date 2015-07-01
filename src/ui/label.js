@@ -10,7 +10,7 @@ var ClearSprite = require('../clear-sprite.js'),
  * @param {Function} [opts.style]
  */
 module.exports = function (opts) {
-    Util.mergeDefaults(opts, {
+    opts = Util.mergeDefaults(opts, {
         name: 'dragon-ui-label',
         kind: 'dragon-ui-label',
         text: '',

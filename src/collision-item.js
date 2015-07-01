@@ -17,7 +17,7 @@ module.exports = function (opts) {
         updated = false,
         collisionSets = [].concat(opts.collisions || []);
 
-    Util.mergeDefaults(opts, {
+    opts = Util.mergeDefaults(opts, {
         name: 'dragon-collidable',
         kind: 'dragon-collidable',
         on: {}

@@ -11,7 +11,7 @@ var Sprite = require('../sprite.js'),
  * @param {Function} [opts.onpress]
  */
 module.exports = function (opts) {
-    Util.mergeDefaults(opts, {
+    opts = Util.mergeDefaults(opts, {
         down: opts.up,
         name: 'dragon-ui-button',
         kind: 'dragon-ui-button',
@@ -30,7 +30,7 @@ module.exports = function (opts) {
         this.useStrip('down');
         opts.onpress.call(this);
     };
-    opts.on['separate#screenhold'] = function () {
+    opts.on['miss#screenhold'] = function () {
         this.useStrip('up');
     };
 

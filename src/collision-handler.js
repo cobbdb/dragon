@@ -1,4 +1,5 @@
-var Util = require('./util/object.js');
+var Util = require('./util/object.js'),
+    Item = require('./item.js');
 
 /**
  * @class CollisionHandler
@@ -11,7 +12,7 @@ module.exports = function (opts) {
      */
     var activeCollisions = [];
 
-    Util.mergeDefaults(opts, {
+    opts = Util.mergeDefaults(opts, {
         name: 'dragon-collision-handler',
         kind: 'dragon-collision-handler'
     });

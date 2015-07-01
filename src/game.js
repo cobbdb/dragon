@@ -1,4 +1,5 @@
 var FrameCounter = require('./util/frame-counter.js'),
+    Collection = require('./collection.js'),
     ctx = require('./io/canvas.js').ctx,
     collisions = require('./dragon-collisions.js'),
     masks = require('./dragon-masks.js');

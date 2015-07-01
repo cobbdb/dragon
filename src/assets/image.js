@@ -9,6 +9,6 @@
 module.exports = function (src, onload) {
     var img = new Image();
     img.onload = onload;
-    img.src = src;
+    img.src = 'assets/img/' + src;
     return img;
 };

@@ -11,7 +11,7 @@ var CollisionItem = require('../collision-item.js'),
 module.exports = CollisionItem({
     name: 'screendrag',
     mask: Circle(Point(), 8),
-    collisionSets: dragonCollisions
+    collisions: dragonCollisions
 }).extend({
     update: function () {
         if (Mouse.is.dragging) {

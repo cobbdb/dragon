@@ -11,6 +11,8 @@ var ClearSprite = require('./clear-sprite.js'),
  * @param {Map Of AnimationStrip} [opts.strips]
  * @param {Map Of String} [opts.strips] Convenience option for
  * AnimationStrips with no special options.
+ * @param {String} [opts.strips] Convenience option for Sprites
+ * with only a single AnimationStrip with no special options.
  * @param {String} [opts.startingStrip] Defaults to first
  * strip name.
  */
@@ -18,6 +20,13 @@ module.exports = function (opts) {
     var name, strip,
         stripMap = opts.strips || {};
 
+    // When opts.strips is set to a single String.
+    if (typeof stripMap === 'string') {
+        stripMap = {
+            strip: stripMap
+        };
+    }
+    // When opts.strips has String values.
     for (name in stripMap) {
         strip = stripMap[name];
         if (typeof strip === 'string') {
@@ -25,7 +34,7 @@ module.exports = function (opts) {
         }
     }
 
-    Util.mergeDefaults(opts, {
+    opts = Util.mergeDefaults(opts, {
         name: 'dragon-texture-sprite',
         kind: 'dragon-texture-sprite',
         startingStrip: opts.startingStrip || global.Object.keys(stripMap)[0],

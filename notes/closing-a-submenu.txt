@@ -1,0 +1,20 @@
+﻿Close a submenu:
+
+. Create a ClearSprite
+. use freemask,
+. Sprite's mask is size of entire canvas so that all taps are captured
+. create a second mask/Shape that exactly overlays the submenu (menumask)
+
+    on: {
+        'collide#screentap': function (tap) {
+            // Close when tapped outside of the menu.
+            if (!tap.intersects(menumask)) {
+                $.screen('shop').stop();
+                $.screen('training').start();
+            }
+        }
+    }
+
+. Use collide with screentap since all taps are captured
+. use !tap.intersects(menumask) to check if tap was outside of menu
+. close dat menu if tap was outside of submenu

@@ -11,6 +11,8 @@ var Str = require('curb'),
  */
 module.exports = function (family, opts, onload) {
     var style = global.document.createElement('style');
+    // Frontload - don't wait for draw to load the font.
+    new Image().src = 'assets/font/' + opts.src;
     style.innerHTML = Str(tpl,
         family,
         opts.style || 'normal',

@@ -11,7 +11,7 @@ var Collection = require('./collection.js'),
 module.exports = function (opts) {
     var collisions = Collection().add(opts.collisions);
 
-    Util.mergeDefaults(opts, {
+    opts = Util.mergeDefaults(opts, {
         name: 'dragon-screen',
         kind: 'dragon-screen',
         updating: false,

@@ -40,7 +40,7 @@ module.exports = {
 
     // Game Control
     debug: Game.useDebug,
-    loadAssets: pipeline.load,
+    loadAssets: pipeline.load.bind(pipeline),
     screen: Game.screen,
     sprite: Game.sprite,
     addScreens: Game.addScreens,
@@ -54,10 +54,8 @@ module.exports = {
 
     // UI Builtins
     ui: {
-        Slider: require('./ui/slider.js'),
         Button: require('./ui/button.js'),
-        Label: require('./ui/label.js'),
-        Decal: require('./ui/decal.js')
+        Label: require('./ui/label.js')
     },
 
     // Interfaces

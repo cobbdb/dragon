@@ -16,7 +16,7 @@ Mouse.on.down(function () {
 module.exports = CollisionItem({
     name: 'screentap',
     mask: Circle(Point(), 8),
-    collisionSets: dragonCollisions
+    collisions: dragonCollisions
 }).extend({
     update: function () {
         if (tapping) {

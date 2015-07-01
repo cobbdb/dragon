@@ -26,7 +26,7 @@ module.exports = function (opts) {
         scale = opts.scale || 1,
         adjsize = size.multiply(Dimension(scale, scale));
 
-    Util.mergeDefaults(opts, {
+    opts = Util.mergeDefaults(opts, {
         name: 'dragon-sprite',
         kind: 'dragon-sprite',
         mask: Rectangle(),

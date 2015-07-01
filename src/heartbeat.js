@@ -1,5 +1,5 @@
 ﻿var Game = require('./game.js'),
-    pipeline = require('./assets/pipeline.js'),
+    FrameCounter = require('./util/frame-counter.js'),
     running = false;
 
 /**
