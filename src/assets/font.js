@@ -16,9 +16,10 @@ function prefetch(family) {
  * @return {Boolean} Always returns true.
  */
 module.exports = function (family, opts, onload) {
-    prefetch(family);
+    // Breaks CocoonJS, but leaving this here for future research.
+    //prefetch(family);
+
     var style = global.document.createElement('style');
-    //new Image().src = 'assets/font/' + opts.src;
     style.innerHTML = Str('@font-face{%s}', [
         'font-family:' + family,
         'font-style:' + (opts.style || 'normal'),
