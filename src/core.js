@@ -39,7 +39,8 @@ module.exports = {
     collisions: require('./dragon-collisions.js'),
 
     // Game Control
-    start: heartbeat.start,
+    debug: Game.useDebug,
+    loadAssets: pipeline.load,
     screen: Game.screen,
     sprite: Game.sprite,
     addScreens: Game.addScreens,

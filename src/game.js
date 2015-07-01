@@ -14,6 +14,12 @@ module.exports = Collection({
      * @type {Boolean}
      */
     debug: false,
+    /**
+     * Enable debug mode.
+     */
+    useDebug: function () {
+        this.debug = true;
+    },
     update: function () {
         masks.update();
         this.base.update();

@@ -3,12 +3,33 @@
     Audio = require('./audio.js'),
     Font = require('./font.js'),
     Game = require('../game.js'),
+    heartbeat = require('../heartbeat.js'),
     dir = require('../../assets/directory.json'),
     loaded = false,
+    /**
+     * Count of assets currently loading.
+     * @type {Number}
+     */
     count = 0,
+    /**
+     * Called when all assets have finished loading.
+     * @type {Function}
+     */
+    oncomplete = function () {},
+    /**
+     * Called each time a single assets finishes loading.
+     * @type {Function}
+     */
     onload = function () {
         count -= 1;
+        if (count === 0) {
+            oncomplete();
+        }
     },
+    /**
+     * Cache of all loaded assets.
+     * @type {Map Of Map}
+     */
     cache = {
         image: {},
         sound: {},
@@ -19,10 +40,19 @@ module.exports = {
     /**
      * Ingest all images and sounds from the asset
      * directory listing - directory.json.
+     * @param {Function} [done] Callback for when assets
+     * are done loading.
      */
-    load: function () {
+    load: function (done) {
+        done = done || function () {};
         if (!loaded) {
             loaded = true;
+            oncomplete = function () {
+                done();
+                heartbeat.run();
+            };
+            count += dir.img.length;
+            count += dir.sound.length;
             dir.img.forEach(this.add.image);
             dir.sound.forEach(this.add.sound);
         }
@@ -55,7 +85,6 @@ module.exports = {
          * @return {Image} HTML5 Image instance.
          */
         image: function (url) {
-            count += 1;
             if (!(url in cache.image)) {
                 cache.image[url] = Img(url, onload);
             }
@@ -66,7 +95,6 @@ module.exports = {
          * @return {Audio} HTML5 Audio instance.
          */
         sound: function (url) {
-            count += 1;
             if (!(url in cache.sound)) {
                 cache.sound[url] = Audio(url, onload);
             }
