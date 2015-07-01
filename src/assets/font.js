@@ -4,7 +4,6 @@ var Str = require('curb');
 function prefetch(family) {
     var span = global.document.createElement('span');
     span.style.fontFamily = family;
-    span.style.display = 'none';
     global.document.body.appendChild(span);
 }
 
