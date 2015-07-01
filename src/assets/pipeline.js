@@ -106,9 +106,8 @@ module.exports = {
          * @return {Boolean} Always returns true.
          */
         font: function (family, conf) {
-            count += 1;
             if (!(family in cache.font)) {
-                cache.font[family] = Font(family, conf, onload);
+                cache.font[family] = Font(family, conf);
             }
             return true;
         }
