@@ -4,7 +4,6 @@
     Font = require('./font.js'),
     Game = require('../game.js'),
     heartbeat = require('../heartbeat.js'),
-    path = require('path'),
     dir = require('../../../../assets/directory.json'),
     loaded = false,
     /**
