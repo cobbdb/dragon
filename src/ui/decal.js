@@ -7,17 +7,16 @@ var Sprite = require('../sprite.js'),
  * @extends Sprite
  * A decal is a sprite that has no collision logic and
  * displays as an image only.
- * @param {Image} opts.sheet
+ * @param {String} src Image path.
+ * @param {Object} [opts] Additional Sprite options.
  */
-module.exports = function (opts) {
+module.exports = function (src, opts) {
     Util.mergeDefaults(opts, {
         name: 'dragon-ui-decal',
         kind: 'dragon-ui-decal',
         strips: {},
         startingStrip: 'decal'
     });
-    opts.strips.decal = AnimationStrip({
-        sheet: $.image(opts.src)
-    });
+    opts.strips.decal = AnimationStrip(src);
     return Sprite(opts);
 };

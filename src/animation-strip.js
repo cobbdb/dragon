@@ -1,8 +1,9 @@
 var Dimension = require('./geom/dimension.js'),
-    Point = require('./geom/point.js');
+    Point = require('./geom/point.js'),
+    pipeline = require('./assets/pipeline.js');
 
 /**
- * @param {String} opts.src Image filename.
+ * @param {String} src Image filename.
  * @param {Point} [opts.start] Defaults to (0,0). Index in the
  * sprite sheet of the first frame.
  * @param {Dimension} [opts.size] Defaults to (0,0). Size of
@@ -13,8 +14,8 @@ var Dimension = require('./geom/dimension.js'),
  * @param {Boolean} [opts.sinusoid] Defaults to false. True
  * to cycle the frames forward and backward per cycle.
  */
-module.exports = function (opts) {
-    var img = $.image(opts.src),
+module.exports = function (src, opts) {
+    var img = pipeline.get.image(src),
         timeLastFrame,
         timeSinceLastFrame = 0,
         updating = false,

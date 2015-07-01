@@ -1,5 +1,6 @@
 var ClearSprite = require('./clear-sprite.js'),
     Dimension = require('./geom/dimension.js'),
+    AnimationStrip = require('./animation-strip.js'),
     Util = require('./util/object.js');
 
 /**
@@ -8,11 +9,21 @@ var ClearSprite = require('./clear-sprite.js'),
  * Most common use-case sprite that contains collision
  * logic and textures.
  * @param {Map Of AnimationStrip} [opts.strips]
+ * @param {Map Of String} [opts.strips] Convenience option for
+ * AnimationStrips with no special options.
  * @param {String} [opts.startingStrip] Defaults to first
  * strip name.
  */
 module.exports = function (opts) {
-    var stripMap = opts.strips || {};
+    var name, strip,
+        stripMap = opts.strips || {};
+
+    for (name in stripMap) {
+        strip = stripMap[name];
+        if (typeof strip === 'string') {
+            stripMap[name] = AnimationStrip(strip);
+        }
+    }
 
     Util.mergeDefaults(opts, {
         name: 'dragon-texture-sprite',
