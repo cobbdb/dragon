@@ -7,7 +7,7 @@
     dir = require('../../../../assets/directory.json'),
     loaded = false,
     /**
-     * Count of assets currently loading.
+     * Number of assets currently loading.
      * @type {Number}
      */
     count = 0,
