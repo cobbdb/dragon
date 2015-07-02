@@ -8,8 +8,10 @@ var BaseClass = require('baseclassjs'),
  * Item is the most basic contract in the Dragon game engine. Almost
  * everything in the engine is derived from Item - including Sprites
  * and Screens.
- * @param {String} [name]
- * @param {String} [kind]
+ * @param {String} [opts.name]
+ * @param {String} [opts.kind]
+ * @param {Boolean} [opts.updating] Defaults to true.
+ * @param {Boolean} [opts.drawing] Defaults to true.
  * @param {Map Of Functions} [opts.on] Dictionary of events.
  * @param {Map of Functions} [opts.one] Dictionary of one-time events.
  */
