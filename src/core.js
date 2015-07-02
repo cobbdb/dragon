@@ -29,6 +29,7 @@ module.exports = {
     canvas: require('./io/canvas.js'),
 
     // Assets
+    loadAssets: pipeline.load.bind(pipeline),
     addFont: pipeline.add.font,
     image: pipeline.get.image,
     sound: pipeline.get.audio,
@@ -40,7 +41,6 @@ module.exports = {
 
     // Game Control
     debug: Game.useDebug,
-    loadAssets: pipeline.load.bind(pipeline),
     screen: Game.screen,
     sprite: Game.sprite,
     addScreens: Game.addScreens,
@@ -60,5 +60,9 @@ module.exports = {
 
     // Interfaces
     fadeable: require('./interface/fadeable.js'),
-    Eventable: require('./interface/eventable.js')
+    Eventable: require('./interface/eventable.js'),
+
+    // Particles
+    particle: {
+    }
 };
