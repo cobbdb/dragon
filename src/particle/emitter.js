@@ -3,9 +3,11 @@
     // ParticleType = require('./spiral.js');
 
 /**
- * # Particle Emitter
+ * @class ParticleEmitter
+ * @extends BaseClass
  * Generates a fountain of particles at a given location.
- * @param {String} opts.type
  */
 module.exports = function (opts) {
+    return BaseClass({
+    });
 };
