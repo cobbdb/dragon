@@ -12,10 +12,9 @@ function prefetch(family) {
  * @param {String} opts.src
  * @param {String} [opts.style]
  * @param {String|Number} [opts.weight]
- * @param {Function} [onload]
  * @return {Boolean} Always returns true.
  */
-module.exports = function (family, opts, onload) {
+module.exports = function (family, opts) {
     // Breaks CocoonJS, but leaving this here for future research.
     //prefetch(family);
 
