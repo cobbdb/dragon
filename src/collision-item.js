@@ -3,6 +3,7 @@ var Counter = require('./util/id-counter.js'),
     Point = require('./geom/point.js'),
     Item = require('./item.js'),
     Mouse = require('./io/mouse.js'),
+    canvas = require('./io/canvas.js'),
     Util = require('./util/object.js');
 
 /**
@@ -41,6 +42,12 @@ module.exports = function (opts) {
         dragging: false,
         mask: opts.mask || Rectangle(),
         offset: opts.offset || Point(),
+        /**
+         * @return {Boolean} True if in the viewport.
+         */
+        onscreen: function () {
+            return this.intersects(canvas.mask);
+        },
         /**
          * Move the mask.
          * @param {Point} pos

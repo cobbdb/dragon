@@ -52,10 +52,10 @@ module.exports = function (opts) {
             this.base.add(set);
         },
         /**
-         * @param {String} name
+         * @param {Sprite} sprite
          */
-        removeSprite: function (name) {
-            this.base.remove(name);
+        removeSprite: function (sprite) {
+            this.base.remove(sprite);
         },
         /**
          * Flush all sprites from this screen immediately.

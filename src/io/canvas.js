@@ -1,4 +1,7 @@
-var mobile = require('../util/detect-mobile.js'),
+var Rectangle = require('../geom/rectangle.js'),
+    Point = require('../geom/point.js'),
+    Dimension = require('../geom/dimension.js'),
+    mobile = require('../util/detect-mobile.js'),
     canvas = global.document.createElement('canvas');
 
 if (mobile) {
@@ -18,6 +21,10 @@ if (mobile) {
 global.document.body.appendChild(canvas);
 canvas.mobile = mobile;
 canvas.ctx = canvas.getContext('2d');
+canvas.mask = Rectangle(
+    Point(0, 0),
+    Dimension(canvas.width, canvas.height)
+);
 
 global.Cocoon.Utils.setAntialias(false);
 canvas.ctx.webkitImageSmoothingEnabled = false;

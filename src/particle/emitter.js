@@ -1,4 +1,4 @@
-﻿var BaseClass = require('baseclassjs');
+﻿var Collection = require('../collection.js');
     // Particle = require('./base.js');
     // ParticleType = require('./spiral.js');
 
@@ -8,6 +8,6 @@
  * Generates a fountain of particles at a given location.
  */
 module.exports = function (opts) {
-    return BaseClass({
+    return Collection(opts).extend({
     });
 };

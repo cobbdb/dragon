@@ -13,7 +13,7 @@ var CollisionItem = require('./collision-item.js'),
  * @param {Dimension} [opts.size] Defaults to strip size.
  * @param {Number} [opts.depth] Defaults to 0.
  * @param {Number} [opts.rotation] Defaults to 0.
- * @param {Point} [opts.speed] Defaults to (0,0).
+ * @param {Vector} [opts.speed] Defaults to <0,0>.
  * @param {Boolean} [opts.freemask] Defaults to false. True
  * to decouple the position of the mask from the position
  * of the sprite.

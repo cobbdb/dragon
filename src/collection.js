@@ -38,12 +38,15 @@ module.exports = function (opts) {
             return this;
         },
         /**
-         * @param {String} name
+         * @param {Item} item
          */
-        remove: function (name) {
-            this.map[name].removed = true;
+        remove: function (item) {
+            item.removed = true;
             removed = true;
         },
+        /**
+         * Hard reset the entire Collection.
+         */
         clear: function () {
             this.set = [];
             this.map = {};
