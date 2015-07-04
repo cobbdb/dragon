@@ -10,6 +10,8 @@
  * Basic abstract contract for all particle types.
  * @param {Emitter} owner
  * @param {Number} [opts.gravity] Defaults to 0.
+ * @param {Function} [opts.style] Special canvas setup to
+ * perform before drawing.
  */
 module.exports = function (owner, opts) {
     opts = Util.mergeDefaults(opts, {
@@ -17,7 +19,8 @@ module.exports = function (owner, opts) {
             random() * 4 - 2,
             random() * 4 - 2
         ),
-        gravity: 0
+        gravity: 0,
+        style: function () {}
     });
 
     return ClearSprite(opts).extend({
@@ -33,11 +36,16 @@ module.exports = function (owner, opts) {
             }
         },
         setupDraw: function (ctx) {
+            ctx.save();
             ctx.translate(
                 this.pos.x + this.size().width / 2,
                 this.pos.y + this.size().height / 2
             );
             ctx.rotate(this.rotation);
+            opts.style(ctx);
+        },
+        draw: function (ctx) {
+            ctx.restore();
         }
     });
 };
