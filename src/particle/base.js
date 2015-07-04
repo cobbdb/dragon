@@ -25,7 +25,7 @@ module.exports = function (owner, opts) {
         gravity: opts.gravity,
         update: function () {
             this.rotation += this.rotSpeed;
-            this.speed.y -= this.gravity;
+            this.speed.y += this.gravity;
             this.base.update();
             if (!this.onscreen()) {
                 this.stop();
