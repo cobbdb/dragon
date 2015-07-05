@@ -7,7 +7,7 @@
 module.exports = function (opts) {
     return Particle(opts).extend({
         draw: function (ctx) {
-            this.setupDraw(ctx);
+            this.predraw(ctx);
             ctx.fillRect(
                 this.pos.x,
                 this.pos.y,

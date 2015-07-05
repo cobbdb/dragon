@@ -1,5 +1,6 @@
 ﻿var ClearSprite = require('../clear-sprite.js'),
     Vector = require('../geom/vector.js'),
+    Dimension = require('../geom/dimension.js'),
     canvas = require('../io/canvas.js'),
     random = require('../util/random.js'),
     Util = require('../util/object.js');
@@ -12,13 +13,17 @@
  * @param {Number} [opts.gravity] Defaults to 0.
  * @param {Function} [opts.style] Special canvas setup to
  * perform before drawing.
+ * @param {Dimension} [opts.size] Defaults to (10,10).
  */
 module.exports = function (owner, opts) {
     opts = Util.mergeDefaults(opts, {
+        name: 'dragon-particle',
+        kind: 'dragon-particle',
         speed: Vector(
             random() * 4 - 2,
             random() * 4 - 2
         ),
+        size: Dimension(10, 10),
         gravity: 0,
         style: function () {}
     });
@@ -28,6 +33,7 @@ module.exports = function (owner, opts) {
         gravity: opts.gravity,
         update: function () {
             this.rotation += this.rotSpeed;
+            this.rotation %= 6.283;
             this.speed.y += this.gravity;
             this.base.update();
             if (!this.onscreen()) {
@@ -35,12 +41,8 @@ module.exports = function (owner, opts) {
                 owner.remove(this);
             }
         },
-        setupDraw: function (ctx) {
+        predraw: function (ctx) {
             ctx.save();
-            ctx.translate(
-                this.pos.x + this.size().width / 2,
-                this.pos.y + this.size().height / 2
-            );
             ctx.rotate(this.rotation);
             opts.style(ctx);
         },

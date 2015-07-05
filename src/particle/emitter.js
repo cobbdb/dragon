@@ -1,6 +1,5 @@
-﻿var Collection = require('../collection.js');
-    // Particle = require('./base.js');
-    // ParticleType = require('./spiral.js');
+﻿var Collection = require('../collection.js'),
+    Util = require('../util/object.js');
 
 /**
  * @class ParticleEmitter
@@ -10,17 +9,35 @@
  * use when spawning Particles.
  * @param {Number} [opts.speed] Defaults to 4. Number of
  * Particles to spawn per second.
- * @param {Function} [opts.style] Special canvas setup to
- * perform before Particles are drawn.
  */
 module.exports = function (opts) {
     var hash;
 
+    opts = Util.mergeDefaults(opts, {
+        name: 'dragon-emitter',
+        kind: 'dragon-emitter'
+    });
+
+    function step() {
+        var i,
+            len = 5,
+            set = [];
+        for (i = 0; i < len; i += 1) {
+            set.push(
+                opts.type(this, opts)
+            );
+        }
+
+        this.add(set);
+    }
+
     return Collection(opts).extend({
         speed: opts.speed || 4,
         _create: function () {
-            hash = global.setInterval(function () {
-            }, 1000 / this.speed);
+            hash = global.setInterval(
+                step.bind(this),
+                1000 / this.speed
+            );
         },
         kill: function () {
             global.clearInterval(hash);

@@ -19,11 +19,31 @@ if (mobile) {
 }
 
 global.document.body.appendChild(canvas);
+
+/**
+ * @type {Boolean}
+ */
 canvas.mobile = mobile;
+
+/**
+ * @type {Graphics2D}
+ */
 canvas.ctx = canvas.getContext('2d');
+
+/**
+ * @type {Rectangle}
+ */
 canvas.mask = Rectangle(
     Point(0, 0),
     Dimension(canvas.width, canvas.height)
+);
+
+/**
+ * @type {Point}
+ */
+canvas.center = Point(
+    canvas.width / 2,
+    canvas.height / 2
 );
 
 global.Cocoon.Utils.setAntialias(false);

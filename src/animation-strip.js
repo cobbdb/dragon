@@ -106,20 +106,16 @@ module.exports = function (src, opts) {
          * @param {Number} [rotation] Defaults to 0.
          */
         draw: function (ctx, pos, scale, rotation) {
-            var finalSize,
-                offset = this.frame * this.size.width;
+            var size = this.size(),
+                offset = this.frame * size.width;
             scale = scale || Dimension(1, 1);
             rotation = rotation || 0;
-            finalSize = Dimension(
-                this.size.width * scale.width,
-                this.size.height * scale.height
-            );
 
             // Apply the canvas transforms.
             ctx.save();
             ctx.translate(
-                pos.x + finalSize.width / 2,
-                pos.y + finalSize.height / 2
+                pos.x + size.width / 2,
+                pos.y + size.height / 2
             );
             ctx.rotate(rotation);
 
@@ -127,12 +123,12 @@ module.exports = function (src, opts) {
             ctx.drawImage(img,
                 firstFrame.x + offset,
                 firstFrame.y,
-                this.size.width,
-                this.size.height,
-                -finalSize.width / 2,
-                -finalSize.height / 2,
-                finalSize.width,
-                finalSize.height
+                size.width,
+                size.height,
+                -size.width / 2,
+                -size.height / 2,
+                size.width,
+                size.height
             );
             ctx.restore();
         }

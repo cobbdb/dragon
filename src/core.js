@@ -64,6 +64,7 @@ module.exports = {
 
     // Particles
     particle: {
-        emitter: require('./particle/emitter.js')
+        Emitter: require('./particle/emitter.js'),
+        Square: require('./particle/square.js')
     }
 };

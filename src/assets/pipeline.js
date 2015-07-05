@@ -53,8 +53,12 @@ module.exports = {
             };
             count += dir.img.length;
             count += dir.sound.length;
-            dir.img.forEach(this.add.image);
-            dir.sound.forEach(this.add.sound);
+            if (count) {
+                dir.img.forEach(this.add.image);
+                dir.sound.forEach(this.add.sound);
+            } else {
+                oncomplete();
+            }
         }
     },
     /**
