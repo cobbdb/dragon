@@ -6,7 +6,7 @@ var ZERO = require('./zero.js');
  * @param {Number} y
  */
 module.exports = function (x, y) {
-    var self = {
+    return {
         x: x || 0,
         y: y || 0,
         /**
@@ -30,7 +30,7 @@ module.exports = function (x, y) {
              * @return {Boolean} True if equal to (0,0).
              */
             get zero () {
-                return self.equals(ZERO);
+                return this.equals(ZERO);
             }
         },
         /**
@@ -74,5 +74,4 @@ module.exports = function (x, y) {
             return target;
         }
     };
-    return self;
 };

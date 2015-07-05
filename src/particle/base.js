@@ -1,6 +1,7 @@
 ﻿var ClearSprite = require('../clear-sprite.js'),
     Vector = require('../geom/vector.js'),
     Dimension = require('../geom/dimension.js'),
+    Point = require('../geom/point.js'),
     canvas = require('../io/canvas.js'),
     random = require('../util/random.js'),
     Util = require('../util/object.js');
@@ -16,7 +17,9 @@
  * @param {Dimension} [opts.size] Defaults to (10,10).
  */
 module.exports = function (owner, opts) {
-    opts = Util.mergeDefaults(opts, {
+    var conf = Util.mergeDefaults({
+        pos: Point(10, 10)
+    }, {
         name: 'dragon-particle',
         kind: 'dragon-particle',
         speed: Vector(
@@ -28,12 +31,12 @@ module.exports = function (owner, opts) {
         style: function () {}
     });
 
-    return ClearSprite(opts).extend({
-        rotSpeed: random() * 2 - 1,
+    return ClearSprite(conf).extend({
+        rotSpeed: random() * 0.4 - 0.2,
         gravity: opts.gravity,
         update: function () {
             this.rotation += this.rotSpeed;
-            this.rotation %= 6.283;
+            this.rotation %= global.Math.PI * 2;
             this.speed.y += this.gravity;
             this.base.update();
             if (!this.onscreen()) {
@@ -43,8 +46,12 @@ module.exports = function (owner, opts) {
         },
         predraw: function (ctx) {
             ctx.save();
-            ctx.rotate(this.rotation);
-            opts.style(ctx);
+            ctx.translate(
+                100,//this.pos.x + this.size().width / 2,
+                100//this.pos.y + this.size().height / 2
+            );
+            //ctx.rotate(this.rotation);
+            //opts.style(ctx);
         },
         draw: function (ctx) {
             ctx.restore();

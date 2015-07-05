@@ -47,8 +47,6 @@ canvas.center = Point(
 );
 
 global.Cocoon.Utils.setAntialias(false);
-canvas.ctx.webkitImageSmoothingEnabled = false;
-canvas.ctx.mozImageSmoothingEnabled = false;
 canvas.ctx.imageSmoothingEnabled = false;
 
 module.exports = canvas;

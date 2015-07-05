@@ -24,7 +24,10 @@ module.exports = function (opts) {
             set = [];
         for (i = 0; i < len; i += 1) {
             set.push(
-                opts.type(this, opts)
+                opts.type(this, {
+                    pos: opts.pos,
+                    style: opts.style
+                })
             );
         }
 
