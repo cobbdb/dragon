@@ -6,7 +6,7 @@ var ZERO = require('./zero.js');
  * @param {Number} h
  */
 module.exports = function (w, h) {
-    return {
+    var self = {
         width: w || 0,
         height: h || 0,
         clone: function () {
@@ -23,7 +23,7 @@ module.exports = function (w, h) {
              * @return {Boolean}
              */
             get zero () {
-                return this.equals(ZERO);
+                return self.equals(ZERO);
             }
         },
         /**
@@ -56,4 +56,5 @@ module.exports = function (w, h) {
             return target;
         }
     };
+    return self;
 };
