@@ -17,9 +17,7 @@
  * @param {Dimension} [opts.size] Defaults to (10,10).
  */
 module.exports = function (owner, opts) {
-    var conf = Util.mergeDefaults({
-        pos: Point(10, 10)
-    }, {
+    opts = Util.mergeDefaults(opts, {
         name: 'dragon-particle',
         kind: 'dragon-particle',
         speed: Vector(
@@ -31,7 +29,7 @@ module.exports = function (owner, opts) {
         style: function () {}
     });
 
-    return ClearSprite(conf).extend({
+    return ClearSprite(opts).extend({
         rotSpeed: random() * 0.4 - 0.2,
         gravity: opts.gravity,
         update: function () {

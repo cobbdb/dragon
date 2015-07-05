@@ -16,6 +16,9 @@ module.exports = function (owner, opts) {
                 this.size().height
             );
             this.base.draw(ctx);
+        },
+        _create: function () {
+            var thing = 123;
         }
     });
 };

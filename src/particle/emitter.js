@@ -1,5 +1,6 @@
 ﻿var Collection = require('../collection.js'),
-    Util = require('../util/object.js');
+    Util = require('../util/object.js'),
+    canvas = require('../io/canvas.js');
 
 /**
  * @class ParticleEmitter
@@ -11,7 +12,10 @@
  * Particles to spawn per second.
  */
 module.exports = function (opts) {
-    var hash;
+    var hash,
+        Factory = opts.type,
+        pos = opts.pos || Point(),
+        style = opts.style || function () {};
 
     opts = Util.mergeDefaults(opts, {
         name: 'dragon-emitter',
@@ -24,9 +28,9 @@ module.exports = function (opts) {
             set = [];
         for (i = 0; i < len; i += 1) {
             set.push(
-                opts.type(this, {
-                    pos: opts.pos,
-                    style: opts.style
+                Factory(this, {
+                    pos: canvas.center.clone(),
+                    style: style
                 })
             );
         }

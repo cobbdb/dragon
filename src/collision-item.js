@@ -1,6 +1,6 @@
 var Counter = require('./util/id-counter.js'),
     Rectangle = require('./geom/rectangle.js'),
-    Point = require('./geom/point.js'),
+    Vector = require('./geom/vector.js'),
     Item = require('./item.js'),
     Mouse = require('./io/mouse.js'),
     canvas = require('./io/canvas.js'),
@@ -11,6 +11,7 @@ var Counter = require('./util/id-counter.js'),
  * @extends Item
  * @param {Shape} [opts.mask] Defaults to Rectangle.
  * @param {Array|CollisionHandler} [opts.collisions]
+ * @param {Vector} [offset]
  */
 module.exports = function (opts) {
     var activeCollisions = {},
@@ -41,7 +42,7 @@ module.exports = function (opts) {
         id: Counter.nextId,
         dragging: false,
         mask: opts.mask || Rectangle(),
-        offset: opts.offset || Point(),
+        offset: opts.offset || Vector(),
         /**
          * @return {Boolean} True if in the viewport.
          */

@@ -93,7 +93,7 @@ module.exports = function (opts) {
             }
         },
         /**
-         * @param {Point|Vector} offset
+         * @param {Vector} offset
          */
         shift: function (offset) {
             var target = this.pos.add(offset || this.speed);
