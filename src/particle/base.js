@@ -19,8 +19,8 @@
  * @param {Dimension} [opts.size] Defaults to (10,10).
  */
 module.exports = function (owner, opts) {
-    var doFade = false,
-        homePos = opts.pos.clone();
+    var fadeout = false,
+        homePos = opts.pos;
 
     opts = Util.mergeDefaults(opts, {
         name: 'dragon-particle',
@@ -32,9 +32,13 @@ module.exports = function (owner, opts) {
         size: Dimension(10, 10),
         gravity: 0,
         lifespan: 1000,
-        style: function () {}
+        style: function () {},
+        on: {}
     });
     opts.lifespan += random() * 150;
+    opts.on.ready = function () {
+        this.start();
+    };
 
     return ClearSprite(opts).extend({
         _create: function () {
@@ -42,11 +46,12 @@ module.exports = function (owner, opts) {
 
             // Kill this particle after a timeout.
             timer.setTimeout(function () {
-                doFade = true;
+                fadeout = true;
             }, opts.lifespan);
         },
         reset: function () {
             this.stop();
+            fadeout = false;
             this.alpha = 1;
             this.rotation = 0;
             this.move(homePos);
@@ -55,7 +60,7 @@ module.exports = function (owner, opts) {
         gravity: opts.gravity,
         update: function () {
             if (this.alpha > 0) {
-                if (doFade) {
+                if (fadeout) {
                     this.alpha -= 0.05;
                     this.alpha = global.Math.max(0, this.alpha);
                 }

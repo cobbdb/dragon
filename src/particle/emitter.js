@@ -1,6 +1,6 @@
 ﻿var Collection = require('../collection.js'),
     Point = require('../geom/point.js'),
-    Util = require('../util/object.js'),
+    Obj = require('../util/object.js'),
     canvas = require('../io/canvas.js'),
     timer = require('../util/timer.js');
 
@@ -20,7 +20,7 @@ module.exports = function (opts) {
     var hash,
         bank = [];
 
-    opts = Util.mergeDefaults(opts, {
+    opts = Obj.mergeDefaults(opts, {
         name: 'dragon-emitter',
         kind: 'dragon-emitter',
         pos: Point(),
@@ -28,7 +28,7 @@ module.exports = function (opts) {
         volume: 4,
         particle: {}
     });
-    opts.particle.pos = opts.pos.clone();
+    opts.particle.pos = opts.pos;
 
     // Emitter's heartbeat - activate some particles.
     function step() {
@@ -41,10 +41,12 @@ module.exports = function (opts) {
         volume: opts.volume,
         _create: function () {
             var i;
-            // Generate 100 particles.
-            for (i = 0; i < 100; i += 1) {
+            // Generate 50 particles.
+            for (i = 0; i < 50; i += 1) {
                 bank.push(
-                    opts.type(this, opts.particle)
+                    opts.type(this,
+                        Obj.clone(opts.particle)
+                    )
                 );
             }
 

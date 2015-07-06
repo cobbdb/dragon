@@ -1,5 +1,5 @@
 var Collection = require('./collection.js'),
-    Util = require('./util/object.js'),
+    Obj = require('./util/object.js'),
     Game = require('./game.js');
 
 /**
@@ -11,16 +11,16 @@ var Collection = require('./collection.js'),
 module.exports = function (opts) {
     var collisions = Collection().add(opts.collisions);
 
-    opts = Util.mergeDefaults(opts, {
+    opts = Obj.mergeDefaults(opts, {
         name: 'dragon-screen',
         kind: 'dragon-screen',
         updating: false,
         drawing: false
     });
 
-    return Collection(opts).add(opts.sprites).extend({
-        load: function (cb) {
-            cb();
+    return Collection(opts).extend({
+        _create: function () {
+            this.add(opts.sprites);
         },
         start: function () {
             collisions.start();

@@ -1,10 +1,14 @@
-﻿var Particle = require('./base.js');
+﻿var Particle = require('./base.js'),
+    Obj = require('../util/object.js');
 
 /**
  * @class Square
  * @extends Particle
  */
 module.exports = function (owner, opts) {
+    opts = Obj.mergeDefaults(opts, {
+        name: 'dragon-particle-square'
+    });
     return Particle(owner, opts).extend({
         draw: function (ctx) {
             this.predraw(ctx);

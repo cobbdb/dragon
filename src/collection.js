@@ -26,6 +26,7 @@ module.exports = function (opts) {
             if (set) {
                 set = [].concat(set);
                 set.forEach(function (item) {
+                    item.removed = false;
                     this.set.push(item);
                     this.map[item.name] = item;
                     item.trigger('ready');
