@@ -12,14 +12,15 @@
  * @extends ClearSprite
  * Basic abstract contract for all particle types.
  * @param {Emitter} owner
+ * @param {Number} [opts.lifespan] Defaults to 1000.
  * @param {Number} [opts.gravity] Defaults to 0.
  * @param {Function} [opts.style] Special canvas setup to
  * perform before drawing.
  * @param {Dimension} [opts.size] Defaults to (10,10).
- * @param {Number} [opts.lifespan] Defaults to 2000.
  */
 module.exports = function (owner, opts) {
     var doFade = false,
+        homePos = opts.pos.clone();
 
     opts = Util.mergeDefaults(opts, {
         name: 'dragon-particle',
@@ -30,34 +31,41 @@ module.exports = function (owner, opts) {
         ),
         size: Dimension(10, 10),
         gravity: 0,
-        lifespan: 2000,
+        lifespan: 1000,
         style: function () {}
     });
     opts.lifespan += random() * 150;
 
     return ClearSprite(opts).extend({
         _create: function () {
+            this.stop();
+
             // Kill this particle after a timeout.
             timer.setTimeout(function () {
                 doFade = true;
             }, opts.lifespan);
+        },
+        reset: function () {
+            this.stop();
+            this.alpha = 1;
+            this.rotation = 0;
+            this.move(homePos);
         },
         rotSpeed: random() * 0.4 - 0.2,
         gravity: opts.gravity,
         update: function () {
             if (this.alpha > 0) {
                 if (doFade) {
-                    this.alpha -= 0.03;
+                    this.alpha -= 0.05;
                     this.alpha = global.Math.max(0, this.alpha);
                 }
                 this.rotation += this.rotSpeed;
                 this.rotation %= global.Math.PI * 2;
                 this.speed.y += this.gravity;
-                this.base.update();
             } else {
-                this.stop();
-                owner.remove(this);
+                owner.reclaim(this);
             }
+            this.base.update();
         },
         predraw: function (ctx) {
             this.base.draw(ctx);

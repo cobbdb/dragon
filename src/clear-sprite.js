@@ -92,7 +92,7 @@ module.exports = function (opts) {
          * @param {Point} pos
          */
         move: function (pos) {
-            this.pos.move(pos, true);
+            this.pos = this.pos.move(pos);
             if (!opts.freemask) {
                 this.base.move(this.pos);
             }

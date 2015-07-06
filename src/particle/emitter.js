@@ -14,49 +14,57 @@
  * of Particles to spawn per step.
  * @param {Number} [opts.speed] Defaults to 250. Milliseconds
  * between each step.
+ * @param {Object} [opts.particle] Particle options.
  */
 module.exports = function (opts) {
-    var hash;
+    var hash,
+        bank = [];
 
     opts = Util.mergeDefaults(opts, {
         name: 'dragon-emitter',
         kind: 'dragon-emitter',
         pos: Point(),
         speed: 250,
-        volume: 4
+        volume: 4,
+        particle: {}
     });
+    opts.particle.pos = opts.pos.clone();
 
+    // Emitter's heartbeat - activate some particles.
     function step() {
-        var i,
-            set = [];
-        for (i = 0; i < this.volume; i += 1) {
-            set.push(
-                opts.type(this, {
-                    pos: opts.pos.clone(),
-                    style: opts.style,
-                    lifespan: opts.lifespan,
-                    gravity: opts.gravity
-                })
-            );
-        }
+        var set = bank.splice(0, this.volume);
         this.add(set);
-        console.debug(this.set.length);
     }
 
     return Collection(opts).extend({
         speed: opts.speed,
         volume: opts.volume,
         _create: function () {
+            var i;
+            // Generate 100 particles.
+            for (i = 0; i < 100; i += 1) {
+                bank.push(
+                    opts.type(this, opts.particle)
+                );
+            }
+
+            // Only repeat if a non-zero speed was set.
             if (this.speed) {
                 hash = timer.setInterval(step, this.speed, this);
             }
-            timer.setInterval(function () {
-                console.debug(this.set.length);
-            }, 250, this);
             step.call(this);
         },
         kill: function () {
             timer.clearInterval(hash);
+        },
+        /**
+         * Reset a particle and add it back to the bank.
+         * @param {Particle} particle
+         */
+        reclaim: function (particle) {
+            particle.reset();
+            this.remove(particle);
+            bank.push(particle);
         }
     });
 };
