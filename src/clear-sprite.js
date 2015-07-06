@@ -19,6 +19,7 @@ var CollisionItem = require('./collision-item.js'),
  * of the sprite.
  * @param {Boolean} [opts.drawing] Defaults to false.
  * @param {Boolean} [opts.updating] Defaults to false.
+ * @param {Number} [opts.alpha] Defaults to 1.
  */
 module.exports = function (opts) {
     var pos = opts.pos || Point(),
@@ -52,6 +53,7 @@ module.exports = function (opts) {
 
     return CollisionItem(opts).extend({
         pos: pos,
+        alpha: opts.alpha || 1,
         scale: function (newval) {
             if (newval) {
                 scale = newval;
@@ -81,6 +83,9 @@ module.exports = function (opts) {
                 this.shift();
             }
             this.base.update();
+        },
+        draw: function (ctx) {
+            ctx.globalAlpha = this.alpha;
         },
         /**
          * Move the Sprite and its mask unless freemask.

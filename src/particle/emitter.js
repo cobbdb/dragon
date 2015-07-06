@@ -1,6 +1,8 @@
 ﻿var Collection = require('../collection.js'),
+    Point = require('../geom/point.js'),
     Util = require('../util/object.js'),
-    canvas = require('../io/canvas.js');
+    canvas = require('../io/canvas.js'),
+    timer = require('../util/timer.js');
 
 /**
  * @class ParticleEmitter
@@ -8,41 +10,42 @@
  * Generates a fountain of particles at a given location.
  * @param {ParticleConstructor} opts.type Constructor to
  * use when spawning Particles.
+ * @param {Number} [opts.volume] Defaults to 4. Number
+ * of Particles to spawn per step.
  * @param {Number} [opts.speed] Defaults to 4. Number of
- * Particles to spawn per second.
+ * steps per second.
  */
 module.exports = function (opts) {
-    var hash,
-        Factory = opts.type,
-        pos = opts.pos || Point(),
-        style = opts.style || function () {};
+    var hash;
 
     opts = Util.mergeDefaults(opts, {
         name: 'dragon-emitter',
-        kind: 'dragon-emitter'
+        kind: 'dragon-emitter',
+        style: function () {},
+        pos: Point(),
+        speed: 4,
+        volume: 4
     });
 
     function step() {
         var i,
-            len = 5,
             set = [];
-        for (i = 0; i < len; i += 1) {
+        for (i = 0; i < this.volume; i += 1) {
             set.push(
-                Factory(this, {
-                    pos: pos.clone(),
-                    style: style
+                opts.type(this, {
+                    pos: opts.pos.clone(),
+                    style: opts.style
                 })
             );
         }
-
-        console.debug('\t>', this.set.length);
         this.add(set);
     }
 
     return Collection(opts).extend({
-        speed: opts.speed || 4,
+        speed: opts.speed,
+        volume: opts.volume,
         _create: function () {
-            hash = global.setInterval(
+            hash = timer.setInterval(
                 step.bind(this),
                 1000 / this.speed
             );

@@ -1,6 +1,7 @@
 var Point = require('../geom/point.js'),
     Vector = require('../geom/vector.js'),
     canvas = require('./canvas.js'),
+    timer = require('../util/timer.js'),
     dragStart = null,
     isDown = false,
     isDragging = false,
@@ -43,7 +44,7 @@ canvas.addEventListener(
     function (event) {
         isDown = true;
         current = getOffset(event);
-        global.setTimeout(function () {
+        timer.setTimeout(function () {
             if (isDown) {
                 isHolding = true;
             }

@@ -1,5 +1,6 @@
 var FrameCounter = require('./util/frame-counter.js'),
     Collection = require('./collection.js'),
+    timer = require('./util/timer.js'),
     ctx = require('./io/canvas.js').ctx,
     collisions = require('./dragon-collisions.js'),
     masks = require('./dragon-masks.js');
@@ -24,6 +25,7 @@ module.exports = Collection({
     update: function () {
         masks.update();
         this.base.update();
+        timer.update();
         // Settle screen tap events.
         collisions.handleCollisions();
     },

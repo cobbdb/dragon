@@ -17,6 +17,7 @@ module.exports = {
     // Utility
     FrameCounter: require('./util/frame-counter.js'),
     IdCounter: require('./util/id-counter.js'),
+    timer: require('./util/timer.js'),
     random: require('./util/random.js'),
     range: SetUtil.range,
     shuffle: SetUtil.shuffle,

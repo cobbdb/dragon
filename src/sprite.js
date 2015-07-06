@@ -73,6 +73,7 @@ module.exports = function (opts) {
             this.base.update();
         },
         draw: function (ctx) {
+            this.base.draw(ctx);
             this.strip.draw(
                 ctx,
                 this.pos,
@@ -82,7 +83,6 @@ module.exports = function (opts) {
                 ),
                 this.rotation
             );
-            this.base.draw(ctx);
         }
     });
 };
