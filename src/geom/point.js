@@ -45,32 +45,37 @@ module.exports = function (x, y) {
             return target;
         },
         /**
+         * @param {Point|Vector} factor
+         * @param {Boolean} [shallow] True to mutate.
+         * @return {Point} This point after shifting.
+         */
+        multiply: function (factor, shallow) {
+            var target = shallow ? this : this.clone();
+            target.x *= factor.x;
+            target.y *= factor.y;
+            return target;
+        },
+        divide: function (factor, shallow) {
+            var target = shallow ? this : this.clone();
+            target.x /= factor.x;
+            target.y /= factor.y;
+            return target;
+        },
+        /**
          * @param {Point|Vector} offset
          * @param {Boolean} [shallow] True to mutate.
          * @return {Point} This point after shifting.
          */
-        multiply: function (scale, shallow) {
+        add: function (offset, shallow) {
             var target = shallow ? this : this.clone();
-            target.x *= scale.x;
-            target.y *= scale.y;
+            target.x += offset.x;
+            target.y += offset.y;
             return target;
         },
-        divide: function (scale, shallow) {
+        subtract: function (offset, shallow) {
             var target = shallow ? this : this.clone();
-            target.x /= scale.x;
-            target.y /= scale.y;
-            return target;
-        },
-        add: function (scale, shallow) {
-            var target = shallow ? this : this.clone();
-            target.x += scale.x;
-            target.y += scale.y;
-            return target;
-        },
-        subtract: function (scale, shallow) {
-            var target = shallow ? this : this.clone();
-            target.x -= scale.x;
-            target.y -= scale.y;
+            target.x -= offset.x;
+            target.y -= offset.y;
             return target;
         }
     };

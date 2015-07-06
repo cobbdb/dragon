@@ -29,12 +29,13 @@ module.exports = function (opts) {
         for (i = 0; i < len; i += 1) {
             set.push(
                 Factory(this, {
-                    pos: canvas.center.clone(),
+                    pos: pos.clone(),
                     style: style
                 })
             );
         }
 
+        console.debug('\t>', this.set.length);
         this.add(set);
     }
 

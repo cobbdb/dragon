@@ -15,6 +15,7 @@
  * @param {Function} [opts.style] Special canvas setup to
  * perform before drawing.
  * @param {Dimension} [opts.size] Defaults to (10,10).
+ * @param {Number} [opts.lifespan] Defaults to 5 seconds.
  */
 module.exports = function (owner, opts) {
     opts = Util.mergeDefaults(opts, {
@@ -26,10 +27,26 @@ module.exports = function (owner, opts) {
         ),
         size: Dimension(10, 10),
         gravity: 0,
+        lifespan: 5,
         style: function () {}
     });
 
+    /**
+     * Remove this Particle from the game.
+     */
+    function destroy() {
+        this.stop();
+        owner.remove(this);
+    }
+
     return ClearSprite(opts).extend({
+        _create: function () {
+            // Kill this particle after a timeout.
+            global.setTimeout(
+                destroy.bind(this),
+                opts.lifespan * 1000
+            );
+        },
         rotSpeed: random() * 0.4 - 0.2,
         gravity: opts.gravity,
         update: function () {
@@ -37,19 +54,15 @@ module.exports = function (owner, opts) {
             this.rotation %= global.Math.PI * 2;
             this.speed.y += this.gravity;
             this.base.update();
-            if (!this.onscreen()) {
-                this.stop();
-                owner.remove(this);
-            }
         },
         predraw: function (ctx) {
             ctx.save();
             ctx.translate(
-                100,//this.pos.x + this.size().width / 2,
-                100//this.pos.y + this.size().height / 2
+                this.pos.x + this.size().width / 2,
+                this.pos.y + this.size().height / 2
             );
-            //ctx.rotate(this.rotation);
-            //opts.style(ctx);
+            ctx.rotate(this.rotation);
+            opts.style(ctx);
         },
         draw: function (ctx) {
             ctx.restore();
