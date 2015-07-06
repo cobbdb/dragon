@@ -45,7 +45,7 @@
         target = shallow ? root : this.clone(root);
 
         for (key in other) {
-            if (!(key in target)) {
+            if (!(key in target) || typeof target[key] === 'undefined') {
                 target[key] = other[key];
             }
         }

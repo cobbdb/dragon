@@ -1,66 +1,86 @@
 ﻿var Item = require('../item.js'),
-    Counter = require('./id-counter.js');
+    Counter = require('./id-counter.js'),
+    timeLastUpdate = global.Date.now(),
+    clearSet = {},
+    timeouts = [],
+    timeoutsToAdd = [],
+    intervals = [],
+    intervalsToAdd = [];
 
-//module.exports = function () {
-    var timeLastSecond = global.Date.now(),
-        clearSet = {},
-        timeouts = [],
-        intervals = [];
+/**
+ * @class Timer
+ * @extends Item
+ */
+module.exports = Item().extend({
+    update: function () {
+        var now = global.Date.now(),
+            diff = now - timeLastUpdate,
+            dormantTimeouts = [],
+            dormantIntervals = [];
 
-    module.exports = Item().extend({
-        update: function () {
-            var now = global.Date.now(),
-                diff = now - timeLastSecond,
-                filteredTimeouts = [],
-                filteredIntervals = [],
-                hash;
-            if (diff >= 1000) {
-                timeouts.forEach(function (entry) {
-                    entry.life -= diff;
-                    if (entry.life <= 0) {
-                        entry.event();
-                    } else {
-                        filteredTimeouts.push(entry);
-                    }
-                });
-                timeouts = filteredTimeouts;
-
-                intervals.forEach(function (entry) {
-                    entry.life -= diff;
-                    hash = entry.id;
-                    if (entry.life <= 0) {
-                        entry.event();
-                        entry.life = entry.delay;
-                    }
-                    if (hash in clearSet) {
-                        clearSet[hash] = false;
-                    } else {
-                        filteredIntervals.push(entry);
-                    }
-                });
-                intervals = filteredIntervals;
-
-                timeLastSecond = now;
-            }
-        },
-        setTimeout: function (cb, delay, thisArg) {
-            timeouts.push({
-                event: cb.bind(thisArg),
-                life: delay
+        // Debounce by a 3rd of a second.
+        if (diff > 333) {
+            // Process all the timeouts.
+            timeouts.forEach(function (entry) {
+                entry.life -= diff;
+                if (entry.life <= 0) {
+                    entry.event();
+                } else {
+                    dormantTimeouts.push(entry);
+                }
             });
-        },
-        setInterval: function (cb, delay, thisArg) {
-            var hash = Counter.nextId;
-            intervals.push({
-                event: cb.bind(thisArg),
-                life: delay,
-                delay: delay,
-                id: hash
+            timeouts = dormantTimeouts.concat(timeoutsToAdd);
+            timeoutsToAdd = [];
+
+            // Process all the intervals.
+            intervals.forEach(function (entry) {
+                entry.life -= diff;
+                if (entry.life <= 0) {
+                    entry.event();
+                    entry.life = entry.delay;
+                }
+                if (!(entry.id in clearSet)) {
+                    dormantIntervals.push(entry);
+                }
             });
-            return hash;
-        },
-        clearInterval: function (hash) {
-            clearSet[hash] = true;
+            intervals = dormantIntervals.concat(intervalsToAdd);
+            intervalsToAdd = [];
+
+            // Record time of this update.
+            timeLastUpdate = now;
         }
-    });
-//};
+    },
+    /**
+     * @param {Function} cb
+     * @param {Number} delay
+     * @param {Any} thisArg
+     */
+    setTimeout: function (cb, delay, thisArg) {
+        timeoutsToAdd.push({
+            event: cb.bind(thisArg),
+            life: delay
+        });
+    },
+    /**
+     * @param {Function} cb
+     * @param {Number} delay
+     * @param {Any} thisArg
+     * @return {Number}
+     */
+    setInterval: function (cb, delay, thisArg) {
+        var hash = Counter.nextId;
+        intervalsToAdd.push({
+            event: cb.bind(thisArg),
+            life: delay,
+            delay: delay,
+            id: hash
+        });
+        return hash;
+    },
+    /**
+     * @param {Number} hash
+     */
+    clearInterval: function (hash) {
+        clearSet[hash] = true;
+    }
+});

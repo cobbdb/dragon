@@ -12,8 +12,8 @@
  * use when spawning Particles.
  * @param {Number} [opts.volume] Defaults to 4. Number
  * of Particles to spawn per step.
- * @param {Number} [opts.speed] Defaults to 4. Number of
- * steps per second.
+ * @param {Number} [opts.speed] Defaults to 250. Milliseconds
+ * between each step.
  */
 module.exports = function (opts) {
     var hash;
@@ -21,9 +21,8 @@ module.exports = function (opts) {
     opts = Util.mergeDefaults(opts, {
         name: 'dragon-emitter',
         kind: 'dragon-emitter',
-        style: function () {},
         pos: Point(),
-        speed: 4,
+        speed: 250,
         volume: 4
     });
 
@@ -34,24 +33,30 @@ module.exports = function (opts) {
             set.push(
                 opts.type(this, {
                     pos: opts.pos.clone(),
-                    style: opts.style
+                    style: opts.style,
+                    lifespan: opts.lifespan,
+                    gravity: opts.gravity
                 })
             );
         }
         this.add(set);
+        console.debug(this.set.length);
     }
 
     return Collection(opts).extend({
         speed: opts.speed,
         volume: opts.volume,
         _create: function () {
-            hash = timer.setInterval(
-                step.bind(this),
-                1000 / this.speed
-            );
+            if (this.speed) {
+                hash = timer.setInterval(step, this.speed, this);
+            }
+            timer.setInterval(function () {
+                console.debug(this.set.length);
+            }, 250, this);
+            step.call(this);
         },
         kill: function () {
-            global.clearInterval(hash);
+            timer.clearInterval(hash);
         }
     });
 };
