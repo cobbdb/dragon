@@ -56,6 +56,9 @@ module.exports = function (opts) {
             }
             step.call(this);
         },
+        /**
+         * Stop continuous spawn if possible.
+         */
         kill: function () {
             timer.clearInterval(hash);
         },

@@ -22,6 +22,7 @@ module.exports = function (opts) {
         name: opts.name || 'dragon-item',
         kind: opts.kind || 'dragon-item',
         depth: 0,
+        removed: false,
         updating: (typeof opts.updating === 'boolean') ? opts.updating : true,
         drawing: (typeof opts.drawing === 'boolean') ? opts.drawing : true,
         update: BaseClass.Stub,

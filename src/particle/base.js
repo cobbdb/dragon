@@ -20,17 +20,18 @@
  */
 module.exports = function (owner, opts) {
     var fadeout = false,
-        homePos = opts.pos;
+        startPos = opts.pos,
+        startSpeed = Vector(
+            random() - 0.5,
+            random() - 0.5
+        );
 
     opts = Util.mergeDefaults(opts, {
         name: 'dragon-particle',
         kind: 'dragon-particle',
-        speed: Vector(
-            random() - 0.5,
-            random() - 0.5
-        ),
         size: Dimension(10, 10),
         gravity: 0,
+        speed: startSpeed.clone(),
         lifespan: 1000,
         style: function () {},
         on: {}
@@ -38,23 +39,20 @@ module.exports = function (owner, opts) {
     opts.lifespan += random() * 150;
     opts.on.ready = function () {
         this.start();
+        // Kill this particle after a timeout.
+        timer.setTimeout(function () {
+            fadeout = true;
+        }, opts.lifespan);
     };
 
     return ClearSprite(opts).extend({
-        _create: function () {
-            this.stop();
-
-            // Kill this particle after a timeout.
-            timer.setTimeout(function () {
-                fadeout = true;
-            }, opts.lifespan);
-        },
         reset: function () {
             this.stop();
             fadeout = false;
             this.alpha = 1;
             this.rotation = 0;
-            this.move(homePos);
+            this.move(startPos);
+            this.speed = startSpeed.clone();
         },
         rotSpeed: random() * 0.4 - 0.2,
         gravity: opts.gravity,

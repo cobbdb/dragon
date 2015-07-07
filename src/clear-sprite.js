@@ -33,9 +33,9 @@ module.exports = function (opts) {
         mask: Rectangle(),
         updating: false,
         drawing: false,
-        one: {}
+        on: {}
     });
-    opts.one.ready = opts.one.ready || function () {
+    opts.on.ready = opts.on.ready || function () {
         this.start();
     };
 

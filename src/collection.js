@@ -80,13 +80,16 @@ module.exports = function (opts) {
                 }
             }, this);
             if (removed) {
-                // Remove any stale sprites.
-                this.set = this.set.filter(function (item) {
-                    // true to keep, false to drop.
-                    return !item.removed;
-                });
+                this.cleanup();
                 removed = false;
             }
+        },
+        cleanup: function () {
+            // Remove any stale sprites.
+            this.set = this.set.filter(function (item) {
+                // true to keep, false to drop.
+                return !item.removed;
+            });
         }
     });
 };
