@@ -41,7 +41,7 @@ module.exports = function (opts) {
         volume: opts.volume,
         _create: function () {
             var i;
-            // Generate 50 particles.
+            // Generate a pool of 50 particles to use.
             for (i = 0; i < 50; i += 1) {
                 bank.push(
                     opts.type(this,

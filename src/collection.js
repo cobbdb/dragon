@@ -69,6 +69,7 @@ module.exports = function (opts) {
         draw: function (ctx) {
             this.set.forEach(function (item) {
                 if (this.drawing && item.drawing && !item.removed) {
+                    ctx.globalAlpha = 1;
                     item.draw(ctx);
                 }
             }, this);

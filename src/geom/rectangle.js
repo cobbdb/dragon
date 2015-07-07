@@ -83,7 +83,8 @@ module.exports = function (pos, size) {
         draw: function (ctx) {
             ctx.beginPath();
             ctx.lineWidth = 1;
-            ctx.strokeStyle = 'rgba(250, 50, 50, 0.5)';
+            ctx.globalAlpha = 0.5;
+            ctx.strokeStyle = '#f55';
             ctx.rect(this.x, this.y, this.width, this.height);
             ctx.stroke();
         }
