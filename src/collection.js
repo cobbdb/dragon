@@ -1,5 +1,5 @@
 var Item = require('./item.js'),
-    Util = require('./util/object.js');
+    Obj = require('./util/object.js');
 
 /**
  * @class Collection
@@ -10,7 +10,7 @@ var Item = require('./item.js'),
 module.exports = function (opts) {
     var removed = false;
 
-    opts = Util.mergeDefaults(opts, {
+    opts = Obj.mergeDefaults(opts, {
         name: 'dragon-collection',
         kind: 'dragon-collection'
     });
@@ -29,7 +29,7 @@ module.exports = function (opts) {
                     item.removed = false;
                     this.set.push(item);
                     this.map[item.name] = item;
-                    item.trigger('ready');
+                    item.trigger('$added');
                 }, this);
                 // Larger depth value is closer to viewer.
                 this.set.sort(function (a, b) {

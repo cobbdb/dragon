@@ -1,3 +1,4 @@
+var timer = require('./timer.js');
 var timeSinceLastSecond = frameCountThisSecond = frameRate = 0,
     timeLastFrame = global.Date.now();
 

@@ -31,17 +31,17 @@ module.exports = function (opts) {
         start: function () {
             this.updating = true;
             this.drawing = true;
-            this.trigger('start');
+            this.trigger('$start');
         },
         pause: function () {
             this.updating = false;
             this.drawing = true;
-            this.trigger('pause');
+            this.trigger('$pause');
         },
         stop: function () {
             this.updating = false;
             this.drawing = false;
-            this.trigger('stop');
+            this.trigger('$stop');
         }
     }).implement(
         Eventable({

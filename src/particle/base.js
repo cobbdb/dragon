@@ -36,8 +36,8 @@ module.exports = function (owner, opts) {
         style: function () {},
         on: {}
     });
-    opts.lifespan += random() * 150;
-    opts.on.ready = function () {
+    opts.lifespan += random() * 250;
+    opts.on.$added = function () {
         this.start();
         // Kill this particle after a timeout.
         timer.setTimeout(function () {

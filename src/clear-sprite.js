@@ -3,7 +3,7 @@ var CollisionItem = require('./collision-item.js'),
     Vector = require('./geom/vector.js'),
     Dimension = require('./geom/dimension.js'),
     Rectangle = require('./geom/rectangle.js'),
-    Util = require('./util/object.js');
+    Obj = require('./util/object.js');
 
 /**
  * @class ClearSprite
@@ -27,17 +27,18 @@ module.exports = function (opts) {
         scale = opts.scale || 1,
         adjsize = size.multiply(Dimension(scale, scale));
 
-    opts = Util.mergeDefaults(opts, {
+    opts = Obj.mergeDefaults(opts, {
         name: 'dragon-clear-sprite',
         kind: 'dragon-clear-sprite',
         mask: Rectangle(),
         updating: false,
-        drawing: false,
-        on: {}
+        drawing: false
     });
-    opts.on.ready = opts.on.ready || function () {
-        this.start();
-    };
+    opts.on = Obj.mergeDefaults(opts.on, {
+        $added: function () {
+            this.start();
+        }
+    });
 
     if (!opts.freemask) {
         // Setup mask offset.
