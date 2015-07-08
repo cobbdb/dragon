@@ -25,6 +25,16 @@ module.exports = function (x, y) {
                 this.y === other.y
             );
         },
+        /**
+         * @param {Boolean} mutate
+         * @return {Point}
+         */
+        floor: function (mutate) {
+            var target = mutate ? this : this.clone();
+            target.x = global.Math.floor(target.x);
+            target.y = global.Math.floor(target.y);
+            return target;
+        },
         is: {
             /**
              * @return {Boolean} True if equal to (0,0).

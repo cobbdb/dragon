@@ -54,7 +54,7 @@ module.exports = function (pos, rad) {
             ctx.lineWidth = 1;
             ctx.globalAlpha = 0.5;
             ctx.strokeStyle = '#f55';
-            ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+            ctx.arc(this.x, this.y, this.radius, 0, 2 * global.Math.PI);
             ctx.stroke();
         },
         /**

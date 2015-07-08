@@ -14,6 +14,8 @@
  * of Particles to spawn per step.
  * @param {Number} [opts.speed] Defaults to 250. Milliseconds
  * between each step.
+ * @param {Function} [opts.style] Special canvas setup to
+ * perform before drawing.
  * @param {Object} [opts.particle] Particle options.
  */
 module.exports = function (opts) {
@@ -26,6 +28,7 @@ module.exports = function (opts) {
         pos: Point(),
         speed: 250,
         volume: 4,
+        style: function () {},
         particle: {}
     });
     opts.particle.pos = opts.pos;
@@ -55,6 +58,12 @@ module.exports = function (opts) {
                 hash = timer.setInterval(step, this.speed, this);
             }
             step.call(this);
+        },
+        draw: function (ctx) {
+            opts.style(ctx);
+            ctx.beginPath();
+            this.base.draw(ctx);
+            ctx.fill();
         },
         /**
          * Stop continuous spawn if possible.

@@ -31,6 +31,15 @@ canvas.mobile = mobile;
 canvas.ctx = canvas.getContext('2d');
 
 /**
+ * Polyfill resetTransform for Cocoonjs.
+ */
+if (!canvas.ctx.resetTransform) {
+    canvas.ctx.resetTransform = function () {
+        canvas.ctx.setTransform(1, 0, 0, 1, 0, 0);
+    };
+}
+
+/**
  * @type {Rectangle}
  */
 canvas.mask = Rectangle(

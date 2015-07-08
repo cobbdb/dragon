@@ -1,4 +1,4 @@
-var FrameCounter = require('./util/frame-counter.js'),
+var frameCounter = require('./util/frame-counter.js'),
     Collection = require('./collection.js'),
     timer = require('./util/timer.js'),
     ctx = require('./io/canvas.js').ctx,
@@ -32,7 +32,7 @@ module.exports = Collection({
     draw: function () {
         this.base.draw(ctx);
         if (this.debug) {
-            FrameCounter.draw(ctx);
+            frameCounter.draw(ctx);
             collisions.draw(ctx);
         }
     },

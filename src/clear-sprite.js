@@ -30,14 +30,7 @@ module.exports = function (opts) {
     opts = Obj.mergeDefaults(opts, {
         name: 'dragon-clear-sprite',
         kind: 'dragon-clear-sprite',
-        mask: Rectangle(),
-        updating: false,
-        drawing: false
-    });
-    opts.on = Obj.mergeDefaults(opts.on, {
-        $added: function () {
-            this.start();
-        }
+        mask: Rectangle()
     });
 
     if (!opts.freemask) {
@@ -59,6 +52,7 @@ module.exports = function (opts) {
             if (newval) {
                 scale = newval;
                 adjsize = size.multiply(Dimension(scale, scale));
+                adjsize.floor(true);
                 if (!opts.freemask) {
                     this.mask.resize(adjsize);
                 }
@@ -70,6 +64,7 @@ module.exports = function (opts) {
             if (newval) {
                 size = newval;
                 adjsize = size.multiply(Dimension(scale, scale));
+                adjsize.floor(true);
                 if (!opts.freemask) {
                     this.mask.resize(adjsize);
                 }

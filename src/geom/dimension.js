@@ -18,6 +18,16 @@ module.exports = function (w, h) {
                 this.height === other.height
             );
         },
+        /**
+         * @param {Boolean} mutate
+         * @return {Dimension}
+         */
+        floor: function (mutate) {
+            var target = mutate ? this : this.clone();
+            target.width = global.Math.floor(target.width);
+            target.height = global.Math.floor(target.height);
+            return target;
+        },
         is: {
             /**
              * @return {Boolean}

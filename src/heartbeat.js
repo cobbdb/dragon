@@ -1,5 +1,5 @@
 ﻿var Game = require('./game.js'),
-    FrameCounter = require('./util/frame-counter.js'),
+    frameCounter = require('./util/frame-counter.js'),
     running = false;
 
 /**
@@ -16,7 +16,7 @@ module.exports = {
                 Game.update();
                 Game.draw();
                 Game.teardown();
-                FrameCounter.countFrame();
+                frameCounter.countFrame();
                 global.requestAnimationFrame(step);
             }
             global.requestAnimationFrame(step);
