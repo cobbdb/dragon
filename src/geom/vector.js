@@ -1,4 +1,5 @@
-var ZERO = require('./zero.js');
+var ZERO = require('./zero.js'),
+    Num = require('../util/number.js');
 
 /**
  * @class Vector
@@ -10,8 +11,8 @@ module.exports = function (x, y) {
         x: x || 0,
         y: y || 0,
         get magnitude () {
-            return Math.abs(
-                Math.sqrt(
+            return Num.abs(
+                global.Math.sqrt(
                     (this.y * this.y) +
                     (this.x * this.x)
                 )
@@ -40,7 +41,7 @@ module.exports = function (x, y) {
         toPolar: function () {
             var Polar = require('./polar.js');
             return Polar(
-                Math.atan(this.y / this.x),
+                global.Math.atan(this.y / this.x),
                 this.magnitude
             );
         },

@@ -3,7 +3,8 @@ var CollisionItem = require('./collision-item.js'),
     Vector = require('./geom/vector.js'),
     Dimension = require('./geom/dimension.js'),
     Rectangle = require('./geom/rectangle.js'),
-    Obj = require('./util/object.js');
+    Obj = require('./util/object.js'),
+    Num = require('./util/number.js');
 
 /**
  * @class ClearSprite
@@ -20,6 +21,11 @@ var CollisionItem = require('./collision-item.js'),
  * @param {Boolean} [opts.drawing] Defaults to false.
  * @param {Boolean} [opts.updating] Defaults to false.
  * @param {Number} [opts.alpha] Defaults to 1.
+ * @param {Number} [opts.gravity] Defaults to 0. Amount to
+ * increase vertical velocity each update.
+ * @param {Number} [opts.friction] Defaults to 1. Amount to
+ * reduce speed each update.
+ * @param {Number} [opts.rotationSpeed] Defaults to 0.
  */
 module.exports = function (opts) {
     var pos = opts.pos || Point(),
@@ -46,6 +52,8 @@ module.exports = function (opts) {
     }
 
     return CollisionItem(opts).extend({
+        gravity: opts.gravity || 0,
+        friction: opts.friction || 1,
         pos: pos,
         alpha: opts.alpha || 1,
         scale: function (newval) {
@@ -73,22 +81,38 @@ module.exports = function (opts) {
             }
         },
         rotation: opts.rotation || 0,
+        rotationSpeed: opts.rotationSpeed || 0,
         speed: opts.speed || Vector(),
         update: function () {
+            this.rotation += this.rotationSpeed;
+            this.rotation %= Num.PI2;
+
+            this.speed.x *= this.friction;
+            this.speed.y *= this.friction;
+            this.speed.y += this.gravity;
+
             if (!this.speed.is.zero) {
                 this.shift();
             }
             this.base.update();
         },
         draw: function (ctx) {
+            var sin = Num.sin(this.rotation),
+                cos = Num.cos(this.rotation);
+
             ctx.globalAlpha = this.alpha;
+            ctx.setTransform(
+                cos, sin, -sin, cos,
+                this.pos.x, this.pos.y
+            );
+            ctx.moveTo(adjsize.width, 0);
         },
         /**
          * Move the Sprite and its mask unless freemask.
          * @param {Point} pos
          */
         move: function (pos) {
-            this.pos = this.pos.move(pos);
+            this.pos.move(pos, true);
             if (!opts.freemask) {
                 this.base.move(this.pos);
             }
@@ -97,8 +121,9 @@ module.exports = function (opts) {
          * @param {Vector} offset
          */
         shift: function (offset) {
-            var target = this.pos.add(offset || this.speed);
-            this.move(target);
+            this.move(
+                this.pos.add(offset || this.speed)
+            );
         }
     });
 };

@@ -1,7 +1,8 @@
 var Shape = require('./shape.js'),
     Vector = require('./vector.js'),
     Point = require('./point.js'),
-    Dimension = require('./dimension.js');
+    Dimension = require('./dimension.js'),
+    Num = require('../util/number.js');
 
 /**
  * @param {Point} [pos] Defaults to (0,0).
@@ -54,7 +55,7 @@ module.exports = function (pos, rad) {
             ctx.lineWidth = 1;
             ctx.globalAlpha = 0.5;
             ctx.strokeStyle = '#f55';
-            ctx.arc(this.x, this.y, this.radius, 0, 2 * global.Math.PI);
+            ctx.arc(this.x, this.y, this.radius, 0, 2 * Num.PI);
             ctx.stroke();
         },
         /**

@@ -74,15 +74,7 @@ module.exports = function (opts) {
         },
         draw: function (ctx) {
             this.base.draw(ctx);
-            this.strip.draw(
-                ctx,
-                this.pos,
-                Dimension(
-                    this.size().width / this.strip.size.width,
-                    this.size().height / this.strip.size.height
-                ),
-                this.rotation
-            );
+            this.strip.draw(ctx, this.size());
         }
     });
 };

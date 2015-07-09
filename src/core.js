@@ -67,6 +67,7 @@ module.exports = {
     particle: {
         Emitter: require('./particle/emitter.js'),
         Square: require('./particle/square.js'),
-        Circle: require('./particle/circle.js')
+        Circle: require('./particle/circle.js'),
+        Image: require('./particle/image.js')
     }
 };

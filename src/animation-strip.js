@@ -1,7 +1,7 @@
 var Dimension = require('./geom/dimension.js'),
     Point = require('./geom/point.js'),
     pipeline = require('./assets/pipeline.js'),
-    Util = require('./util/object.js');
+    Obj = require('./util/object.js');
 
 /**
  * @param {String} src Image filename.
@@ -23,7 +23,7 @@ module.exports = function (src, opts) {
         firstFrame,
         direction = 1;
 
-    opts = Util.mergeDefaults(opts, {
+    opts = Obj.mergeDefaults(opts, {
         kind: 'dragon-animation-strip',
         sinusoid: false,
         start: Point(),
@@ -101,36 +101,20 @@ module.exports = function (src, opts) {
         },
         /**
          * @param {Context2D} ctx Canvas 2D context.
-         * @param {Point} pos Canvas position.
-         * @param {Dimension} [scale] Defaults to (1,1).
-         * @param {Number} [rotation] Defaults to 0.
+         * @param {Dimension} size Draw size of Image.
          */
-        draw: function (ctx, pos, scale, rotation) {
-            var size = this.size(),
-                offset = this.frame * size.width;
-            scale = scale || Dimension(1, 1);
-            rotation = rotation || 0;
-
-            // Apply the canvas transforms.
-            ctx.save();
-            ctx.translate(
-                pos.x + size.width / 2,
-                pos.y + size.height / 2
-            );
-            ctx.rotate(rotation);
-
-            // Draw the frame and restore the canvas.
+        draw: function (ctx, size) {
+            var offset = this.frame * size.width;
             ctx.drawImage(img,
                 firstFrame.x + offset,
                 firstFrame.y,
-                size.width,
-                size.height,
+                this.size.width,
+                this.size.height,
                 -size.width / 2,
                 -size.height / 2,
                 size.width,
                 size.height
             );
-            ctx.restore();
         }
     };
 };

@@ -2,10 +2,8 @@
     Vector = require('../geom/vector.js'),
     Dimension = require('../geom/dimension.js'),
     Point = require('../geom/point.js'),
-    canvas = require('../io/canvas.js'),
     random = require('../util/random.js'),
     Obj = require('../util/object.js'),
-    Num = require('../util/number.js'),
     timer = require('../util/timer.js');
 
 /**
@@ -15,26 +13,29 @@
  * @param {Emitter} owner
  * @param {Number} [opts.lifespan] Defaults to 1000.
  * @param {Number} [opts.gravity] Defaults to 0.
- * @param {Dimension} [opts.size] Defaults to (10,10).
+ * @param {Dimension} [opts.size] Defaults to (4,4).
+ * @param {Function} [opts.style] Special canvas setup to
+ * perform before drawing.
  */
 module.exports = function (owner, opts) {
     var fadeout = false,
         startPos = opts.pos,
-        startSpeed = Vector(
-            random() - 0.5,
-            random() - 0.5
-        );
+        startSpeed;
 
     opts = Obj.mergeDefaults(opts, {
         name: 'dragon-particle',
         kind: 'dragon-particle',
         size: Dimension(4, 4),
-        rotSpeed: random() * 0.4 - 0.2,
-        gravity: 0,
-        speed: startSpeed.clone(),
+        rotationSpeed: random() * 0.4 - 0.2,
+        speed: Vector(
+            random() - 0.5,
+            random() - 0.5
+        ),
         lifespan: 1000,
+        style: function () {},
         on: {}
     });
+    startSpeed = opts.speed.clone();
     opts.lifespan += random() * 250;
     opts.on.$added = function () {
         // Kill this particle after a timeout.
@@ -52,30 +53,20 @@ module.exports = function (owner, opts) {
             this.speed = startSpeed.clone();
         },
         rotSpeed: opts.rotSpeed,
-        gravity: opts.gravity,
         update: function () {
             if (this.alpha > 0) {
                 if (fadeout) {
                     this.alpha -= 0.05;
                     this.alpha = global.Math.max(0, this.alpha);
                 }
-                this.rotation += this.rotSpeed;
-                this.rotation %= Num.PI2;
-                this.speed.y += this.gravity;
             } else {
                 owner.reclaim(this);
             }
             this.base.update();
         },
         draw: function (ctx) {
-            var sin = Num.sin(this.rotation),
-                cos = Num.cos(this.rotation);
             this.base.draw(ctx);
-            ctx.setTransform(
-                cos, sin, -sin, cos,
-                this.pos.x, this.pos.y
-            );
-            ctx.moveTo(this.size().width, 0);
+            opts.style(ctx);
         }
     });
 };

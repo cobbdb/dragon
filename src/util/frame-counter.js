@@ -3,10 +3,10 @@ var timer = require('./timer.js'),
     frameRate = frameCount = 0;
 
 hash = timer.setInterval(function (over) {
-    var time = 500 + over;
+    var time = 1000 + over;
     frameRate = global.Math.floor(frameCount * 1000 / time);
     frameCount = 0;
-}, 500);
+}, 1000);
 
 module.exports = {
     countFrame: function () {
