@@ -11,6 +11,9 @@ for (i = 6.28; i >= -6.28; i -= 0.01) {
     sine[key] = global.Math.sin(i);
     cosine[key] = global.Math.cos(i);
 }
+// Account for both 0.00 and -0.00.
+sine['-0.00'] = sine['0.00'];
+cosine['-0.00'] = cosine['0.00'];
 
 module.exports = {
     PI: 3.14159,

@@ -21,6 +21,7 @@
  */
 module.exports = function (opts) {
     var fadeout = false,
+        hash,
         startPos = opts.pos,
         startSpeed;
 
@@ -40,20 +41,28 @@ module.exports = function (opts) {
     });
     startSpeed = opts.speed.clone();
     opts.lifespan += random() * 250;
-    opts.on.$added = function () {
-        // Kill this particle after a timeout.
-        timer.setTimeout(function () {
-            fadeout = true;
-        }, opts.lifespan);
-    };
 
     return ClearSprite(opts).extend({
+        bankid: opts.bankid,
+        _create: function () {
+            this.stop();
+        },
         reset: function () {
+            this.stop();
+            timer.clear(hash);
             fadeout = false;
+
             this.alpha = 1;
             this.rotation = 0;
+            this.rotationSpeed = opts.rotationSpeed;
             this.move(startPos);
             this.speed = startSpeed.clone();
+        },
+        start: function () {
+            this.base.start();
+            hash = timer.setTimeout(function () {
+                fadeout = true;
+            }, opts.lifespan);
         },
         update: function () {
             if (this.alpha > 0) {

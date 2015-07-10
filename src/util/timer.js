@@ -20,11 +20,13 @@ module.exports = Item().extend({
 
         // Process all the timeouts.
         timeouts.forEach(function (entry) {
-            entry.life -= diff;
-            if (entry.life <= 0) {
-                entry.event(-entry.life);
-            } else {
-                dormantTimeouts.push(entry);
+            if (!(entry.id in clearSet)) {
+                entry.life -= diff;
+                if (entry.life <= 0) {
+                    entry.event(-entry.life);
+                } else {
+                    dormantTimeouts.push(entry);
+                }
             }
         });
         timeouts = dormantTimeouts.concat(timeoutsToAdd);
@@ -32,12 +34,12 @@ module.exports = Item().extend({
 
         // Process all the intervals.
         intervals.forEach(function (entry) {
-            entry.life -= diff;
-            if (entry.life <= 0) {
-                entry.event(-entry.life);
-                entry.life = entry.delay;
-            }
             if (!(entry.id in clearSet)) {
+                entry.life -= diff;
+                if (entry.life <= 0) {
+                    entry.event(-entry.life);
+                    entry.life = entry.delay;
+                }
                 dormantIntervals.push(entry);
             }
         });
@@ -51,12 +53,16 @@ module.exports = Item().extend({
      * @param {Function} cb
      * @param {Number} delay
      * @param {Any} thisArg
+     * @return {Number}
      */
     setTimeout: function (cb, delay, thisArg) {
+        var hash = Counter.nextId;
         timeoutsToAdd.push({
             event: cb.bind(thisArg),
-            life: delay
+            life: delay,
+            id: hash
         });
+        return hash;
     },
     /**
      * @param {Function} cb
@@ -77,7 +83,7 @@ module.exports = Item().extend({
     /**
      * @param {Number} hash
      */
-    clearInterval: function (hash) {
+    clear: function (hash) {
         clearSet[hash] = true;
     }
 });

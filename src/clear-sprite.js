@@ -84,8 +84,8 @@ module.exports = function (opts) {
         rotationSpeed: opts.rotationSpeed || 0,
         speed: opts.speed || Vector(),
         update: function () {
+            this.rotationSpeed *= 1 - this.friction;
             this.rotation += this.rotationSpeed;
-            this.rotation *= 1 - this.friction;
             this.rotation %= Num.PI2;
 
             this.speed.y += this.gravity;

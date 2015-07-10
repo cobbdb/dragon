@@ -34,11 +34,16 @@ module.exports = function (opts) {
 
     // Emitter's heartbeat - activate some particles.
     function step() {
-        var set = bank.splice(0, this.volume);
-        this.add(set);
+        var set = bank.splice(0, this.volume),
+            i, id, len = set.length;
+        for (i = 0; i < len; i += 1) {
+            id = set[i];
+            this.set[id].start();
+        }
     }
 
     return Collection(opts).extend({
+        sorted: false,
         speed: opts.speed,
         volume: opts.volume,
         _create: function () {
@@ -48,8 +53,10 @@ module.exports = function (opts) {
                 conf = opts.conf() || {};
                 conf.owner = this;
                 conf.pos = conf.pos || opts.pos;
+                conf.bankid = i;
+                bank.push(i);
                 particle = opts.type(conf);
-                bank.push(particle);
+                this.set.push(particle);
             }
 
             // Only repeat if a non-zero speed was set.
@@ -68,7 +75,7 @@ module.exports = function (opts) {
          * Stop continuous spawn if possible.
          */
         kill: function () {
-            timer.clearInterval(hash);
+            timer.clear(hash);
         },
         /**
          * Reset a particle and add it back to the bank.
@@ -76,8 +83,7 @@ module.exports = function (opts) {
          */
         reclaim: function (particle) {
             particle.reset();
-            this.remove(particle);
-            bank.push(particle);
+            bank.push(particle.bankid);
         }
     });
 };

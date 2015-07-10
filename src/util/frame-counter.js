@@ -16,7 +16,7 @@ module.exports = {
         return frameRate;
     },
     kill: function () {
-        timer.clearInterval(hash);
+        timer.clear(hash);
     },
     draw: function (ctx) {
         ctx.resetTransform();

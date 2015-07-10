@@ -6,6 +6,8 @@ var Item = require('./item.js'),
  * @extends Item
  * Item Collections are sets of Items with methods for
  * for manipulating Items.
+ * @param {Boolean} [sorted] Defaults to true. False if
+ * items should not be ordered by depth.
  */
 module.exports = function (opts) {
     var removed = false;
@@ -16,6 +18,7 @@ module.exports = function (opts) {
     });
 
     return Item(opts).extend({
+        sorted: ('sorted' in opts) ? opts.sorted : true,
         set: [],
         map: {},
         /**
@@ -31,10 +34,12 @@ module.exports = function (opts) {
                     this.map[item.name] = item;
                     item.trigger('$added');
                 }, this);
-                // Larger depth value is closer to viewer.
-                this.set.sort(function (a, b) {
-                    return a.depth - b.depth;
-                });
+                if (this.sorted) {
+                    // Larger depth value is closer to viewer.
+                    this.set.sort(function (a, b) {
+                        return a.depth - b.depth;
+                    });
+                }
             }
             return this;
         },
