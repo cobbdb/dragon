@@ -23,7 +23,7 @@ var CollisionItem = require('./collision-item.js'),
  * @param {Number} [opts.alpha] Defaults to 1.
  * @param {Number} [opts.gravity] Defaults to 0. Amount to
  * increase vertical velocity each update.
- * @param {Number} [opts.friction] Defaults to 1. Amount to
+ * @param {Number} [opts.friction] Defaults to 0. Amount to
  * reduce speed each update.
  * @param {Number} [opts.rotationSpeed] Defaults to 0.
  */
@@ -53,7 +53,7 @@ module.exports = function (opts) {
 
     return CollisionItem(opts).extend({
         gravity: opts.gravity || 0,
-        friction: opts.friction || 1,
+        friction: opts.friction || 0,
         pos: pos,
         alpha: opts.alpha || 1,
         scale: function (newval) {
@@ -85,13 +85,14 @@ module.exports = function (opts) {
         speed: opts.speed || Vector(),
         update: function () {
             this.rotation += this.rotationSpeed;
+            this.rotation *= 1 - this.friction;
             this.rotation %= Num.PI2;
 
-            this.speed.x *= this.friction;
-            this.speed.y *= this.friction;
             this.speed.y += this.gravity;
 
             if (!this.speed.is.zero) {
+                this.speed.x *= 1 - this.friction;
+                this.speed.y *= 1 - this.friction;
                 this.shift();
             }
             this.base.update();

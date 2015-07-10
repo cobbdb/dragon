@@ -7,14 +7,14 @@
  * @extends Particle
  * @param {String} opts.src
  */
-module.exports = function (owner, opts) {
+module.exports = function (opts) {
     var img = pipeline.get.image(opts.src);
 
     opts = Obj.mergeDefaults(opts, {
         name: 'dragon-particle-image'
     });
 
-    return Particle(owner, opts).extend({
+    return Particle(opts).extend({
         draw: function (ctx) {
             this.base.draw(ctx);
             ctx.drawImage(img,

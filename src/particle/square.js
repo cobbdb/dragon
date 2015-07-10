@@ -5,11 +5,11 @@
  * @class SquareParticle
  * @extends Particle
  */
-module.exports = function (owner, opts) {
+module.exports = function (opts) {
     opts = Obj.mergeDefaults(opts, {
         name: 'dragon-particle-square'
     });
-    return Particle(owner, opts).extend({
+    return Particle(opts).extend({
         draw: function (ctx) {
             this.base.draw(ctx);
             ctx.fillRect(

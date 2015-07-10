@@ -6,12 +6,12 @@
  * @class CircleParticle
  * @extends Particle
  */
-module.exports = function (owner, opts) {
+module.exports = function (opts) {
     opts = Obj.mergeDefaults(opts, {
         name: 'dragon-particle-circle'
     });
-    opts.rotSpeed = 0;
-    return Particle(owner, opts).extend({
+    opts.rotationSpeed = 0;
+    return Particle(opts).extend({
         draw: function (ctx) {
             this.base.draw(ctx);
             ctx.arc(

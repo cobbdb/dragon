@@ -16,7 +16,7 @@
  * between each step.
  * @param {Function} [opts.style] Special canvas setup to
  * perform before drawing.
- * @param {Object} [opts.particle] Particle options.
+ * @param {Function} [opts.conf] Returns particle options.
  */
 module.exports = function (opts) {
     var hash,
@@ -29,9 +29,8 @@ module.exports = function (opts) {
         speed: 250,
         volume: 4,
         style: function () {},
-        particle: {}
+        conf: function () {}
     });
-    opts.particle.pos = opts.pos;
 
     // Emitter's heartbeat - activate some particles.
     function step() {
@@ -43,14 +42,14 @@ module.exports = function (opts) {
         speed: opts.speed,
         volume: opts.volume,
         _create: function () {
-            var i;
+            var i, particle, conf;
             // Generate a pool of 50 particles to use.
             for (i = 0; i < 50; i += 1) {
-                bank.push(
-                    opts.type(this,
-                        Obj.clone(opts.particle)
-                    )
-                );
+                conf = opts.conf() || {};
+                conf.owner = this;
+                conf.pos = conf.pos || opts.pos;
+                particle = opts.type(conf);
+                bank.push(particle);
             }
 
             // Only repeat if a non-zero speed was set.

@@ -10,14 +10,16 @@
  * @class Particle
  * @extends ClearSprite
  * Basic abstract contract for all particle types.
- * @param {Emitter} owner
+ * @param {Emitter} opts.owner
  * @param {Number} [opts.lifespan] Defaults to 1000.
  * @param {Number} [opts.gravity] Defaults to 0.
  * @param {Dimension} [opts.size] Defaults to (4,4).
  * @param {Function} [opts.style] Special canvas setup to
  * perform before drawing.
+ * @param {Number} [opts.fade] Defaults to 0.05. Speed of
+ * fadeout.
  */
-module.exports = function (owner, opts) {
+module.exports = function (opts) {
     var fadeout = false,
         startPos = opts.pos,
         startSpeed;
@@ -33,6 +35,7 @@ module.exports = function (owner, opts) {
         ),
         lifespan: 1000,
         style: function () {},
+        fade: 0.05,
         on: {}
     });
     startSpeed = opts.speed.clone();
@@ -52,15 +55,14 @@ module.exports = function (owner, opts) {
             this.move(startPos);
             this.speed = startSpeed.clone();
         },
-        rotSpeed: opts.rotSpeed,
         update: function () {
             if (this.alpha > 0) {
                 if (fadeout) {
-                    this.alpha -= 0.05;
+                    this.alpha -= opts.fade;
                     this.alpha = global.Math.max(0, this.alpha);
                 }
             } else {
-                owner.reclaim(this);
+                opts.owner.reclaim(this);
             }
             this.base.update();
         },
