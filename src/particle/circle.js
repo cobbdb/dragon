@@ -14,11 +14,13 @@ module.exports = function (opts) {
     return Particle(opts).extend({
         draw: function (ctx) {
             this.base.draw(ctx);
+            ctx.beginPath();
             ctx.arc(
                 0, 0,
                 this.size().width / 2,
                 0, Num.PI2
             );
+            ctx.fill();
         }
     });
 };

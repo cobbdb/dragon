@@ -67,9 +67,7 @@ module.exports = function (opts) {
         },
         draw: function (ctx) {
             opts.style(ctx);
-            ctx.beginPath();
             this.base.draw(ctx);
-            ctx.fill();
         },
         /**
          * Stop continuous spawn if possible.

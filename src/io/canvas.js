@@ -30,14 +30,23 @@ canvas.mobile = mobile;
  */
 canvas.ctx = canvas.getContext('2d');
 
-/**
- * Polyfill resetTransform for Cocoonjs.
- */
+// Polyfill resetTransform for Cocoonjs.
 if (!canvas.ctx.resetTransform) {
     canvas.ctx.resetTransform = function () {
         canvas.ctx.setTransform(1, 0, 0, 1, 0, 0);
     };
 }
+
+/**
+ * Clear the canvas.
+ */
+canvas.clear = function () {
+    canvas.ctx.clearRect(
+        0, 0,
+        canvas.width,
+        canvas.height
+    );
+};
 
 /**
  * @type {Rectangle}

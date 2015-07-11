@@ -75,7 +75,6 @@ module.exports = function (opts) {
             this.set.forEach(function (item) {
                 if (this.drawing && item.drawing && !item.removed) {
                     ctx.globalAlpha = 1;
-                    ctx.resetTransform();
                     item.draw(ctx);
                 }
             }, this);
