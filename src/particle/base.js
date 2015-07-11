@@ -36,8 +36,7 @@ module.exports = function (opts) {
         ),
         lifespan: 1000,
         style: function () {},
-        fade: 0.05,
-        on: {}
+        fade: 0.05
     });
     startSpeed = opts.speed.clone();
     opts.lifespan += random() * 250;
