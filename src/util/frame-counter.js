@@ -2,7 +2,7 @@ var timer = require('./timer.js'),
     hash,
     started = false,
     frameRate = frameCount = 0,
-    mean = meantot = meancnt = 0,
+    mean = meantot = 0,
     meanset = [];
 
 function step(over) {
@@ -13,16 +13,14 @@ function step(over) {
     frameCount = 0;
 
     // Update mean.
-    meancnt += 1;
     meanset.push(frameRate);
     if (meanset.length > 10) {
         meanset.shift();
-        meancnt = 10;
     }
     meantot = meanset.reduce(function (a, b) {
         return a + b;
     });
-    mean = (meantot / meancnt).toFixed(1);
+    mean = (meantot / meanset.length).toFixed(1);
 }
 
 module.exports = {
