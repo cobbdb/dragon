@@ -1,4 +1,5 @@
-var Dimension = require('./geom/dimension.js'),
+var Item = require('./item.js'),
+    Dimension = require('./geom/dimension.js'),
     Point = require('./geom/point.js'),
     pipeline = require('./assets/pipeline.js'),
     Obj = require('./util/object.js');
@@ -38,7 +39,12 @@ module.exports = function (src, opts) {
         opts.size.height * opts.start.y
     );
 
-    return {
+    return Item(opts).extend({
+        /**
+         * Size of each frame in the image - not
+         * draw size.
+         * @type {Dimension}
+         */
         size: opts.size,
         frame: 0,
         speed: opts.speed || 0,
@@ -72,6 +78,8 @@ module.exports = function (src, opts) {
          * Should not be called when `updating` is false.
          */
         update: function () {
+            // VVVV TODO: rewrite with new timer methods.
+            //
             var now, elapsed, timeBetweenFrames;
 
             timeBetweenFrames = (1 / this.speed) * 1000;
@@ -101,19 +109,20 @@ module.exports = function (src, opts) {
         },
         /**
          * @param {Context2D} ctx Canvas 2D context.
-         * @param {Dimension} size Draw size of Image.
+         * @param {Dimension} [size] Defaults to full
+         * image Dimension. Draw size of Image.
          */
         draw: function (ctx, size) {
-            var offset = this.frame * size.width;
+            var offset = this.frame * this.size.width;
             ctx.drawImage(img,
                 firstFrame.x + offset,
                 firstFrame.y,
                 this.size.width,
                 this.size.height,
                 0, 0,
-                size.width,
-                size.height
+                size.width || this.size.width,
+                size.height || this.size.height
             );
         }
-    };
+    });
 };

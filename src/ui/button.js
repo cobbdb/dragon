@@ -9,6 +9,8 @@ var Sprite = require('../sprite.js'),
  * Uses strips named `up` and `down` for when the button
  * is being pressed vs. normal.
  * @param {Function} [opts.onpress]
+ * @param {Boolean} [opts.auto] Defaults to true. False
+ * to disable auto up/down strip transition.
  */
 module.exports = function (opts) {
     opts = Util.mergeDefaults(opts, {
@@ -20,19 +22,26 @@ module.exports = function (opts) {
         mask: Rectangle(),
         collisions: [],
         startingStrip: 'up',
-        onpress: function () {}
+        onpress: function () {},
+        auto: true
     });
     opts.collisions = [].concat(
         opts.collisions,
         require('../dragon-collisions.js')
     );
     opts.on['$collide#screentap'] = function () {
-        this.useStrip('down');
+        if (this.auto) {
+            this.useStrip('down');
+        }
         opts.onpress.call(this);
     };
     opts.on['$miss#screenhold'] = function () {
-        this.useStrip('up');
+        if (this.auto) {
+            this.useStrip('up');
+        }
     };
 
-    return Sprite(opts);
+    return Sprite(opts).extend({
+        auto: opts.auto
+    });
 };
