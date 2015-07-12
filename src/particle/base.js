@@ -22,12 +22,12 @@
 module.exports = function (opts) {
     var fadeout = false,
         hash,
-        startPos = opts.pos,
+        startPos = opts.pos.clone(),
         startSpeed;
 
     opts = Obj.mergeDefaults(opts, {
-        name: 'dragon-particle',
-        kind: 'dragon-particle',
+        name: '$:particle',
+        kind: '$:particle',
         size: Dimension(4, 4),
         rotationSpeed: random() * 0.4 - 0.2,
         speed: Vector(
@@ -42,7 +42,6 @@ module.exports = function (opts) {
     opts.lifespan += random() * 250;
 
     return ClearSprite(opts).extend({
-        bankid: opts.bankid,
         _create: function () {
             this.stop();
         },
@@ -64,12 +63,10 @@ module.exports = function (opts) {
             }, opts.lifespan);
         },
         update: function () {
-            if (this.alpha > 0) {
-                if (fadeout) {
-                    this.alpha -= opts.fade;
-                    this.alpha = global.Math.max(0, this.alpha);
-                }
-            } else {
+            if (fadeout) {
+                this.alpha -= opts.fade;
+            }
+            if (this.alpha < 0) {
                 opts.owner.reclaim(this);
             }
             this.base.update();

@@ -20,8 +20,8 @@ module.exports = function (opts) {
         collisionSets = [].concat(opts.collisions || []);
 
     opts = Util.mergeDefaults(opts, {
-        name: 'dragon-collidable',
-        kind: 'dragon-collidable',
+        name: '$:collidable',
+        kind: '$:collidable',
         on: {}
     });
 

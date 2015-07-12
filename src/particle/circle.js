@@ -8,7 +8,7 @@
  */
 module.exports = function (opts) {
     opts = Obj.mergeDefaults(opts, {
-        name: 'dragon-particle-circle'
+        name: '$:particle-circle'
     });
     opts.rotationSpeed = 0;
     return Particle(opts).extend({

@@ -9,11 +9,13 @@ var Collection = require('./collection.js'),
  * @param {Array|CollisionHandler} [opts.collisions]
  */
 module.exports = function (opts) {
-    var collisions = Collection().add(opts.collisions);
+    var collisions = Collection({
+        name: '$:screen-collisions'
+    }).add(opts.collisions);
 
     opts = Obj.mergeDefaults(opts, {
-        name: 'dragon-screen',
-        kind: 'dragon-screen',
+        name: '$:screen',
+        kind: '$:screen',
         updating: false,
         drawing: false
     });

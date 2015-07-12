@@ -13,8 +13,8 @@ module.exports = function (opts) {
     var removed = false;
 
     opts = Obj.mergeDefaults(opts, {
-        name: 'dragon-collection',
-        kind: 'dragon-collection'
+        name: '$:collection',
+        kind: '$:collection'
     });
 
     return Item(opts).extend({

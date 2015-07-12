@@ -35,8 +35,8 @@ module.exports = function (opts) {
     }
 
     opts = Util.mergeDefaults(opts, {
-        name: 'dragon-sprite',
-        kind: 'dragon-sprite',
+        name: '$:sprite',
+        kind: '$:sprite',
         startingStrip: opts.startingStrip || global.Object.keys(stripMap)[0],
     });
     opts.size = opts.size || (stripMap[opts.startingStrip] || {}).size;

@@ -23,8 +23,8 @@ module.exports = function (opts) {
         bank = [];
 
     opts = Obj.mergeDefaults(opts, {
-        name: 'dragon-emitter',
-        kind: 'dragon-emitter',
+        name: '$:emitter',
+        kind: '$:emitter',
         pos: Point(),
         speed: 250,
         volume: 4,
@@ -37,8 +37,7 @@ module.exports = function (opts) {
         var set = bank.splice(0, this.volume),
             i, id, len = set.length;
         for (i = 0; i < len; i += 1) {
-            id = set[i];
-            this.set[id].start();
+            set[i].start();
         }
     }
 
@@ -52,10 +51,9 @@ module.exports = function (opts) {
             for (i = 0; i < 50; i += 1) {
                 conf = opts.conf() || {};
                 conf.owner = this;
-                conf.pos = conf.pos || opts.pos;
-                conf.bankid = i;
-                bank.push(i);
+                conf.pos = conf.pos || opts.pos.clone();
                 particle = opts.type(conf);
+                bank.push(particle);
                 this.set.push(particle);
             }
 
@@ -81,7 +79,7 @@ module.exports = function (opts) {
          */
         reclaim: function (particle) {
             particle.reset();
-            bank.push(particle.bankid);
+            bank.push(particle);
         }
     });
 };

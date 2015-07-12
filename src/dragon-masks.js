@@ -7,7 +7,7 @@ var Collection = require('./collection.js'),
     dragonCollisions = require('./dragon-collisions.js');
 
 module.exports = Collection({
-    name: 'dragon-masks'
+    name: '$:masks'
 }).add([
     require('./mask/screentap.js'),
     require('./mask/screendrag.js'),

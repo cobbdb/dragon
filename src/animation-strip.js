@@ -24,7 +24,7 @@ module.exports = function (src, opts) {
         direction = 1;
 
     opts = Obj.mergeDefaults(opts, {
-        kind: 'dragon-animation-strip',
+        kind: '$:animation-strip',
         sinusoid: false,
         start: Point(),
         frames: 1

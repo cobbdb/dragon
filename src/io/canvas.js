@@ -41,6 +41,7 @@ if (!canvas.ctx.resetTransform) {
  * Clear the canvas.
  */
 canvas.clear = function () {
+    canvas.ctx.resetTransform();
     canvas.ctx.clearRect(
         0, 0,
         canvas.width,

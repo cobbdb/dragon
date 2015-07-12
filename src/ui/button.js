@@ -13,8 +13,8 @@ var Sprite = require('../sprite.js'),
 module.exports = function (opts) {
     opts = Util.mergeDefaults(opts, {
         down: opts.up,
-        name: 'dragon-ui-button',
-        kind: 'dragon-ui-button',
+        name: '$:ui-button',
+        kind: '$:ui-button',
         on: {},
         strips: {},
         mask: Rectangle(),

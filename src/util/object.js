@@ -48,14 +48,14 @@
      * into the left object.
      * @param {Object} root
      * @param {Object} other
-     * @param {Boolean} shallow Defaults to false.
+     * @param {Boolean} [deep] Defaults to false.
      * @return {Object}
      */
-    mergeLeft: function (root, other, shallow) {
+    mergeLeft: function (root, other, deep) {
         var key, target;
         root = root || {};
         other = other || {};
-        target = shallow ? root : this.clone(root);
+        target = deep ? this.clone(root) : root;
 
         for (key in other) {
             root[key] = other[key];
@@ -67,14 +67,14 @@
      * to left.
      * @param {Object} root
      * @param {Object} other
-     * @param {Boolean} [shallow] Defaults to false.
+     * @param {Boolean} [deep] Defaults to false.
      * @return {Object}
      */
-    mergeDefaults: function (root, other, shallow) {
+    mergeDefaults: function (root, other, deep) {
         var key, target;
         root = root || {};
         other = other || {};
-        target = shallow ? root : this.clone(root);
+        target = deep ? this.clone(root) : root;
 
         for (key in other) {
             if (!(key in target) || typeof target[key] === 'undefined') {

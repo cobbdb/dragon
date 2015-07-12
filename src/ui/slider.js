@@ -28,7 +28,7 @@ module.exports = function (opts) {
         buffer = 5,
         knobSize = Dimension(16, 32),
         lane = Sprite({
-            name: 'slider-lane',
+            name: '$:slider-lane',
             collisionSets: [
                 collisions
             ],
@@ -68,7 +68,7 @@ module.exports = function (opts) {
             }
         }),
         knob = Sprite({
-            name: 'slider-knob',
+            name: '$:slider-knob',
             collisionSets: [
                 collisions
             ],

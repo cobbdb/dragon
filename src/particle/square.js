@@ -7,17 +7,19 @@
  */
 module.exports = function (opts) {
     opts = Obj.mergeDefaults(opts, {
-        name: 'dragon-particle-square'
+        name: '$:particle-square'
     });
     return Particle(opts).extend({
         draw: function (ctx) {
             this.base.draw(ctx);
-            ctx.fillRect(
+            ctx.beginPath();
+            ctx.rect(
                 -this.size().width / 2,
                 -this.size().height / 2,
                 this.size().width,
                 this.size().height
             );
+            ctx.fill();
         }
     });
 };

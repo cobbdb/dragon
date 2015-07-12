@@ -11,7 +11,7 @@ module.exports = function (opts) {
     var img = pipeline.get.image(opts.src);
 
     opts = Obj.mergeDefaults(opts, {
-        name: 'dragon-particle-image'
+        name: '$:particle-image'
     });
 
     return Particle(opts).extend({

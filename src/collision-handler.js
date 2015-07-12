@@ -13,8 +13,8 @@ module.exports = function (opts) {
     var activeCollisions = [];
 
     opts = Util.mergeDefaults(opts, {
-        name: 'dragon-collision-handler',
-        kind: 'dragon-collision-handler'
+        name: '$:collision-handler',
+        kind: '$:collision-handler'
     });
 
     return Item(opts).extend({

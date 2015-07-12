@@ -10,7 +10,7 @@ var frameCounter = require('./util/frame-counter.js'),
  * @extends Collection
  */
 module.exports = Collection({
-    name: 'dragon-game'
+    name: '$:game'
 }).extend({
     /**
      * @type {Boolean}
@@ -21,6 +21,7 @@ module.exports = Collection({
      */
     useDebug: function () {
         this.debug = true;
+        frameCounter.start();
     },
     update: function () {
         masks.update();

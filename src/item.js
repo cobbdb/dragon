@@ -19,8 +19,8 @@ module.exports = function (opts) {
     opts = opts || {};
 
     return BaseClass({
-        name: opts.name || 'dragon-item',
-        kind: opts.kind || 'dragon-item',
+        name: opts.name || '$:item',
+        kind: opts.kind || '$:item',
         depth: 0,
         removed: false,
         updating: ('updating' in opts) ? opts.updating : true,

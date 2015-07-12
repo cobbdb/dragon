@@ -11,8 +11,8 @@ var ClearSprite = require('../clear-sprite.js'),
  */
 module.exports = function (opts) {
     opts = Util.mergeDefaults(opts, {
-        name: 'dragon-ui-label',
-        kind: 'dragon-ui-label',
+        name: '$:ui-label',
+        kind: '$:ui-label',
         text: '',
         style: function () {}
     });
