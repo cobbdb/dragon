@@ -110,8 +110,7 @@ module.exports = function (src, opts) {
                 firstFrame.y,
                 this.size.width,
                 this.size.height,
-                -size.width / 2,
-                -size.height / 2,
+                0, 0,
                 size.width,
                 size.height
             );

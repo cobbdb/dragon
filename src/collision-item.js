@@ -26,8 +26,8 @@ module.exports = function (opts) {
     });
 
     // Provide easy way to track when dragged.
-    opts.on['collide#screendrag'] = [].concat(
-        opts.on['collide#screendrag'] || [],
+    opts.on['$collide#screendrag'] = [].concat(
+        opts.on['$collide#screendrag'] || [],
         function () {
             if (!this.dragging) {
                 this.dragging = true;

@@ -55,7 +55,7 @@ module.exports = function (opts) {
                 size.height - buffer * 2
             ),
             on: {
-                'colliding#screentap': function (mouse) {
+                '$colliding#screentap': function (mouse) {
                     var x, value;
                     x = Math.max(mouse.mask.x, this.mask.left);
                     x = Math.min(x, this.mask.right);
@@ -89,7 +89,7 @@ module.exports = function (opts) {
             ),
             size: knobSize,
             on: {
-                'colliding#screendrag': function (mouse) {
+                '$colliding#screendrag': function (mouse) {
                     var x, value;
                     x = Math.max(mouse.mask.x, lane.mask.left);
                     x = Math.min(x, lane.mask.right);

@@ -26,11 +26,11 @@ module.exports = function (opts) {
         opts.collisions,
         require('../dragon-collisions.js')
     );
-    opts.on['collide#screentap'] = function () {
+    opts.on['$collide#screentap'] = function () {
         this.useStrip('down');
         opts.onpress.call(this);
     };
-    opts.on['miss#screenhold'] = function () {
+    opts.on['$miss#screenhold'] = function () {
         this.useStrip('up');
     };
 
