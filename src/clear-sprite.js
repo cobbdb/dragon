@@ -11,7 +11,7 @@ var CollisionItem = require('./collision-item.js'),
  * @extends CollisionItem
  * @param {Point} [opts.pos] Defaults to (0,0).
  * @param {Number} [opts.scale] Defaults to 1.
- * @param {Dimension} [opts.size] Defaults to strip size.
+ * @param {Dimension} [opts.size] Defaults to (0,0).
  * @param {Number} [opts.depth] Defaults to 0.
  * @param {Number} [opts.rotation] Defaults to 0.
  * @param {Vector} [opts.speed] Defaults to <0,0>.
@@ -47,7 +47,7 @@ module.exports = function (opts) {
         );
         // Use entire sprite size if no mask size defined.
         if (!opts.mask.width && !opts.mask.height) {
-            opts.mask.resize(size);
+            opts.mask.resize(adjsize);
         }
     }
 
