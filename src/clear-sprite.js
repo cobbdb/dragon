@@ -31,7 +31,9 @@ module.exports = function (opts) {
     var pos = opts.pos || Point(),
         size = opts.size || Dimension(),
         scale = opts.scale || 1,
-        adjsize = size.multiply(Dimension(scale, scale));
+        adjsize = size.multiply(
+            Dimension(scale, scale)
+        );
 
     opts = Obj.mergeDefaults(opts, {
         name: '$:clear-sprite',
