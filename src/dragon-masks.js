@@ -7,7 +7,8 @@ var Collection = require('./collection.js'),
     dragonCollisions = require('./dragon-collisions.js');
 
 module.exports = Collection({
-    name: '$:masks'
+    name: '$:masks',
+    sorted: false
 }).add([
     require('./mask/screentap.js'),
     require('./mask/screendrag.js'),
@@ -18,7 +19,7 @@ module.exports = Collection({
             Point(0, -20),
             Dimension(canvas.width, 20)
         ),
-        collisionSets: dragonCollisions
+        collisions: dragonCollisions
     }),
     CollisionItem({
         name: 'screenedge/right',
@@ -26,7 +27,7 @@ module.exports = Collection({
             Point(canvas.width, 0),
             Dimension(20, canvas.height)
         ),
-        collisionSets: dragonCollisions
+        collisions: dragonCollisions
     }),
     CollisionItem({
         name: 'screenedge/bottom',
@@ -34,7 +35,7 @@ module.exports = Collection({
             Point(0, canvas.height),
             Dimension(canvas.width, 20)
         ),
-        collisionSets: dragonCollisions
+        collisions: dragonCollisions
     }),
     CollisionItem({
         name: 'screenedge/left',
@@ -42,6 +43,6 @@ module.exports = Collection({
             Point(-20, 0),
             Dimension(20, canvas.height)
         ),
-        collisionSets: dragonCollisions
+        collisions: dragonCollisions
     })
 ]);
