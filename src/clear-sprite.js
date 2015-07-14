@@ -12,14 +12,11 @@ var CollisionItem = require('./collision-item.js'),
  * @param {Point} [opts.pos] Defaults to (0,0).
  * @param {Number} [opts.scale] Defaults to 1.
  * @param {Dimension} [opts.size] Defaults to (0,0).
- * @param {Number} [opts.depth] Defaults to 0.
  * @param {Number} [opts.rotation] Defaults to 0.
  * @param {Vector} [opts.speed] Defaults to <0,0>.
  * @param {Boolean} [opts.freemask] Defaults to false. True
  * to decouple the position of the mask from the position
  * of the sprite.
- * @param {Boolean} [opts.drawing] Defaults to false.
- * @param {Boolean} [opts.updating] Defaults to false.
  * @param {Number} [opts.alpha] Defaults to 1.
  * @param {Number} [opts.gravity] Defaults to 0. Amount to
  * increase vertical velocity each update.

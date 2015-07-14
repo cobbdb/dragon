@@ -12,6 +12,7 @@ var BaseClass = require('baseclassjs'),
  * @param {String} [opts.kind]
  * @param {Boolean} [opts.updating] Defaults to true.
  * @param {Boolean} [opts.drawing] Defaults to true.
+ * @param {Number} [opts.depth] Defaults to 0.
  * @param {Map Of Functions} [opts.on] Dictionary of events.
  * @param {Map of Functions} [opts.one] Dictionary of one-time events.
  */
@@ -21,7 +22,7 @@ module.exports = function (opts) {
     return BaseClass({
         name: opts.name || '$:item',
         kind: opts.kind || '$:item',
-        depth: 0,
+        depth: opts.depth || 0,
         removed: false,
         updating: ('updating' in opts) ? opts.updating : true,
         drawing: ('drawing' in opts) ? opts.drawing : true,
