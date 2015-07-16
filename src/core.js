@@ -18,15 +18,18 @@ module.exports = {
     // Utility
     FrameCounter: require('./util/frame-counter.js'),
     IdCounter: require('./util/id-counter.js'),
-    random: require('./util/random.js'),
-    range: SetUtil.range,
-    shuffle: SetUtil.shuffle,
     mergeLeft: ObjUtil.mergeLeft,
     mergeDefaults: ObjUtil.mergeDefaults,
     timer: timer,
     setTimeout: timer.setTimeout,
     setInterval: timer.setInterval,
     clear: timer.clear,
+
+    // Math
+    random: require('./util/random.js'),
+    range: SetUtil.range,
+    shuffle: SetUtil.shuffle,
+    math: require('./util/number.js'),
 
     // I/O
     Mouse: require('./io/mouse.js'),

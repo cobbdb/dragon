@@ -39,14 +39,24 @@ if (!canvas.ctx.resetTransform) {
 
 /**
  * Clear the canvas.
+ * @param {String} [color] CSS color string.
  */
-canvas.clear = function () {
+canvas.clear = function (color) {
     canvas.ctx.resetTransform();
-    canvas.ctx.clearRect(
-        0, 0,
-        canvas.width,
-        canvas.height
-    );
+    if (color) {
+        canvas.ctx.fillStyle = color;
+        canvas.ctx.fillRect(
+            0, 0,
+            canvas.width,
+            canvas.height
+        );
+    } else {
+        canvas.ctx.clearRect(
+            0, 0,
+            canvas.width,
+            canvas.height
+        );
+    }
 };
 
 /**
