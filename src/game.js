@@ -56,9 +56,10 @@ module.exports = Collection({
         this.base.add(set);
     },
     /**
-     * @param {Screen} screen
+     * @param {String} name
      */
-    removeScreen: function (screen) {
+    removeScreen: function (name) {
+        var screen = this.map[name];
         this.base.remove(screen);
     }
 });

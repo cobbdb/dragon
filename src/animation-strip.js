@@ -78,13 +78,9 @@ module.exports = function (src, opts) {
          * Should not be called when `updating` is false.
          */
         update: function () {
-            // VVVV TODO: rewrite with new timer methods.
-            //
-            var now, elapsed, timeBetweenFrames;
-
-            timeBetweenFrames = (1 / this.speed) * 1000;
-            now = global.Date.now();
-            elapsed = now - timeLastFrame;
+            var timeBetweenFrames = (1 / this.speed) * 1000,
+                now = global.Date.now(),
+                elapsed = now - timeLastFrame;
             timeSinceLastFrame += elapsed;
             if (timeSinceLastFrame >= timeBetweenFrames) {
                 timeSinceLastFrame = 0;
