@@ -74,6 +74,9 @@ module.exports = function (opts) {
         draw: function (ctx) {
             this.base.draw(ctx);
             opts.style(ctx);
+        },
+        move: function (newpos) {
+            startPos = newpos;
         }
     });
 };

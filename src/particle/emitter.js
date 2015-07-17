@@ -32,15 +32,6 @@ module.exports = function (opts) {
         conf: function () {}
     });
 
-    // Emitter's heartbeat - activate some particles.
-    function step() {
-        var set = bank.splice(0, this.volume),
-            i, id, len = set.length;
-        for (i = 0; i < len; i += 1) {
-            set[i].start();
-        }
-    }
-
     return Collection(opts).extend({
         sorted: false,
         speed: opts.speed,
@@ -59,9 +50,21 @@ module.exports = function (opts) {
 
             // Only repeat if a non-zero speed was set.
             if (this.speed) {
-                hash = timer.setInterval(step, this.speed, this);
+                hash = timer.setInterval(function () {
+                    this.fire();
+                }, this.speed, this);
             }
-            step.call(this);
+            //this.fire();
+        },
+        /**
+         * Activate a heartbeat of particles.
+         */
+        fire: function () {
+            var set = bank.splice(0, this.volume),
+                i, id, len = set.length;
+            for (i = 0; i < len; i += 1) {
+                set[i].start();
+            }
         },
         draw: function (ctx) {
             opts.style(ctx);
@@ -80,6 +83,11 @@ module.exports = function (opts) {
         reclaim: function (particle) {
             particle.reset();
             bank.push(particle);
+        },
+        move: function (newpos) {
+            this.set.forEach(function (particle) {
+                particle.move(newpos);
+            });
         }
     });
 };
