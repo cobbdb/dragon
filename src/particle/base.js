@@ -12,7 +12,6 @@
  * Basic abstract contract for all particle types.
  * @param {Emitter} opts.owner
  * @param {Number} [opts.lifespan] Defaults to 1000.
- * @param {Number} [opts.gravity] Defaults to 0.
  * @param {Dimension} [opts.size] Defaults to (4,4).
  * @param {Function} [opts.style] Special canvas setup to
  * perform before drawing.
@@ -22,7 +21,6 @@
 module.exports = function (opts) {
     var fadeout = false,
         hash,
-        startPos = opts.pos.clone(),
         startSpeed;
 
     opts = Obj.mergeDefaults(opts, {
@@ -45,7 +43,10 @@ module.exports = function (opts) {
         _create: function () {
             this.stop();
         },
-        reset: function () {
+        /**
+         * @param {Point} origin
+         */
+        reset: function (origin) {
             this.stop();
             timer.clear(hash);
             fadeout = false;
@@ -53,7 +54,7 @@ module.exports = function (opts) {
             this.alpha = 1;
             this.rotation = 0;
             this.rotationSpeed = opts.rotationSpeed;
-            this.move(startPos);
+            this.move(origin);
             this.speed = startSpeed.clone();
         },
         start: function () {
@@ -74,9 +75,6 @@ module.exports = function (opts) {
         draw: function (ctx) {
             this.base.draw(ctx);
             opts.style(ctx);
-        },
-        move: function (newpos) {
-            startPos = newpos;
         }
     });
 };

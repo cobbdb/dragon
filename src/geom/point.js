@@ -50,7 +50,8 @@ module.exports = function (x, y) {
          */
         move: function (pos, shallow) {
             var target = shallow ? this : this.clone();
-            target.x = pos.x;
+            try {target.x = pos.x;}
+            catch (err) {var thing = 123;}
             target.y = pos.y;
             return target;
         },

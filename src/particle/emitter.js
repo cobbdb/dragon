@@ -38,6 +38,10 @@ module.exports = function (opts) {
         volume: opts.volume,
         _create: function () {
             var i, particle, conf;
+
+            // Rebind the style method.
+            opts.style = opts.style.bind(this);
+
             // Generate a pool of 50 particles to use.
             for (i = 0; i < 50; i += 1) {
                 conf = opts.conf() || {};
@@ -54,14 +58,13 @@ module.exports = function (opts) {
                     this.fire();
                 }, this.speed, this);
             }
-            //this.fire();
         },
         /**
          * Activate a heartbeat of particles.
          */
         fire: function () {
             var set = bank.splice(0, this.volume),
-                i, id, len = set.length;
+                i, len = set.length;
             for (i = 0; i < len; i += 1) {
                 set[i].start();
             }
@@ -81,12 +84,14 @@ module.exports = function (opts) {
          * @param {Particle} particle
          */
         reclaim: function (particle) {
-            particle.reset();
+            particle.reset(this.pos);
             bank.push(particle);
         },
+        pos: opts.pos,
         move: function (newpos) {
+            this.pos = newpos;
             this.set.forEach(function (particle) {
-                particle.move(newpos);
+                particle.reset(newpos);
             });
         }
     });
