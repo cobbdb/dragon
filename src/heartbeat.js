@@ -13,14 +13,12 @@ module.exports = {
         if (!running) {
             running = true;
             function step() {
-            //global.setInterval(function () {
                 Game.update();
                 Game.draw();
                 Game.teardown();
                 frameCounter.countFrame();
                 global.requestAnimationFrame(step);
             }
-            //}, 1);
             global.requestAnimationFrame(step);
         }
     }

@@ -26,6 +26,7 @@ module.exports = function (opts) {
     });
 
     // Provide easy way to track when dragged.
+    // !!!!! Mouse.on is considered unsafe.
     opts.on['$collide#screendrag'] = [].concat(
         opts.on['$collide#screendrag'] || [],
         function () {
@@ -96,7 +97,10 @@ module.exports = function (opts) {
             if (!updated) {
                 updated = true;
                 collisionSets.forEach(function (handler) {
-                    handler.update(this);
+                    try{handler.update(this);}
+                    catch (err) {
+                        var thing = 123;
+                    }
                 }, this);
             }
         },

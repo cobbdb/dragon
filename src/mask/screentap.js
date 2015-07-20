@@ -1,13 +1,13 @@
 var CollisionItem = require('../collision-item.js'),
-    Circle = require('../geom/circle.js'),
     Point = require('../geom/point.js'),
+    Vector = require('../geom/vector.js'),
     Mouse = require('../io/mouse.js'),
     dragonCollisions = require('../dragon-collisions.js'),
-    tapping = false;
-
-Mouse.on.down(function () {
-    tapping = true;
-});
+    Rectangle = require('../geom/rectangle.js'),
+    Dimension = require('../geom/dimension.js'),
+    tapped = false,
+    reset = false,
+    safePos = Point(-999, -999);
 
 /**
  * @class ScreenTap
@@ -15,17 +15,20 @@ Mouse.on.down(function () {
  */
 module.exports = CollisionItem({
     name: 'screentap',
-    mask: Circle(Point(), 8),
-    collisions: dragonCollisions
+    mask: Rectangle(safePos, Dimension(12, 12)),
+    collisions: dragonCollisions,
+    offset: Vector(-6, -6)
 }).extend({
     update: function () {
-        if (tapping) {
-            tapping = false;
+        if (tapped && !reset) {
+            reset = true;
+            this.move(safePos);
+        } else if (!tapped && Mouse.is.down) {
+            tapped = true;
+            reset = false;
             this.move(Mouse.offset);
-        } else {
-            this.move(
-                Point(-999, -999)
-            );
+        } else if (tapped && Mouse.is.up) {
+            tapped = false;
         }
         this.base.update();
     }

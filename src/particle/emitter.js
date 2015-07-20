@@ -93,6 +93,7 @@ module.exports = function (opts) {
             this.set.forEach(function (particle) {
                 particle.reset(newpos);
             });
-        }
+        },
+        teardown: function () {}
     });
 };

@@ -23,7 +23,12 @@ module.exports = function (pos, size) {
                     this.bottom > rect.y
                 );
             },
+            /**
+             * @deprecated
+             * Do not use until find sqrt replacement.
+             */
             circle: function (circ) {
+                throw Error('!! CIRCLES are deprecated!');
                 var vect,
                     pt = Point(circ.x, circ.y);
 

@@ -81,6 +81,9 @@ module.exports = {
         get down () {
             return isDown;
         },
+        get up () {
+            return !isDown;
+        },
         get dragging () {
             return isDragging;
         },

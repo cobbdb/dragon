@@ -31,7 +31,12 @@ module.exports = function (pos, rad) {
                 );
                 return vect.magnitude < this.radius;
             },
+            /**
+             * @deprecated
+             * Do not use until find sqrt replacement.
+             */
             circle: function (circ) {
+                throw Error('!! CIRCLES are deprecated!');
                 var vect = Vector(
                     circ.x - this.x,
                     circ.y - this.y
