@@ -10,7 +10,8 @@ var Collection = require('./collection.js'),
  */
 module.exports = function (opts) {
     var collisions = Collection({
-        name: '$:screen-collisions'
+        name: '$:screen-collisions',
+        sorted: false
     }).add(opts.collisions);
 
     opts = Obj.mergeDefaults(opts, {
@@ -66,10 +67,12 @@ module.exports = function (opts) {
             this.base.clear();
         },
         update: function () {
+            var i, len = collisions.length;
+
             this.base.update();
-            collisions.set.forEach(function (handler) {
-                handler.handleCollisions();
-            });
+            for (i = 0; i < len; i += 1) {
+                collisions.set[i].handleCollisions();
+            }
         },
         draw: function (ctx) {
             this.base.draw(ctx);

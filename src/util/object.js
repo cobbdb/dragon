@@ -5,12 +5,15 @@
      * @return {Array}
      */
     cloneArray: function (arr) {
-        var clone = [];
-        arr.forEach(function (item) {
+        var i, len = arr.length,
+            item,
+            clone = [];
+        for (i = 0; i < len; i += 1) {
+            item = arr[i];
             clone.push(
                 this.clone(item)
             );
-        }, this);
+        }
         return clone;
     },
     /**

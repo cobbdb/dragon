@@ -26,14 +26,18 @@ module.exports = function (opts) {
          * @return {Collection} This collection.
          */
         add: function (set) {
+            var i, len, item;
+
             if (set) {
                 set = [].concat(set);
-                set.forEach(function (item) {
+                len = set.length;
+                for (i = 0; i < len; i += 1) {
+                    item = set[i];
                     item.removed = false;
                     this.set.push(item);
                     this.map[item.name] = item;
                     item.trigger('$added');
-                }, this);
+                }
                 if (this.sorted) {
                     // Larger depth value is closer to viewer.
                     this.set.sort(function (a, b) {
@@ -65,27 +69,36 @@ module.exports = function (opts) {
             return this.map[name];
         },
         update: function () {
-            this.set.forEach(function (item) {
+            var i, item, len = this.set.length;
+
+            for (i = 0; i < len; i += 1) {
+                item = this.set[i];
                 if (this.updating && item.updating && !item.removed) {
                     item.update();
                 }
-            }, this);
+            }
         },
         draw: function (ctx) {
-            this.set.forEach(function (item) {
+            var i, item, len = this.set.length;
+
+            for (i = 0; i < len; i += 1) {
+                item = this.set[i];
                 if (this.drawing && item.drawing && !item.removed) {
                     ctx.globalAlpha = 1;
                     ctx.resetTransform();
                     item.draw(ctx);
                 }
-            }, this);
+            }
         },
         teardown: function () {
-            this.set.forEach(function (item) {
+            var i, item, len = this.set.length;
+
+            for (i = 0; i < len; i += 1) {
+                item = this.set[i];
                 if (this.updating && item.updating && !item.removed) {
                     item.teardown();
                 }
-            }, this);
+            }
             if (removed) {
                 // Remove any stale sprites.
                 this.set = this.set.filter(function (item) {

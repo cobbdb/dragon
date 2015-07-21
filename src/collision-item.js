@@ -94,14 +94,14 @@ module.exports = function (opts) {
             return this.mask.intersects(mask);
         },
         update: function () {
+            var i, len;
+
             if (!updated) {
                 updated = true;
-                collisionSets.forEach(function (handler) {
-                    try{handler.update(this);}
-                    catch (err) {
-                        var thing = 123;
-                    }
-                }, this);
+                len = collisionSets.length;
+                for (i = 0; i < len; i += 1) {
+                    collisionSets[i].update(this);
+                }
             }
         },
         teardown: function () {

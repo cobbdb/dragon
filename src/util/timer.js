@@ -13,13 +13,16 @@
  */
 module.exports = Item().extend({
     update: function () {
-        var now = global.Date.now(),
+        var i, entry, len,
+            now = global.Date.now(),
             diff = now - timeLastUpdate,
             dormantTimeouts = [],
             dormantIntervals = [];
 
         // Process all the timeouts.
-        timeouts.forEach(function (entry) {
+        len = timeouts.length;
+        for (i = 0; i < len; i += 1) {
+            entry = timeouts[i];
             if (!(entry.id in clearSet)) {
                 entry.life -= diff;
                 if (entry.life <= 0) {
@@ -28,12 +31,14 @@ module.exports = Item().extend({
                     dormantTimeouts.push(entry);
                 }
             }
-        });
+        }
         timeouts = dormantTimeouts.concat(timeoutsToAdd);
         timeoutsToAdd = [];
 
         // Process all the intervals.
-        intervals.forEach(function (entry) {
+        len = intervals.length;
+        for (i = 0; i < len; i += 1) {
+            entry = intervals[i];
             if (!(entry.id in clearSet)) {
                 entry.life -= diff;
                 if (entry.life <= 0) {
@@ -42,7 +47,7 @@ module.exports = Item().extend({
                 }
                 dormantIntervals.push(entry);
             }
-        });
+        }
         intervals = dormantIntervals.concat(intervalsToAdd);
         intervalsToAdd = [];
 

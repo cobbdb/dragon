@@ -35,15 +35,20 @@ module.exports = function (opts) {
             singles[name] = [];
         },
         trigger: function (name, data) {
+            var i, len;
+
             if (name in events) {
-                events[name].forEach(function (cb) {
-                    cb.call(this, data);
-                }, this);
+                len = events[name].length;
+                for (i = 0; i < len; i += 1) {
+                    events[name][i].call(this, data);
+                }
             }
+
             if (name in singles) {
-                singles[name].forEach(function (cb) {
-                    cb.call(this, data);
-                }, this);
+                len = singles[name].length;
+                for (i = 0; i < len; i += 1) {
+                    singles[name][i].call(this, data);
+                }
                 singles[name] = [];
             }
         }

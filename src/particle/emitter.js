@@ -89,10 +89,12 @@ module.exports = function (opts) {
         },
         pos: opts.pos,
         move: function (newpos) {
+            var i, len = this.set.length;
+
             this.pos = newpos;
-            this.set.forEach(function (particle) {
-                particle.reset(newpos);
-            });
+            for (i = 0; i < len; i += 1) {
+                this.set[i].reset(newpos);
+            }
         },
         teardown: function () {}
     });

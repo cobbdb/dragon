@@ -19,9 +19,10 @@ module.exports = function (opts) {
 
     return Item(opts).extend({
         draw: function (ctx) {
-            activeCollisions.forEach(function (collidable) {
-                collidable.mask.draw(ctx);
-            });
+            var i, len = activeCollisions.length;
+            for (i = 0; i < len; i += 1) {
+                activeCollisions[i].mask.draw(ctx);
+            }
         },
         clearCollisions: function () {
             activeCollisions = [];
@@ -30,10 +31,16 @@ module.exports = function (opts) {
             activeCollisions.push(collidable);
         },
         handleCollisions: function () {
-            activeCollisions.forEach(function (pivot) {
-                activeCollisions.forEach(function (other) {
-                    var intersects, colliding,
-                        valid = pivot.canCollideWith(other.id);
+            var i, j, len,
+                pivot, other,
+                intersects, colliding, valid;
+
+            len = activeCollisions.length;
+            for (i = 0; i < len; i += 1) {
+                pivot = activeCollisions[i];
+                for (j = 0; j < len; j += 1) {
+                    other = activeCollisions[j];
+                    valid = pivot.canCollideWith(other.id);
 
                     if (valid) {
                         intersects = pivot.intersects(other.mask);
@@ -62,8 +69,8 @@ module.exports = function (opts) {
                             pivot.trigger('$miss.' + other.kind, other);
                         }
                     }
-                });
-            });
+                }
+            }
         },
         teardown: function () {
             this.clearCollisions();
