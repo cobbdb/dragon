@@ -6,12 +6,10 @@
      */
     cloneArray: function (arr) {
         var i, len = arr.length,
-            item,
             clone = [];
         for (i = 0; i < len; i += 1) {
-            item = arr[i];
             clone.push(
-                this.clone(item)
+                this.clone(arr[i])
             );
         }
         return clone;
