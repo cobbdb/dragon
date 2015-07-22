@@ -102,24 +102,21 @@ module.exports = {
     },
     on: {
         down: function (cb, thisArg) {
-            canvas.addEventListener(
-                startEventName,
-                cb.bind(thisArg)
-            );
+            canvas.addEventListener(startEventName, function () {
+                cb.call(thisArg);
+            });
         },
         click: function (cb, thisArg) {},
         dclick: function (cb, thisArg) {},
         up: function (cb, thisArg) {
-            document.addEventListener(
-                endEventName,
-                cb.bind(thisArg)
-            );
+            document.addEventListener(endEventName, function () {
+                cb.call(thisArg);
+            });
         },
         move: function (cb, thisArg) {
-            canvas.addEventListener(
-                moveEventName,
-                cb.bind(thisArg)
-            );
+            canvas.addEventListener(moveEventName, function () {
+                cb.call(thisArg);
+            });
         },
         drag: function (cb, thisArg) {
             canvas.addEventListener(moveEventName, function () {

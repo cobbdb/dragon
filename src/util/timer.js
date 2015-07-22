@@ -26,7 +26,7 @@ module.exports = Item().extend({
             if (!(entry.id in clearSet)) {
                 entry.life -= diff;
                 if (entry.life <= 0) {
-                    entry.event(-entry.life);
+                    entry.event.call(event.thisArg, -entry.life);
                 } else {
                     dormantTimeouts.push(entry);
                 }
@@ -42,7 +42,7 @@ module.exports = Item().extend({
             if (!(entry.id in clearSet)) {
                 entry.life -= diff;
                 if (entry.life <= 0) {
-                    entry.event(-entry.life);
+                    entry.event.call(event.thisArg, -entry.life);
                     entry.life = entry.delay;
                 }
                 dormantIntervals.push(entry);
@@ -63,7 +63,8 @@ module.exports = Item().extend({
     setTimeout: function (cb, delay, thisArg) {
         var hash = Counter.nextId;
         timeoutsToAdd.push({
-            event: cb.bind(thisArg),
+            event: cb,
+            thisArg: thisArg,
             life: delay,
             id: hash
         });
@@ -78,7 +79,8 @@ module.exports = Item().extend({
     setInterval: function (cb, delay, thisArg) {
         var hash = Counter.nextId;
         intervalsToAdd.push({
-            event: cb.bind(thisArg),
+            event: cb,
+            thisArg: thisArg,
             life: delay,
             delay: delay,
             id: hash

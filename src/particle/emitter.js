@@ -39,9 +39,6 @@ module.exports = function (opts) {
         _create: function () {
             var i, particle, conf;
 
-            // Rebind the style method.
-            opts.style = opts.style.bind(this);
-
             // Generate a pool of 50 particles to use.
             for (i = 0; i < 50; i += 1) {
                 conf = opts.conf() || {};
@@ -70,7 +67,7 @@ module.exports = function (opts) {
             }
         },
         draw: function (ctx) {
-            opts.style(ctx);
+            opts.style.call(this, ctx);
             this.base.draw(ctx);
         },
         /**
