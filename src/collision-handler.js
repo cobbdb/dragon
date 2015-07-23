@@ -27,8 +27,8 @@ module.exports = function (opts) {
         clearCollisions: function () {
             activeCollisions = [];
         },
-        update: function (collidable) {
-            activeCollisions.push(collidable);
+        update: function (item) {
+            activeCollisions.push(item);
         },
         handleCollisions: function () {
             var i, j, len,

@@ -26,7 +26,7 @@ module.exports = Item().extend({
             if (!(entry.id in clearSet)) {
                 entry.life -= diff;
                 if (entry.life <= 0) {
-                    entry.event.call(event.thisArg, -entry.life);
+                    entry.event.call(entry.thisArg, -entry.life);
                 } else {
                     dormantTimeouts.push(entry);
                 }
@@ -42,7 +42,7 @@ module.exports = Item().extend({
             if (!(entry.id in clearSet)) {
                 entry.life -= diff;
                 if (entry.life <= 0) {
-                    entry.event.call(event.thisArg, -entry.life);
+                    entry.event.call(entry.thisArg, -entry.life);
                     entry.life = entry.delay;
                 }
                 dormantIntervals.push(entry);

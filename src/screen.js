@@ -67,7 +67,7 @@ module.exports = function (opts) {
             this.base.clear();
         },
         update: function () {
-            var i, len = collisions.length;
+            var i, len = collisions.set.length;
 
             this.base.update();
             for (i = 0; i < len; i += 1) {
