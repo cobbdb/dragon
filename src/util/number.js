@@ -37,12 +37,5 @@ module.exports = {
         theta %= this.PI2;
         key = theta.toFixed(2);
         return cosine[key];
-    },
-    /**
-     * @param {Number} num
-     * @return {Number}
-     */
-    abs: function (num) {
-        return (num < 0) ? -num : num;
     }
 };

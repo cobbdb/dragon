@@ -11,7 +11,7 @@ module.exports = function (x, y) {
         x: x || 0,
         y: y || 0,
         get magnitude () {
-            return Num.abs(
+            return global.Math.abs(
                 global.Math.sqrt(
                     (this.y * this.y) +
                     (this.x * this.x)
@@ -38,6 +38,9 @@ module.exports = function (x, y) {
                 return self.equals(ZERO);
             }
         },
+        /**
+         * @slow
+         */
         toPolar: function () {
             var Polar = require('./polar.js');
             return Polar(
