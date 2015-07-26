@@ -22,8 +22,7 @@ module.exports = function (x, y) {
             );
         },
         /**
-         * Calculate the discriminate of this
-         * vector's magnitude.
+         * Calculate the discriminate of this vector's magnitude.
          * @return {Number}
          */
         D: function () {
@@ -33,7 +32,7 @@ module.exports = function (x, y) {
             );
         },
         clone: function () {
-            return module.exports(
+            return module.exports( // <-- MEMORY LEAK
                 this.x,
                 this.y
             );
@@ -49,7 +48,7 @@ module.exports = function (x, y) {
              * @return {Boolean} True if equal to <0,0>.
              */
             get zero () {
-                return self.equals(ZERO);
+                return self.equals(ZERO); // <-- MEMORY LEAK
             }
         },
         /**

@@ -13,7 +13,7 @@ module.exports = function (x, y) {
          * @return {Point}
          */
         clone: function () {
-            return module.exports(this.x, this.y);
+            return module.exports(this.x, this.y); // <-- MEMORY LEAK
         },
         /**
          * @param {Point} other
@@ -30,7 +30,7 @@ module.exports = function (x, y) {
          * @return {Point}
          */
         floor: function (mutate) {
-            var target = mutate ? this : this.clone();
+            var target = mutate ? this : this.clone(); // <-- MEMORY LEAK
             target.x = global.Math.floor(target.x);
             target.y = global.Math.floor(target.y);
             return target;
@@ -40,7 +40,7 @@ module.exports = function (x, y) {
              * @return {Boolean} True if equal to (0,0).
              */
             get zero () {
-                return self.equals(ZERO);
+                return self.equals(ZERO); // <-- MEMORY LEAK
             }
         },
         /**
@@ -49,7 +49,7 @@ module.exports = function (x, y) {
          * @return {Point} This point after moving.
          */
         move: function (pos, shallow) {
-            var target = shallow ? this : this.clone();
+            var target = shallow ? this : this.clone(); // <-- MEMORY LEAK
             target.x = pos.x;
             target.y = pos.y;
             return target;
@@ -60,13 +60,13 @@ module.exports = function (x, y) {
          * @return {Point} This point after shifting.
          */
         multiply: function (factor, shallow) {
-            var target = shallow ? this : this.clone();
+            var target = shallow ? this : this.clone(); // <-- MEMORY LEAK
             target.x *= factor.x;
             target.y *= factor.y;
             return target;
         },
         divide: function (factor, shallow) {
-            var target = shallow ? this : this.clone();
+            var target = shallow ? this : this.clone(); // <-- MEMORY LEAK
             target.x /= factor.x;
             target.y /= factor.y;
             return target;
@@ -77,13 +77,13 @@ module.exports = function (x, y) {
          * @return {Point} This point after shifting.
          */
         add: function (offset, shallow) {
-            var target = shallow ? this : this.clone();
+            var target = shallow ? this : this.clone(); // <-- MEMORY LEAK
             target.x += offset.x;
             target.y += offset.y;
             return target;
         },
         subtract: function (offset, shallow) {
-            var target = shallow ? this : this.clone();
+            var target = shallow ? this : this.clone(); // <-- MEMORY LEAK
             target.x -= offset.x;
             target.y -= offset.y;
             return target;

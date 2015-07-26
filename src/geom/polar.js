@@ -16,13 +16,13 @@ module.exports = function (theta, mag) {
         theta: theta || 0,
         magnitude: mag || 0,
         invert: function () {
-            return module.exports(
+            return module.exports( // <-- MEMORY LEAK
                 this.theta + Num.PI,
                 this.magnitude * -1
             );
         },
         clone: function () {
-            return module.exports(
+            return module.exports( // <-- MEMORY LEAK
                 this.theta,
                 this.magnitude
             );
