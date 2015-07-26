@@ -10,12 +10,26 @@ module.exports = function (x, y) {
     var self = {
         x: x || 0,
         y: y || 0,
-        get magnitude () {
-            return global.Math.abs(
-                global.Math.sqrt(
-                    (this.y * this.y) +
-                    (this.x * this.x)
-                )
+        /**
+         * @deprecated
+         * Discouraged until replacement for sqrt is found.
+         * @return {Number}
+         */
+        magnitude: function () {
+            return global.Math.sqrt(
+                global.Math.pow(this.x, 2) +
+                global.Math.pow(this.y, 2)
+            );
+        },
+        /**
+         * Calculate the discriminate of this
+         * vector's magnitude.
+         * @return {Number}
+         */
+        D: function () {
+            return (
+                global.Math.pow(this.x, 2) +
+                global.Math.pow(this.y, 2)
             );
         },
         clone: function () {

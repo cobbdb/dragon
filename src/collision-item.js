@@ -19,22 +19,20 @@ module.exports = function (opts) {
         updated = false,
         collisionSets = [].concat(opts.collisions || []);
 
-    opts = Util.mergeDefaults(opts, {
-        name: '$:collidable',
-        kind: '$:collidable',
-        on: {}
-    });
+    opts.name = opts.name || '$:collidable';
+    opts.kind = opts.kind || '$:collidable';
+    opts.on = opts.on || {};
 
     // Provide easy way to track when dragged.
-    // !!!!! Mouse.on is considered unsafe.
     opts.on['$collide#screendrag'] = [].concat(
         opts.on['$collide#screendrag'] || [],
         function () {
+            var that = this;
             if (!this.dragging) {
                 this.dragging = true;
-                Mouse.on.up(function () {
-                    this.dragging = false;
-                }, this);
+                Mouse.on('$up', function () {
+                    that.dragging = false;
+                });
             }
         }
     );
