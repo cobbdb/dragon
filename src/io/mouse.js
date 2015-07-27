@@ -4,7 +4,6 @@ var BaseClass = require('baseclassjs'),
     Vector = require('../geom/vector.js'),
     canvas = require('./canvas.js'),
     mobile = require('../util/detect-mobile.js'),
-    timer = require('../util/timer.js'),
     dragStart = null,
     is = {
         down: false,

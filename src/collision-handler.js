@@ -71,7 +71,7 @@ module.exports = function (opts) {
             }
         },
         teardown: function () {
-            this.clearCollisions();
+            activeCollisions.length = 0;
         }
     });
 };

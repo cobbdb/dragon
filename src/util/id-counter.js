@@ -1,10 +1,10 @@
 var counter = 0;
 
 module.exports = {
-    get lastId () {
+    lastId: function () {
         return counter;
     },
-    get nextId () {
+    nextId: function () {
         counter += 1;
         return counter;
     }

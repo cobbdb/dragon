@@ -37,7 +37,7 @@ module.exports = function (opts) {
     );
 
     return Item(opts).extend({
-        id: Counter.nextId,
+        id: Counter.nextId(),
         dragging: false,
         mask: opts.mask || Rectangle(),
         offset: opts.offset || Vector(),
