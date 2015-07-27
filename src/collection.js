@@ -1,5 +1,4 @@
-var Item = require('./item.js'),
-    Obj = require('./util/object.js');
+var Item = require('./item.js');
 
 /**
  * @class Collection
@@ -12,10 +11,8 @@ var Item = require('./item.js'),
 module.exports = function (opts) {
     var removed = false;
 
-    opts = Obj.mergeDefaults(opts, {
-        name: '$:collection',
-        kind: '$:collection'
-    });
+    opts.name = opts.name || '$:collection';
+    opts.kind = opts.kind || '$:collection';
 
     return Item(opts).extend({
         sorted: ('sorted' in opts) ? opts.sorted : true,
@@ -58,7 +55,7 @@ module.exports = function (opts) {
          * Hard reset the entire Collection.
          */
         clear: function () {
-            this.set = [];
+            this.set.length = 0;
             this.map = {};
         },
         /**

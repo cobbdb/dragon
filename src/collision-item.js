@@ -3,8 +3,7 @@ var Counter = require('./util/id-counter.js'),
     Vector = require('./geom/vector.js'),
     Item = require('./item.js'),
     Mouse = require('./io/mouse.js'),
-    canvas = require('./io/canvas.js'),
-    Util = require('./util/object.js');
+    canvas = require('./io/canvas.js');
 
 /**
  * @class CollisionItem
@@ -68,7 +67,7 @@ module.exports = function (opts) {
                 bottom = other.mask.bottom - this.mask.top,
                 left = this.mask.right - other.mask.left,
                 min = global.Math.min(top, right, bottom, left),
-                target = this.pos.clone();
+                target = this.pos.clone(); // <-- Garbage
             switch (min) {
                 case top:
                     target.y = other.mask.y - this.mask.height;

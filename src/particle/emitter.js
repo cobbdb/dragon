@@ -1,6 +1,6 @@
-﻿var Collection = require('../collection.js'),
+﻿var BaseClass = require('baseclassjs'),
+    Collection = require('../collection.js'),
     Point = require('../geom/point.js'),
-    Obj = require('../util/object.js'),
     canvas = require('../io/canvas.js'),
     timer = require('../util/timer.js');
 
@@ -22,15 +22,13 @@ module.exports = function (opts) {
     var hash,
         bank = [];
 
-    opts = Obj.mergeDefaults(opts, {
-        name: '$:emitter',
-        kind: '$:emitter',
-        pos: Point(),
-        speed: 250,
-        volume: 4,
-        style: function () {},
-        conf: function () {}
-    });
+    opts.name = opts.name || '$:emitter';
+    opts.kind = opts.kind || '$:emitter';
+    opts.pos = opts.pos || Point(); // <-- Garbage
+    opts.speed = opts.speed || 250;
+    opts.volume = opts.volume || 4;
+    opts.style = opts.style || BaseClass.Stub;
+    opts.conf = opts.conf || BaseClass.Stub;
 
     return Collection(opts).extend({
         sorted: false,
@@ -41,9 +39,9 @@ module.exports = function (opts) {
 
             // Generate a pool of 50 particles to use.
             for (i = 0; i < 50; i += 1) {
-                conf = opts.conf() || {};
+                conf = opts.conf() || {}; // <-- Garbage
                 conf.owner = this;
-                conf.pos = conf.pos || opts.pos.clone();
+                conf.pos = conf.pos || opts.pos.clone(); // <-- Garbage
                 particle = opts.type(conf);
                 bank.push(particle);
                 this.set.push(particle);

@@ -1,8 +1,7 @@
 var Item = require('./item.js'),
     Dimension = require('./geom/dimension.js'),
     Point = require('./geom/point.js'),
-    pipeline = require('./assets/pipeline.js'),
-    Obj = require('./util/object.js');
+    pipeline = require('./assets/pipeline.js');
 
 /**
  * @param {String} src Image filename.
@@ -24,12 +23,10 @@ module.exports = function (src, opts) {
         firstFrame,
         direction = 1;
 
-    opts = Obj.mergeDefaults(opts, {
-        kind: '$:animation-strip',
-        sinusoid: false,
-        start: Point(),
-        frames: 1
-    });
+    opts.kind = opts.kind || '$:animation-strip';
+    opts.sinusoid = opts.sinusoid || false;
+    opts.start = opts.start || Point();
+    opts.frames = opts.frames || 1;
     opts.size = opts.size || Dimension(
         img.width / opts.frames,
         img.height

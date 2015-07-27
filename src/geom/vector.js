@@ -32,7 +32,7 @@ module.exports = function (x, y) {
             );
         },
         clone: function () {
-            return module.exports( // <-- MEMORY LEAK
+            return module.exports(
                 this.x,
                 this.y
             );
@@ -48,7 +48,7 @@ module.exports = function (x, y) {
              * @return {Boolean} True if equal to <0,0>.
              */
             get zero () {
-                return self.equals(ZERO); // <-- MEMORY LEAK
+                return self.equals(ZERO);
             }
         },
         /**

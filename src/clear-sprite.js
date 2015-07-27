@@ -3,7 +3,6 @@ var CollisionItem = require('./collision-item.js'),
     Vector = require('./geom/vector.js'),
     Dimension = require('./geom/dimension.js'),
     Rectangle = require('./geom/rectangle.js'),
-    Obj = require('./util/object.js'),
     Num = require('./util/number.js');
 
 /**
@@ -32,17 +31,15 @@ module.exports = function (opts) {
             Dimension(scale, scale)
         );
 
-    opts = Obj.mergeDefaults(opts, {
-        name: '$:clear-sprite',
-        kind: '$:clear-sprite',
-        mask: Rectangle()
-    });
+    opts.name = opts.name || '$:clear-sprite';
+    opts.kind = opts.kind || '$:clear-sprite';
+    opts.mask = opts.mask || Rectangle();
 
     if (!opts.freemask) {
         // Setup mask offset.
         opts.offset = opts.mask.pos();
         opts.mask.move(
-            pos.add(opts.offset)
+            pos.add(opts.offset) // <-- Garbage
         );
         // Use entire sprite size if no mask size defined.
         if (!opts.mask.width && !opts.mask.height) {
@@ -58,7 +55,7 @@ module.exports = function (opts) {
         scale: function (newval) {
             if (newval) {
                 scale = newval;
-                adjsize = size.multiply(Dimension(scale, scale));
+                adjsize = size.multiply(Dimension(scale, scale)); // <-- Garbage
                 adjsize.floor(true);
                 if (!opts.freemask) {
                     this.mask.resize(adjsize);
@@ -70,7 +67,7 @@ module.exports = function (opts) {
         size: function (newval) {
             if (newval) {
                 size = newval;
-                adjsize = size.multiply(Dimension(scale, scale));
+                adjsize = size.multiply(Dimension(scale, scale)); // <-- Garbage
                 adjsize.floor(true);
                 if (!opts.freemask) {
                     this.mask.resize(adjsize);

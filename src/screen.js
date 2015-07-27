@@ -1,6 +1,5 @@
 var Collection = require('./collection.js'),
-    Obj = require('./util/object.js'),
-    Game = require('./game.js');
+    debug = require('./game.js').debug;
 
 /**
  * @class Screen
@@ -14,12 +13,10 @@ module.exports = function (opts) {
         sorted: false
     }).add(opts.collisions);
 
-    opts = Obj.mergeDefaults(opts, {
-        name: '$:screen',
-        kind: '$:screen',
-        updating: false,
-        drawing: false
-    });
+    opts.name = opts.name || '$.screen';
+    opts.kind = opts.kind || '$.screen';
+    opts.updating = opts.updating || false;
+    opts.drawing = opts.drawing || false;
 
     return Collection(opts).extend({
         _create: function () {
@@ -76,7 +73,7 @@ module.exports = function (opts) {
         },
         draw: function (ctx) {
             this.base.draw(ctx);
-            if (Game.debug) {
+            if (debug) {
                 collisions.draw(ctx);
             }
         },

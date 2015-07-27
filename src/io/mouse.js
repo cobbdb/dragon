@@ -89,7 +89,7 @@ canvas.addEventListener(moveEventName, function (event) {
  * @extends BaseClass
  * @implements Eventable
  */
-module.exports = BaseClass({
+module.exports = BaseClass({ // <-- Replace with just Eventable()
     is: is,
     /**
      * @type {Point}

@@ -11,13 +11,13 @@
  * @class Timer
  * @extends Item
  */
-module.exports = Item().extend({
+module.exports = Item().extend({ // <-- Why extend Item??
     update: function () {
         var i, entry, len,
             now = global.Date.now(),
             diff = now - timeLastUpdate,
-            dormantTimeouts = [],
-            dormantIntervals = [];
+            dormantTimeouts = [], // <-- Garbage
+            dormantIntervals = []; // <-- Garbage
 
         // Process all the timeouts.
         len = timeouts.length;
@@ -32,8 +32,8 @@ module.exports = Item().extend({
                 }
             }
         }
-        timeouts = dormantTimeouts.concat(timeoutsToAdd);
-        timeoutsToAdd = [];
+        timeouts = dormantTimeouts.concat(timeoutsToAdd); // <-- Garbage
+        timeoutsToAdd = []; // <-- Garbage
 
         // Process all the intervals.
         len = intervals.length;
@@ -48,8 +48,8 @@ module.exports = Item().extend({
                 dormantIntervals.push(entry);
             }
         }
-        intervals = dormantIntervals.concat(intervalsToAdd);
-        intervalsToAdd = [];
+        intervals = dormantIntervals.concat(intervalsToAdd); // <-- Garbage
+        intervalsToAdd = []; // <-- Garbage
 
         // Record time of this update.
         timeLastUpdate = now;

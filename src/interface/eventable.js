@@ -3,6 +3,10 @@ var BaseClass = require('baseclassjs');
 /**
  * @param {Object} [opts.events]
  * @param {Object} [opts.singles]
+ *
+ * @deprecated
+ * TOOD: Convert to BaseClass for eventual
+ * removal of Interface type.
  */
 module.exports = function (opts) {
     var events = {},

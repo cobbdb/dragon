@@ -12,10 +12,8 @@ module.exports = function (opts) {
      */
     var activeCollisions = [];
 
-    opts = Util.mergeDefaults(opts, {
-        name: '$:collision-handler',
-        kind: '$:collision-handler'
-    });
+    opts.name = opts.name || '$:collision-handler';
+    opts.kind = opts.kind || '$:collision-handler';
 
     return Item(opts).extend({
         draw: function (ctx) {
@@ -25,7 +23,7 @@ module.exports = function (opts) {
             }
         },
         clearCollisions: function () {
-            activeCollisions = [];
+            activeCollisions.length = 0;
         },
         update: function (item) {
             activeCollisions.push(item);
