@@ -30,14 +30,14 @@ module.exports = function (pos, size) {
             circle: function (circ) {
                 throw Error('!! CIRCLES are deprecated!');
                 var vect,
-                    pt = Point(circ.x, circ.y);
+                    pt = Point(circ.x, circ.y); // <-- Garbage
 
                 if (circ.x > this.right) pt.x = this.right;
                 else if (circ.x < this.x) pt.x = this.x;
                 if (circ.y > this.bottom) pt.y = this.bottom;
                 else if (circ.y < this.y) pt.y = this.y;
 
-                vect = Vector(
+                vect = Vector( // <-- Garbage
                     circ.x - pt.x,
                     circ.y - pt.y
                 );
@@ -73,7 +73,7 @@ module.exports = function (pos, size) {
          */
         shift: function (offset) {
             this.move(
-                this.pos().add(offset)
+                this.pos().add(offset) // <-- Garbage
             );
         },
         /**

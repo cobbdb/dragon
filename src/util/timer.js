@@ -1,9 +1,9 @@
 ﻿var Counter = require('./id-counter.js'),
     timeLastUpdate = global.Date.now(),
     clearSet = {},
-    timeouts = []
+    timeouts = [],
     timeoutsToAdd = [],
-    intervals: []
+    intervals = [],
     intervalsToAdd = [];
 
 /**

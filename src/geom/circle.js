@@ -1,7 +1,6 @@
 var Shape = require('./shape.js'),
     Vector = require('./vector.js'),
     Point = require('./point.js'),
-    Dimension = require('./dimension.js'),
     Num = require('../util/number.js');
 
 /**
@@ -18,26 +17,26 @@ module.exports = function (pos, rad) {
         intersects: {
             rectangle: function (rect) {
                 var vect,
-                    pt = Point(this.x, this.y);
+                    pt = Point(this.x, this.y); // <-- Garbage
 
                 if (this.x >= rect.right) pt.x = rect.right;
                 else if (this.x <= rect.x) pt.x = rect.x;
                 if (this.y >= rect.bottom) pt.y = rect.bottom;
                 else if (this.y <= rect.y) pt.y = rect.y;
 
-                vect = Vector(
+                vect = Vector( // <-- Garbage
                     this.x - pt.x,
                     this.y - pt.y
                 );
                 return vect.magnitude < this.radius;
             },
             /**
-             * @deprecated
+             * @slow
              * Do not use until find sqrt replacement.
              */
             circle: function (circ) {
                 throw Error('!! CIRCLES are deprecated!');
-                var vect = Vector(
+                var vect = Vector( // <-- Garbage
                     circ.x - this.x,
                     circ.y - this.y
                 );

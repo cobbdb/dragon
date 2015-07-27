@@ -23,6 +23,7 @@ module.exports = function (src, opts) {
         firstFrame,
         direction = 1;
 
+    opts = opts || {};
     opts.kind = opts.kind || '$:animation-strip';
     opts.sinusoid = opts.sinusoid || false;
     opts.start = opts.start || Point();

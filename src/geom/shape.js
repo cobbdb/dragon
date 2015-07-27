@@ -25,7 +25,7 @@ module.exports = function (opts) {
             return Point(this.x, this.y);
         },
         name: opts.name,
-        move: BaseClass.Abstract,
+        move: BaseClass.Abstract, // <-- Garbage??? Needs testing
         resize: BaseClass.Abstract,
         /**
          * @param {Shape} other
@@ -33,6 +33,6 @@ module.exports = function (opts) {
         intersects: function (other) {
             return intersectMap[other.name].call(this, other);
         },
-        draw: BaseClass.Stub
+        draw: BaseClass.Stub // <-- Garbage??? Needs testing
     });
 };

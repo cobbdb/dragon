@@ -28,7 +28,7 @@ module.exports = function (opts) {
         size = opts.size || Dimension(),
         scale = opts.scale || 1,
         adjsize = size.multiply(
-            Dimension(scale, scale)
+            Dimension(scale, scale) // <-- Garbage
         );
 
     opts.name = opts.name || '$:clear-sprite';
@@ -86,7 +86,7 @@ module.exports = function (opts) {
 
             this.speed.y += this.gravity;
 
-            if (!this.speed.is.zero) {
+            if (!this.speed.isZero()) {
                 this.speed.x *= 1 - this.friction;
                 this.speed.y *= 1 - this.friction;
                 this.shift();
@@ -119,7 +119,7 @@ module.exports = function (opts) {
          */
         shift: function (offset) {
             this.move(
-                this.pos.add(offset || this.speed)
+                this.pos.add(offset || this.speed) // <-- Garbage
             );
         }
     });

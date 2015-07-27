@@ -6,7 +6,7 @@ var ZERO = require('./zero.js');
  * @param {Number} y
  */
 module.exports = function (x, y) {
-    var self = {
+    return {
         x: x || 0,
         y: y || 0,
         /**
@@ -35,13 +35,11 @@ module.exports = function (x, y) {
             target.y = global.Math.floor(target.y);
             return target;
         },
-        is: {
-            /**
-             * @return {Boolean} True if equal to (0,0).
-             */
-            get zero () {
-                return self.equals(ZERO);
-            }
+        /**
+         * @return {Boolean} True if equal to (0,0).
+         */
+        isZero: function () {
+            return this.equals(ZERO);
         },
         /**
          * @param {Point} pos
@@ -89,5 +87,4 @@ module.exports = function (x, y) {
             return target;
         }
     };
-    return self;
 };

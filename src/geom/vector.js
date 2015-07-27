@@ -1,5 +1,4 @@
-var ZERO = require('./zero.js'),
-    Num = require('../util/number.js');
+var ZERO = require('./zero.js');
 
 /**
  * @class Vector
@@ -7,11 +6,11 @@ var ZERO = require('./zero.js'),
  * @param {Number} [y] Defaults to 0.
  */
 module.exports = function (x, y) {
-    var self = {
+    return {
         x: x || 0,
         y: y || 0,
         /**
-         * @deprecated
+         * @slow
          * Discouraged until replacement for sqrt is found.
          * @return {Number}
          */
@@ -32,10 +31,7 @@ module.exports = function (x, y) {
             );
         },
         clone: function () {
-            return module.exports(
-                this.x,
-                this.y
-            );
+            return module.exports(this.x, this.y);
         },
         equals: function (other) {
             return (
@@ -43,16 +39,15 @@ module.exports = function (x, y) {
                 this.y === other.y
             );
         },
-        is: {
-            /**
-             * @return {Boolean} True if equal to <0,0>.
-             */
-            get zero () {
-                return self.equals(ZERO);
-            }
+        /**
+         * @return {Boolean} True if equal to <0,0>.
+         */
+        isZero: function () {
+            return this.equals(ZERO);
         },
         /**
          * @slow
+         * Discouraged until replacement for atan is found.
          */
         toPolar: function () {
             var Polar = require('./polar.js');
@@ -85,5 +80,4 @@ module.exports = function (x, y) {
             return this;
         }
     };
-    return self;
 };
