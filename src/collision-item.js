@@ -16,17 +16,17 @@ module.exports = function (opts) {
     var activeCollisions = {},
         collisionsThisFrame = {},
         updated = false,
-        collisionSets = [].concat(opts.collisions || []);
+        collisionSets = [].concat(opts.collisions || []); // <-- Garbage
 
     opts.name = opts.name || '$:collidable';
     opts.kind = opts.kind || '$:collidable';
     opts.on = opts.on || {};
 
     // Provide easy way to track when dragged.
-    opts.on['$collide#screendrag'] = [].concat(
+    opts.on['$collide#screendrag'] = [].concat( // <-- Garbage
         opts.on['$collide#screendrag'] || [],
         function () {
-            var that = this;
+            var that = this; // <-- Garbage
             if (!this.dragging) {
                 this.dragging = true;
                 Mouse.on('$up', function () {
@@ -103,7 +103,7 @@ module.exports = function (opts) {
         },
         teardown: function () {
             updated = false;
-            collisionsThisFrame = {};
+            collisionsThisFrame = {}; // <-- Garbage
         },
         /**
          * @param {Number} id
@@ -119,7 +119,7 @@ module.exports = function (opts) {
             activeCollisions[id] = false;
         },
         clearCollisions: function () {
-            activeCollisions = {};
+            activeCollisions = {}; // <-- Garbage
         },
         /**
          * @param {Number} id

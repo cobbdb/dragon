@@ -16,7 +16,7 @@ sine['-0.00'] = sine['0.00'];
 cosine['-0.00'] = cosine['0.00'];
 
 module.exports = {
-    PI: 3.14159, // <-- TODO: Test if this is actually faster or not
+    PI: 3.14159,
     PI2: 6.28318,
     /**
      * @param {Number} theta

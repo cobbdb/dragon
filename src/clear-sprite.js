@@ -37,7 +37,7 @@ module.exports = function (opts) {
         // Setup mask offset.
         opts.offset = opts.mask.pos();
         opts.mask.move(
-            pos.add(opts.offset) // <-- Garbage
+            pos.clone().add(opts.offset) // <-- Garbage
         );
         // Use entire sprite size if no mask size defined.
         if (!opts.mask.width && !opts.mask.height) {
@@ -50,10 +50,15 @@ module.exports = function (opts) {
         friction: opts.friction || 0,
         pos: pos,
         alpha: opts.alpha || 1,
+        /**
+         * @param {Number} [newscale]
+         * @return {Number}
+         */
         scale: function (newval) {
             if (newval) {
                 scale = newval;
-                adjsize = size.multiply(Dimension(scale, scale)); // <-- Garbage
+                adjsize.width = size.width * scale;
+                adjsize.height = size.height * scale;
                 adjsize.floor();
                 if (!opts.freemask) {
                     this.mask.resize(adjsize);
@@ -62,11 +67,16 @@ module.exports = function (opts) {
                 return scale;
             }
         },
-        size: function (newval) {
-            if (newval) {
-                size = newval;
-                adjsize = size.multiply(Dimension(scale, scale)); // <-- Garbage
-                adjsize.floor(true);
+        /**
+         * @param {Dimension} [newsize]
+         * @return {Dimension}
+         */
+        size: function (newsize) {
+            if (newsize) {
+                size.set(newsize);
+                adjsize.width = size.width * scale;
+                adjsize.height = size.height * scale;
+                adjsize.floor();
                 if (!opts.freemask) {
                     this.mask.resize(adjsize);
                 }
@@ -116,9 +126,8 @@ module.exports = function (opts) {
          * @param {Vector} offset
          */
         shift: function (offset) {
-            this.move(
-                this.pos.add(offset || this.speed) // <-- Garbage
-            );
+            var newpos = this.pos.clone().add(offset || this.speed); // <-- Garbage
+            this.move(newpos);
         }
     });
 };
