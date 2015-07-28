@@ -3,7 +3,7 @@
     cosine = {};
 
 /**
- * Frontload sine and cosine for a full positive
+ * Front-load sine and cosine for a full positive
  * and negative unit circle.
  */
 for (i = 6.28; i >= -6.28; i -= 0.01) {
@@ -23,6 +23,7 @@ module.exports = {
      * @return {Number}
      */
     sin: function (theta) {
+        var key;
         theta %= this.PI2;
         key = theta.toFixed(2);
         return sine[key];
@@ -32,6 +33,7 @@ module.exports = {
      * @return {Number}
      */
     cos: function (theta) {
+        var key;
         theta %= this.PI2;
         key = theta.toFixed(2);
         return cosine[key];

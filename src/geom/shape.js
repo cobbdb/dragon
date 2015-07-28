@@ -2,6 +2,9 @@ var BaseClass = require('baseclassjs'),
     Point = require('./point.js');
 
 /**
+ * @deprecated
+ * Deprecated until Circle is restored.
+ *
  * @param {Point} [opts.pos] Defaults to (0,0).
  * @param {Object} [opts.intersects] Dictionary of collision tests.
  */

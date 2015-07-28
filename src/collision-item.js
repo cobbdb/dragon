@@ -9,34 +9,30 @@ var Counter = require('./util/id-counter.js'),
  * @class CollisionItem
  * @extends Item
  * @param {Shape} [opts.mask] Defaults to Rectangle.
- * @param {Array|CollisionHandler} [opts.collisions]
+ * @param {Array Of CollisionHandler} [opts.collisions]
  * @param {Vector} [opts.offset]
  */
 module.exports = function (opts) {
     var activeCollisions = {},
         collisionsThisFrame = {},
-        updated = false,
-        collisionSets = [].concat(opts.collisions || []); // <-- Garbage
+        updated = false;
 
+    opts.collisions = opts.collisions || [];
     opts.name = opts.name || '$:collidable';
     opts.kind = opts.kind || '$:collidable';
-    opts.on = opts.on || {};
-
-    // Provide easy way to track when dragged.
-    opts.on['$collide#screendrag'] = [].concat( // <-- Garbage
-        opts.on['$collide#screendrag'] || [],
-        function () {
-            var that = this; // <-- Garbage
-            if (!this.dragging) {
-                this.dragging = true;
-                Mouse.on('$up', function () {
-                    that.dragging = false;
-                });
-            }
-        }
-    );
 
     return Item(opts).extend({
+        _create: function () {
+            this.on('$collide#screendrag', function () {
+                var that = this; // <-- Garbage
+                if (!this.dragging) {
+                    this.dragging = true;
+                    Mouse.on('$up', function () {
+                        that.dragging = false;
+                    });
+                }
+            });
+        },
         id: Counter.nextId(),
         dragging: false,
         mask: opts.mask || Rectangle(),
@@ -52,8 +48,20 @@ module.exports = function (opts) {
          * @param {Point} pos
          */
         move: function (pos) {
-            this.mask.move(
-                pos.add(this.offset)
+            this.mask.moveFixed(
+                pos.x + this.offset.x,
+                pos.y + this.offset.y
+            );
+        },
+        /**
+         * Move the mask.
+         * @param {Number} x
+         * @param {Number} y
+         */
+        moveFixed: function (x, y) {
+            this.mask.moveFixed(
+                x + this.offset.x,
+                y + this.offset.y
             );
         },
         /**
@@ -67,22 +75,23 @@ module.exports = function (opts) {
                 bottom = other.mask.bottom - this.mask.top,
                 left = this.mask.right - other.mask.left,
                 min = global.Math.min(top, right, bottom, left),
-                target = this.pos.clone(); // <-- Garbage
+                targetx = this.pos.x,
+                targety = this.pos.y;
             switch (min) {
                 case top:
-                    target.y = other.mask.y - this.mask.height;
+                    targety = other.mask.y - this.mask.height;
                     break;
                 case right:
-                    target.x = other.mask.right;
+                    targetx = other.mask.right;
                     break;
                 case bottom:
-                    target.y = other.mask.bottom;
+                    targety = other.mask.bottom;
                     break;
                 default:
-                    target.x = other.mask.x - this.mask.width;
+                    targetx = other.mask.x - this.mask.width;
                     break;
             }
-            this.move(target);
+            this.moveFixed(targetx, targety);
         },
         /**
          * @param {Shape} mask
@@ -95,9 +104,9 @@ module.exports = function (opts) {
 
             if (!updated) {
                 updated = true;
-                len = collisionSets.length;
+                len = opts.collisions.length;
                 for (i = 0; i < len; i += 1) {
-                    collisionSets[i].update(this);
+                    opts.collisions[i].update(this);
                 }
             }
         },

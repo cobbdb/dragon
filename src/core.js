@@ -8,7 +8,7 @@ var Game = require('./game.js'),
 module.exports = {
     // Geometry
     Shape: require('./geom/shape.js'),
-    Circle: require('./geom/circle.js'),
+    //Circle: require('./geom/circle.js'),
     Rectangle: require('./geom/rectangle.js'),
     Dimension: require('./geom/dimension.js'),
     Point: require('./geom/point.js'),

@@ -4,6 +4,10 @@ var Shape = require('./shape.js'),
     Num = require('../util/number.js');
 
 /**
+ * @deprecated
+ * Circles are deprecated until replacement
+ * for sqrt can be found.
+ *
  * @param {Point} [pos] Defaults to (0,0).
  * @param {Number} [rad] Defaults to 0.
  */

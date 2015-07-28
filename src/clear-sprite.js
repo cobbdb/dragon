@@ -36,8 +36,9 @@ module.exports = function (opts) {
     if (!opts.freemask) {
         // Setup mask offset.
         opts.offset = opts.mask.pos();
-        opts.mask.move(
-            pos.clone().add(opts.offset) // <-- Garbage
+        opts.mask.moveFixed(
+            pos.x + opts.offset.x,
+            pos.y + opts.offset.y
         );
         // Use entire sprite size if no mask size defined.
         if (!opts.mask.width && !opts.mask.height) {
@@ -117,17 +118,45 @@ module.exports = function (opts) {
          * @param {Point} pos
          */
         move: function (pos) {
-            this.pos.move(pos, true);
+            this.moveFixed(
+                pos.x,
+                pos.y
+            );
+        },
+        /**
+         * Move the Sprite and its mask unless freemask.
+         * @param {Number} x
+         * @param {Number} y
+         */
+        moveFixed: function (x, y) {
+            this.pos.moveFixed(x, y);
             if (!opts.freemask) {
-                this.base.move(this.pos);
+                this.base.moveFixed(x, y);
             }
         },
         /**
-         * @param {Vector} offset
+         * @param {Vector} [offset]
          */
         shift: function (offset) {
-            var newpos = this.pos.clone().add(offset || this.speed); // <-- Garbage
-            this.move(newpos);
+            offset = offset || this.speed;
+
+            this.moveFixed(
+                this.pos.x + offset.x,
+                this.pos.y + offset.y
+            );
+        },
+        /**
+         * @param {Number} [x]
+         * @param {Number} [y]
+         */
+        shiftFixed: function (x, y) {
+            var shiftx = x || this.speed.x,
+                shifty = y || this.speed.y;
+
+            this.moveFixed(
+                this.pos.x + shiftx,
+                this.pos.y + shifty
+            );
         }
     });
 };
