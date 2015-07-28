@@ -23,7 +23,6 @@ module.exports = {
      * @return {Number}
      */
     sin: function (theta) {
-        var key;
         theta %= this.PI2;
         key = theta.toFixed(2);
         return sine[key];
@@ -33,7 +32,6 @@ module.exports = {
      * @return {Number}
      */
     cos: function (theta) {
-        var key;
         theta %= this.PI2;
         key = theta.toFixed(2);
         return cosine[key];
