@@ -10,7 +10,7 @@ var Counter = require('./util/id-counter.js'),
  * @extends Item
  * @param {Shape} [opts.mask] Defaults to Rectangle.
  * @param {Array|CollisionHandler} [opts.collisions]
- * @param {Vector} [offset]
+ * @param {Vector} [opts.offset]
  */
 module.exports = function (opts) {
     var activeCollisions = {},

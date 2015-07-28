@@ -15,6 +15,16 @@ module.exports = function (x, y) {
         clone: function () {
             return module.exports(this.x, this.y);
         },
+        set: function (other) {
+            this.x = other.x;
+            this.y = other.y;
+            return this;
+        },
+        setFixed: function (x, y) {
+            this.x = x;
+            this.y = y;
+            return this;
+        },
         /**
          * @param {Point} other
          * @return {Boolean}
@@ -26,14 +36,12 @@ module.exports = function (x, y) {
             );
         },
         /**
-         * @param {Boolean} mutate
          * @return {Point}
          */
-        floor: function (mutate) {
-            var target = mutate ? this : this.clone(); // <-- Garbage
-            target.x = global.Math.floor(target.x);
-            target.y = global.Math.floor(target.y);
-            return target;
+        floor: function () {
+            this.x = global.Math.floor(this.x);
+            this.y = global.Math.floor(this.y);
+            return this;
         },
         /**
          * @return {Boolean} True if equal to (0,0).
@@ -43,48 +51,71 @@ module.exports = function (x, y) {
         },
         /**
          * @param {Point} pos
-         * @param {Boolean} [shallow] True to mutate.
          * @return {Point} This point after moving.
          */
-        move: function (pos, shallow) {
-            var target = shallow ? this : this.clone(); // <-- Garbage
-            target.x = pos.x;
-            target.y = pos.y;
-            return target;
+        move: function (pos) {
+            this.x = pos.x;
+            this.y = pos.y;
+            return this;
+        },
+        /**
+         * @param {Number} x
+         * @param {Number} y
+         * @return {Point}
+         */
+        moveFixed: function (x, y) {
+            this.x = x;
+            this.y = y;
+            return this;
         },
         /**
          * @param {Point|Vector} factor
-         * @param {Boolean} [shallow] True to mutate.
          * @return {Point} This point after shifting.
          */
-        multiply: function (factor, shallow) {
-            var target = shallow ? this : this.clone(); // <-- Garbage
-            target.x *= factor.x;
-            target.y *= factor.y;
-            return target;
-        },
-        divide: function (factor, shallow) {
-            var target = shallow ? this : this.clone(); // <-- Garbage
-            target.x /= factor.x;
-            target.y /= factor.y;
-            return target;
+        multiply: function (factor) {
+            this.x *= factor.x;
+            this.y *= factor.y;
+            return this;
         },
         /**
-         * @param {Point|Vector} offset
-         * @param {Boolean} [shallow] True to mutate.
-         * @return {Point} This point after shifting.
+         * @param {Number} x
+         * @param {Number} y
+         * @return {Point}
          */
-        add: function (offset, shallow) {
-            var target = shallow ? this : this.clone(); // <-- Garbage
-            target.x += offset.x;
-            target.y += offset.y;
-            return target;
+        multiplyFixed: function (x, y) {
+            this.x *= x;
+            this.y *= y;
+            return this;
         },
-        subtract: function (offset, shallow) {
-            var target = shallow ? this : this.clone(); // <-- Garbage
-            target.x -= offset.x;
-            target.y -= offset.y;
-            return target;
+        divide: function (factor) {
+            this.x /= factor.x;
+            this.y /= factor.y;
+            return this;
+        },
+        divideFixed: function (x, y) {
+            this.x /= x;
+            this.y /= y;
+            return this;
+        },
+        add: function (offset) {
+            this.x += offset.x;
+            this.y += offset.y;
+            return this;
+        },
+        addFixed: function (x, y) {
+            this.x += x;
+            this.y += y;
+            return this;
+        },
+        subtract: function (offset) {
+            this.x -= offset.x;
+            this.y -= offset.y;
+            return this;
+        },
+        subtractFixed: function (x, y) {
+            this.x -= x;
+            this.y -= y;
+            return this;
         }
     };
 };

@@ -5,7 +5,7 @@
  * @param {Function} [onload]
  */
 module.exports = function (url, onload) {
-    var audio = document.createElement('audio'),
+    var audio = global.document.createElement('audio'),
         oldplay = audio.play;
     audio.onloadeddata = onload;
 

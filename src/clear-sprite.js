@@ -27,9 +27,7 @@ module.exports = function (opts) {
     var pos = opts.pos || Point(),
         size = opts.size || Dimension(),
         scale = opts.scale || 1,
-        adjsize = size.multiply(
-            Dimension(scale, scale) // <-- Garbage
-        );
+        adjsize = size.clone().multiplyFixed(scale, scale);
 
     opts.name = opts.name || '$:clear-sprite';
     opts.kind = opts.kind || '$:clear-sprite';
@@ -56,7 +54,7 @@ module.exports = function (opts) {
             if (newval) {
                 scale = newval;
                 adjsize = size.multiply(Dimension(scale, scale)); // <-- Garbage
-                adjsize.floor(true);
+                adjsize.floor();
                 if (!opts.freemask) {
                     this.mask.resize(adjsize);
                 }
