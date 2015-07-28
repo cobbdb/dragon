@@ -3,10 +3,6 @@ var BaseClass = require('baseclassjs');
 /**
  * @param {Object} [opts.events]
  * @param {Object} [opts.singles]
- *
- * @deprecated
- * TOOD: Convert to BaseClass for eventual
- * removal of Interface type.
  */
 module.exports = function (opts) {
     var events = {},
@@ -15,17 +11,17 @@ module.exports = function (opts) {
 
     opts = opts || {};
     for (name in opts.events) {
-        events[name] = [].concat(
+        events[name] = [].concat( // <-- Garbage
             opts.events[name]
         );
     }
     for (name in opts.singles) {
-        singles[name] = [].concat(
+        singles[name] = [].concat( // <-- Garbage
             opts.singles[name]
         );
     }
 
-    return BaseClass.Interface({
+    return BaseClass({
         on: function (name, cb) {
             events[name] = events[name] || [];
             events[name].push(cb);
@@ -35,8 +31,8 @@ module.exports = function (opts) {
             singles[name].push(cb);
         },
         off: function (name) {
-            events[name] = [];
-            singles[name] = [];
+            events[name].length = 0;
+            singles[name].length = 0;
         },
         trigger: function (name, data) {
             var i, len;
@@ -53,7 +49,7 @@ module.exports = function (opts) {
                 for (i = 0; i < len; i += 1) {
                     singles[name][i].call(this, data);
                 }
-                singles[name] = [];
+                singles[name].length = 0;
             }
         }
     });

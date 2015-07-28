@@ -1,5 +1,4 @@
-var BaseClass = require('baseclassjs'),
-    Eventable = require('../interface/eventable.js'),
+var Eventable = require('../eventable.js'),
     Point = require('../geom/point.js'),
     Vector = require('../geom/vector.js'),
     canvas = require('./canvas.js'),
@@ -85,10 +84,9 @@ canvas.addEventListener(moveEventName, function (event) {
 
 /**
  * @class Mouse
- * @extends BaseClass
- * @implements Eventable
+ * @extends Eventable
  */
-module.exports = BaseClass({ // <-- Replace with just Eventable()
+module.exports = Eventable().extend({
     is: is,
     /**
      * @type {Point}
@@ -100,6 +98,4 @@ module.exports = BaseClass({ // <-- Replace with just Eventable()
         move: moveEventName,
         end: endEventName
     }
-}).implement(
-    Eventable()
-);
+});

@@ -55,8 +55,9 @@ module.exports = {
     removeScreen: Game.removeScreen,
 
     // Core Components
+    Eventable: require('./eventable.js'),
     Screen: require('./screen.js'),
-    CollisionItem: require('./collision-item.js'),
+    Collidable: require('./collidable.js'),
     Sprite: require('./sprite.js'),
     ClearSprite: require('./clear-sprite.js'),
 
@@ -68,7 +69,6 @@ module.exports = {
 
     // Interfaces
     fadeable: require('./interface/fadeable.js'),
-    Eventable: require('./interface/eventable.js'),
 
     // Particles
     particle: {
