@@ -1,4 +1,4 @@
-var CollisionItem = require('../collision-item.js'),
+var Collidable = require('../collidable.js'),
     Point = require('../geom/point.js'),
     Vector = require('../geom/vector.js'),
     Mouse = require('../io/mouse.js'),
@@ -10,9 +10,9 @@ var CollisionItem = require('../collision-item.js'),
 
 /**
  * @class ScreenDrag
- * @extends CollisionItem
+ * @extends Collidable
  */
-module.exports = CollisionItem({
+module.exports = Collidable({
     name: 'screendrag',
     mask: Rectangle(safePos, Dimension(12, 12)),
     collisions: dragonCollisions,

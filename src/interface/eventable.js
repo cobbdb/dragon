@@ -1,8 +1,8 @@
 var BaseClass = require('baseclassjs');
 
 /**
- * @param {Object} [opts.events]
- * @param {Object} [opts.singles]
+ * @param {Map Of Functions} [opts.on] Dictionary of events.
+ * @param {Map of Functions} [opts.one] Dictionary of one-time events.
  */
 module.exports = function (opts) {
     var events = {},

@@ -1,5 +1,5 @@
 var Collection = require('./collection.js'),
-    CollisionItem = require('./collision-item.js'),
+    Collidable = require('./collidable.js'),
     Rectangle = require('./geom/rectangle.js'),
     Point = require('./geom/point.js'),
     Dimension = require('./geom/dimension.js'),
@@ -13,7 +13,7 @@ module.exports = Collection({
     require('./mask/screentap.js'),
     require('./mask/screendrag.js'),
     require('./mask/screenhold.js'),
-    CollisionItem({
+    Collidable({
         name: 'screenedge/top',
         mask: Rectangle(
             Point(0, -20),
@@ -21,7 +21,7 @@ module.exports = Collection({
         ),
         collisions: dragonCollisions
     }),
-    CollisionItem({
+    Collidable({
         name: 'screenedge/right',
         mask: Rectangle(
             Point(canvas.width, 0),
@@ -29,7 +29,7 @@ module.exports = Collection({
         ),
         collisions: dragonCollisions
     }),
-    CollisionItem({
+    Collidable({
         name: 'screenedge/bottom',
         mask: Rectangle(
             Point(0, canvas.height),
@@ -37,7 +37,7 @@ module.exports = Collection({
         ),
         collisions: dragonCollisions
     }),
-    CollisionItem({
+    Collidable({
         name: 'screenedge/left',
         mask: Rectangle(
             Point(-20, 0),

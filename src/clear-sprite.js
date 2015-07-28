@@ -1,4 +1,4 @@
-var CollisionItem = require('./collision-item.js'),
+var Collidable = require('./collidable.js'),
     Point = require('./geom/point.js'),
     Vector = require('./geom/vector.js'),
     Dimension = require('./geom/dimension.js'),
@@ -7,7 +7,7 @@ var CollisionItem = require('./collision-item.js'),
 
 /**
  * @class ClearSprite
- * @extends CollisionItem
+ * @extends Collidable
  * @param {Point} [opts.pos] Defaults to (0,0).
  * @param {Number} [opts.scale] Defaults to 1.
  * @param {Dimension} [opts.size] Defaults to (0,0).
@@ -46,7 +46,7 @@ module.exports = function (opts) {
         }
     }
 
-    return CollisionItem(opts).extend({
+    return Collidable(opts).extend({
         gravity: opts.gravity || 0,
         friction: opts.friction || 0,
         pos: pos,

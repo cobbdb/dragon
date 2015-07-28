@@ -12,8 +12,6 @@ var BaseClass = require('baseclassjs'),
  * @param {Boolean} [opts.updating] Defaults to true.
  * @param {Boolean} [opts.drawing] Defaults to true.
  * @param {Number} [opts.depth] Defaults to 0.
- * @param {Map Of Functions} [opts.on] Dictionary of events.
- * @param {Map of Functions} [opts.one] Dictionary of one-time events.
  */
 module.exports = function (opts) {
     opts = opts || {};

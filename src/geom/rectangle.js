@@ -5,9 +5,11 @@ var Point = require('./point.js'),
  * @param {Point} [pos] Defaults to (0,0).
  * @param {Dimension} [size] Defaults to (0,0).
  */
-module.exports = function (pos, size) {
-    pos = pos || Point();
-    size = size || Dimension();
+module.exports = function (_x, _y, _w, _h) {
+    _x = _x || 0;
+    _y = _y || 0;
+    _w = _w || 0;
+    _h = _h || 0;
 
     return {
         name: '$:Rectangle',
@@ -20,17 +22,17 @@ module.exports = function (pos, size) {
                 this.bottom > other.y
             );
         },
-        x: pos.x,
-        y: pos.y,
-        width: size.width,
-        height: size.height,
-        top: pos.y,
-        right: pos.x + size.width,
-        bottom: pos.y + size.height,
+        x: _x,
+        y: _y,
+        width: _w,
+        height: _h,
+        top: _y,
+        right: _x + _w,
+        bottom: _y + _h,
         left: pos.x,
         center: Point(
-            pos.x + size.width / 2,
-            pos.y + size.height / 2
+            _x + _w / 2,
+            _y + _h / 2
         ),
         pos: function () {
             return Point(this.x, this.y);
