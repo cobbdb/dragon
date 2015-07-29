@@ -4,7 +4,6 @@ var Collidable = require('../collidable.js'),
     Mouse = require('../io/mouse.js'),
     dragonCollisions = require('../dragon-collisions.js'),
     Rectangle = require('../geom/rectangle.js'),
-    Dimension = require('../geom/dimension.js'),
     tapped = false,
     reset = false,
     safePos = Point(-999, -999);
@@ -15,7 +14,7 @@ var Collidable = require('../collidable.js'),
  */
 module.exports = Collidable({
     name: 'screentap',
-    mask: Rectangle(safePos, Dimension(12, 12)),
+    mask: Rectangle(safePos.x, safePos.y, 12, 12),
     collisions: dragonCollisions,
     offset: Vector(-6, -6)
 }).extend({

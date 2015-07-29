@@ -1,25 +1,29 @@
-var BaseClass = require('baseclassjs');
+var BaseClass = require('baseclassjs'),
+    Set = require('./util/set.js');
 
 /**
- * @param {Map Of Functions} [opts.on] Dictionary of events.
- * @param {Map of Functions} [opts.one] Dictionary of one-time events.
+ * @param {Map Of Function|Map Of Array Of Function} [opts.on]
+ * @param {Map of Function|Map Of Array Of Function} [opts.one]
  */
 module.exports = function (opts) {
-    var events = {},
-        singles = {},
-        name;
-
+    var events, singles, name;
     opts = opts || {};
-    for (name in opts.events) {
-        events[name] = [].concat( // <-- Garbage
-            opts.events[name]
+
+    // Convert events to Array.
+    for (name in opts.on) {
+        opts.on[name] = Set.array(
+            opts.on[name]
         );
     }
-    for (name in opts.singles) {
-        singles[name] = [].concat( // <-- Garbage
-            opts.singles[name]
+    events = opts.on || {};
+
+    // Convert singles to Array.
+    for (name in opts.one) {
+        opts.one[name] = Set.array(
+            opts.one[name]
         );
     }
+    singles = opts.one || {};
 
     return BaseClass({
         on: function (name, cb) {

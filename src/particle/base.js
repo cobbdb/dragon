@@ -1,9 +1,8 @@
-﻿var ClearSprite = require('../clear-sprite.js'),
+﻿var BaseClass = require('baseclassjs'),
+    ClearSprite = require('../clear-sprite.js'),
     Vector = require('../geom/vector.js'),
     Dimension = require('../geom/dimension.js'),
-    Point = require('../geom/point.js'),
     random = require('../util/random.js'),
-    Obj = require('../util/object.js'),
     timer = require('../util/timer.js');
 
 /**
@@ -23,21 +22,20 @@ module.exports = function (opts) {
         hash,
         startSpeed;
 
-    opts = Obj.mergeDefaults(opts, {
-        name: '$:particle',
-        kind: '$:particle',
-        size: Dimension(4, 4),
-        rotationSpeed: random() * 0.4 - 0.2,
-        speed: Vector(
-            random() - 0.5,
-            random() - 0.5
-        ),
-        lifespan: 1000,
-        style: function () {},
-        fade: 0.05
-    });
+    opts = opts || {};
+    opts.name = opts.name || '$:particle';
+    opts.kind = opts.kind || '$:particle';
+    opts.size = opts.size || Dimension(4, 4);
+    opts.rotationSpeed = opts.rotationSpeed || random() * 0.4 - 0.2;
+    opts.speed = opts.speed || Vector(
+        random() - 0.5,
+        random() - 0.5
+    );
     startSpeed = opts.speed.clone();
+    opts.lifespan = opts.lifespan || 1000;
     opts.lifespan += random() * 250;
+    opts.style = opts.style || BaseClass.Stub;
+    opts.fade = opts.fade || 0.05;
 
     return ClearSprite(opts).extend({
         _create: function () {
@@ -55,7 +53,7 @@ module.exports = function (opts) {
             this.rotation = 0;
             this.rotationSpeed = opts.rotationSpeed;
             this.move(origin);
-            this.speed = startSpeed.clone();
+            this.speed.set(startSpeed);
         },
         start: function () {
             this.base.start();

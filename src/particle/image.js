@@ -1,5 +1,4 @@
 ﻿var Particle = require('./base.js'),
-    Obj = require('../util/object.js'),
     pipeline = require('../assets/pipeline.js');
 
 /**
@@ -9,10 +8,7 @@
  */
 module.exports = function (opts) {
     var img = pipeline.get.image(opts.src);
-
-    opts = Obj.mergeDefaults(opts, {
-        name: '$:particle-image'
-    });
+    opts.name = opts.name || '$:particle-image';
 
     return Particle(opts).extend({
         draw: function (ctx) {

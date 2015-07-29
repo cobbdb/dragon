@@ -24,7 +24,7 @@ module.exports = function (opts) {
 
     opts.name = opts.name || '$:emitter';
     opts.kind = opts.kind || '$:emitter';
-    opts.pos = opts.pos || Point(); // <-- Garbage
+    opts.pos = opts.pos || Point();
     opts.speed = opts.speed || 250;
     opts.volume = opts.volume || 4;
     opts.style = opts.style || BaseClass.Stub;

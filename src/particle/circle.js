@@ -1,5 +1,4 @@
 ﻿var Particle = require('./base.js'),
-    Obj = require('../util/object.js'),
     Num = require('../util/number.js');
 
 /**
@@ -7,10 +6,10 @@
  * @extends Particle
  */
 module.exports = function (opts) {
-    opts = Obj.mergeDefaults(opts, {
-        name: '$:particle-circle'
-    });
+    opts = opts || {};
+    opts.name = opts.name || '$:particle-circle';
     opts.rotationSpeed = 0;
+
     return Particle(opts).extend({
         draw: function (ctx) {
             this.base.draw(ctx);

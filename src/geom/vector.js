@@ -39,6 +39,14 @@ module.exports = function (x, y) {
                 this.y === other.y
             );
         },
+        set: function (other) {
+            this.x = other.x;
+            this.y = other.y;
+        },
+        setFixed: function (x, y) {
+            this.x = x;
+            this.y = y;
+        },
         /**
          * @return {Boolean} True if equal to <0,0>.
          */

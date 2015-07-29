@@ -1,6 +1,10 @@
 var random = require('./random.js');
 
 module.exports = {
+    /**
+     * @param {Array} arr
+     * @return {Array}
+     */
     shuffle: function (arr) {
         var i, j, x;
         for (i = 0; i < arr.length; i += 1) {
@@ -13,6 +17,11 @@ module.exports = {
         }
         return arr;
     },
+    /**
+     * @param {Number} start
+     * @param {Number} end
+     * @return {Array}
+     */
     range: function (start, end) {
         var i, len,
             arr = [];
@@ -27,5 +36,35 @@ module.exports = {
             arr.push(i + start);
         }
         return arr;
+    },
+    /**
+     * @param {Any} Any number of arguments.
+     * @return {Array}
+     */
+    concat: function () {
+        var i, len = arguments.length,
+            pivot,
+            arr = [];
+        for (i = 0; i < len; i += 1) {
+            pivot = arguments[i];
+            if (pivot) {
+                if (pivot.push) {
+                    arr.push.apply(arr, pivot);
+                } else {
+                    arr.push(pivot);
+                }
+            }
+        }
+        return arr;
+    },
+    /**
+     * @param {Any} item
+     * @return {Array}
+     */
+    array: function (item) {
+        if (item) {
+            return item.push ? item : [item];
+        }
+        return [];
     }
 };

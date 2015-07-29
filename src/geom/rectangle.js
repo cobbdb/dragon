@@ -2,8 +2,12 @@ var Point = require('./point.js'),
     Dimension = require('./dimension.js');
 
 /**
- * @param {Point} [pos] Defaults to (0,0).
- * @param {Dimension} [size] Defaults to (0,0).
+ * @class Rectangle
+ *
+ * @param {Number} _x
+ * @param {Number} _y
+ * @param {Number} _w
+ * @param {Number} _h
  */
 module.exports = function (_x, _y, _w, _h) {
     _x = _x || 0;
@@ -29,7 +33,7 @@ module.exports = function (_x, _y, _w, _h) {
         top: _y,
         right: _x + _w,
         bottom: _y + _h,
-        left: pos.x,
+        left: _x,
         center: Point(
             _x + _w / 2,
             _y + _h / 2

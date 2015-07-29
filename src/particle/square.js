@@ -1,14 +1,13 @@
-﻿var Particle = require('./base.js'),
-    Obj = require('../util/object.js');
+﻿var Particle = require('./base.js');
 
 /**
  * @class SquareParticle
  * @extends Particle
  */
 module.exports = function (opts) {
-    opts = Obj.mergeDefaults(opts, {
-        name: '$:particle-square'
-    });
+    opts = opts || {};
+    opts.name = opts.name || '$:particle-square';
+
     return Particle(opts).extend({
         draw: function (ctx) {
             this.base.draw(ctx);

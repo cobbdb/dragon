@@ -62,10 +62,7 @@ canvas.clear = function (color) {
 /**
  * @type {Rectangle}
  */
-canvas.mask = Rectangle(
-    Point(0, 0),
-    Dimension(canvas.width, canvas.height)
-);
+canvas.mask = Rectangle(0, 0, canvas.width, canvas.height);
 
 /**
  * @type {Point}

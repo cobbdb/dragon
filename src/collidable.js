@@ -67,7 +67,7 @@ module.exports = function (opts) {
         /**
          * Moves flush against another CollisionItem in the
          * direction of the nearest side.
-         * @param {CollisionItem} other
+         * @param {Collidable} other
          */
         flush: function (other) {
             var top = this.mask.bottom - other.mask.top,
@@ -77,19 +77,15 @@ module.exports = function (opts) {
                 min = global.Math.min(top, right, bottom, left),
                 targetx = this.pos.x,
                 targety = this.pos.y;
-            switch (min) {
-                case top:
-                    targety = other.mask.y - this.mask.height;
-                    break;
-                case right:
-                    targetx = other.mask.right;
-                    break;
-                case bottom:
-                    targety = other.mask.bottom;
-                    break;
-                default:
-                    targetx = other.mask.x - this.mask.width;
-                    break;
+
+            if (min === top) {
+                targety = other.mask.y - this.mask.height;
+            } else if (min === right) {
+                targetx = other.mask.right;
+            } else if (min === bottom) {
+                targety = other.mask.bottom;
+            } else {
+                targetx = other.mask.x - this.mask.width;
             }
             this.moveFixed(targetx, targety);
         },

@@ -15,34 +15,22 @@ module.exports = Collection({
     require('./mask/screenhold.js'),
     Collidable({
         name: 'screenedge/top',
-        mask: Rectangle(
-            Point(0, -20),
-            Dimension(canvas.width, 20)
-        ),
+        mask: Rectangle(0, -20, canvas.width, 20),
         collisions: dragonCollisions
     }),
     Collidable({
         name: 'screenedge/right',
-        mask: Rectangle(
-            Point(canvas.width, 0),
-            Dimension(20, canvas.height)
-        ),
+        mask: Rectangle(canvas.width, 0, 20, canvas.height),
         collisions: dragonCollisions
     }),
     Collidable({
         name: 'screenedge/bottom',
-        mask: Rectangle(
-            Point(0, canvas.height),
-            Dimension(canvas.width, 20)
-        ),
+        mask: Rectangle(0, canvas.height, canvas.width, 20),
         collisions: dragonCollisions
     }),
     Collidable({
         name: 'screenedge/left',
-        mask: Rectangle(
-            Point(-20, 0),
-            Dimension(20, canvas.height)
-        ),
+        mask: Rectangle(-20, 0, 20, canvas.height),
         collisions: dragonCollisions
     })
 ]);

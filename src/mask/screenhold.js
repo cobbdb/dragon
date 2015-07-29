@@ -4,7 +4,6 @@ var Collidable = require('../collidable.js'),
     Mouse = require('../io/mouse.js'),
     dragonCollisions = require('../dragon-collisions.js'),
     Rectangle = require('../geom/rectangle.js'),
-    Dimension = require('../geom/dimension.js'),
     reset = false,
     safePos = Point(-999, -999);
 
@@ -14,7 +13,7 @@ var Collidable = require('../collidable.js'),
  */
 module.exports = Collidable({
     name: 'screenhold',
-    mask: Rectangle(safePos, Dimension(12, 12)),
+    mask: Rectangle(safePos.x, safePos.y, 12, 12),
     collisions: dragonCollisions,
     offset: Vector(-6, -6)
 }).extend({

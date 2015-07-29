@@ -1,7 +1,9 @@
-var Sprite = require('../sprite.js'),
+var BaseClass = require('baseclassjs'),
+    Sprite = require('../sprite.js'),
     Rectangle = require('../geom/rectangle.js'),
     Point = require('../geom/point.js'),
-    Util = require('../util/object.js');
+    Set = require('../util/set.js'),
+    dragonCollisions = require('../dragonCollisions.js');
 
 /**
  * @class Button
@@ -13,35 +15,38 @@ var Sprite = require('../sprite.js'),
  * to disable auto up/down strip transition.
  */
 module.exports = function (opts) {
-    opts = Util.mergeDefaults(opts, {
-        down: opts.up,
-        name: '$:ui-button',
-        kind: '$:ui-button',
-        on: {},
-        strips: {},
-        mask: Rectangle(),
-        collisions: [],
-        startingStrip: 'up',
-        onpress: function () {},
-        auto: true
-    });
-    opts.collisions = [].concat(
+    opts = opts || {};
+    opts.down = opts.down || opts.up;
+    opts.name = opts.name || '$:ui-button';
+    opts.kind = opts.kind || '$:ui-button';
+    opts.startingStrip = opts.startingStrip || 'up';
+    opts.onpress = opts.onpress || BaseClass.Stub;
+
+    opts.collisions = Set.concat(
         opts.collisions,
-        require('../dragon-collisions.js')
+        dragonCollisions
     );
-    opts.on['$collide#screentap'] = function () {
-        if (this.auto) {
-            this.useStrip('down');
+
+    opts.on = opts.on || {};
+    opts.on['$collide#screentap'] = Set.concat(
+        opts.on['$collide#screentap'],
+        function () {
+            if (this.auto) {
+                this.useStrip('down');
+            }
+            opts.onpress.call(this);
         }
-        opts.onpress.call(this);
     };
-    opts.on['$miss#screenhold'] = function () {
-        if (this.auto) {
-            this.useStrip('up');
+    opts.on['$miss#screenhold'] = Set.concat(
+        opts.on['$miss#screenhold'],
+        function () {
+            if (this.auto) {
+                this.useStrip('up');
+            }
         }
     };
 
     return Sprite(opts).extend({
-        auto: opts.auto
+        auto: opts.auto || true
     });
 };
