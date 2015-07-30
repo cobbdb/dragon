@@ -42,13 +42,13 @@ module.exports = {
      * between 60k - 100k times faster!
      * Uses the first argument as host if possible.
      * @see concat()
-     * @param {Any} Any number of arguments.
+     * @param {Any} * Any number of arguments.
      * @return {Array}
      */
     concatLeft: function () {
         var i, len = arguments.length,
             pivot, arr;
-        if (arguments[0].push) {
+        if (arguments[0] && arguments[0].push) {
             arr = arguments[0];
             i = 1;
         } else {

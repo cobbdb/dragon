@@ -1,6 +1,5 @@
 var Game = require('./game.js'),
     SetUtil = require('./util/set.js'),
-    ObjUtil = require('./util/object.js'),
     heartbeat = require('./heartbeat.js'),
     pipeline = require('./assets/pipeline.js'),
     timer = require('./util/timer.js');
@@ -18,12 +17,12 @@ module.exports = {
     // Utility
     FrameCounter: require('./util/frame-counter.js'),
     IdCounter: require('./util/id-counter.js'),
-    mergeLeft: ObjUtil.mergeLeft,
-    mergeDefaults: ObjUtil.mergeDefaults,
     timer: timer,
     setTimeout: timer.setTimeout,
     setInterval: timer.setInterval,
     clear: timer.clear,
+    concat: SetUtil.concat,
+    concatLeft: SetUtil.concatLeft,
 
     // Math
     random: require('./util/random.js'),

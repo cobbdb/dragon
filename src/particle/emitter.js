@@ -20,7 +20,9 @@
  */
 module.exports = function (opts) {
     var hash,
-        bank = [];
+        bank = [],
+        // Housing set here reduces garbage production.
+        fireSet = [];
 
     opts.name = opts.name || '$:emitter';
     opts.kind = opts.kind || '$:emitter';
@@ -39,9 +41,9 @@ module.exports = function (opts) {
 
             // Generate a pool of 50 particles to use.
             for (i = 0; i < 50; i += 1) {
-                conf = opts.conf() || {}; // <-- Garbage
+                conf = opts.conf() || {};
                 conf.owner = this;
-                conf.pos = conf.pos || opts.pos.clone(); // <-- Garbage
+                conf.pos = conf.pos || opts.pos.clone();
                 particle = opts.type(conf);
                 bank.push(particle);
                 this.set.push(particle);
@@ -58,10 +60,12 @@ module.exports = function (opts) {
          * Activate a heartbeat of particles.
          */
         fire: function () {
-            var set = bank.splice(0, this.volume),
-                i, len = set.length;
+            var i, len;
+            fireSet = bank.splice(0, this.volume); // perf test vs. .map()
+            len = fireSet.length;
+
             for (i = 0; i < len; i += 1) {
-                set[i].start();
+                fireSet[i].start();
             }
         },
         draw: function (ctx) {

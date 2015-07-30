@@ -1,9 +1,7 @@
 var BaseClass = require('baseclassjs'),
     Sprite = require('../sprite.js'),
-    Rectangle = require('../geom/rectangle.js'),
-    Point = require('../geom/point.js'),
     Set = require('../util/set.js'),
-    dragonCollisions = require('../dragonCollisions.js');
+    dragonCollisions = require('../dragon-collisions.js');
 
 /**
  * @class Button
@@ -22,7 +20,7 @@ module.exports = function (opts) {
     opts.startingStrip = opts.startingStrip || 'up';
     opts.onpress = opts.onpress || BaseClass.Stub;
 
-    opts.collisions = Set.concat(
+    opts.collisions = Set.concatLeft(
         opts.collisions,
         dragonCollisions
     );
@@ -36,7 +34,7 @@ module.exports = function (opts) {
             }
             opts.onpress.call(this);
         }
-    };
+    );
     opts.on['$miss#screenhold'] = Set.concat(
         opts.on['$miss#screenhold'],
         function () {
@@ -44,7 +42,7 @@ module.exports = function (opts) {
                 this.useStrip('up');
             }
         }
-    };
+    );
 
     return Sprite(opts).extend({
         auto: opts.auto || true

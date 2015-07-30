@@ -3,7 +3,8 @@ var Counter = require('./util/id-counter.js'),
     Vector = require('./geom/vector.js'),
     Item = require('./item.js'),
     Mouse = require('./io/mouse.js'),
-    canvas = require('./io/canvas.js');
+    canvas = require('./io/canvas.js'),
+    Set = require('./util/set.js');
 
 /**
  * @class CollisionItem
@@ -17,7 +18,7 @@ module.exports = function (opts) {
         collisionsThisFrame = {},
         updated = false;
 
-    opts.collisions = opts.collisions || [];
+    opts.collisions = Set.array(opts.collisions);
     opts.name = opts.name || '$:collidable';
     opts.kind = opts.kind || '$:collidable';
 

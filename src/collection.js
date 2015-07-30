@@ -1,4 +1,5 @@
-var Item = require('./item.js');
+var Item = require('./item.js'),
+    Set = require('./util/set.js');
 
 /**
  * @class Collection
@@ -26,7 +27,7 @@ module.exports = function (opts) {
             var i, len, item;
 
             if (set) {
-                set = [].concat(set);
+                set = Set.array(set);
                 len = set.length;
                 for (i = 0; i < len; i += 1) {
                     item = set[i];

@@ -45,6 +45,9 @@
         }
     },
     /**
+     * @deprecated
+     * This leads to many bad, bad thing. Don't use it.
+     *
      * Shallow merge properties from the right object
      * into the left object.
      * @param {Object} root
@@ -64,6 +67,9 @@
         return root;
     },
     /**
+     * @deprecated
+     * This leads to many bad, bad thing. Don't use it.
+     *
      * Shallow merge default properties from right
      * to left.
      * @param {Object} root
