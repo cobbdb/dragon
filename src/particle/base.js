@@ -9,7 +9,7 @@
  * @class Particle
  * @extends ClearSprite
  * Basic abstract contract for all particle types.
- * @param {Emitter} opts.owner
+ * @param {Point} opts.origin
  * @param {Number} [opts.lifespan] Defaults to 1000.
  * @param {Dimension} [opts.size] Defaults to (4,4).
  * @param {Function} [opts.style] Special canvas setup to
@@ -41,9 +41,6 @@ module.exports = function (opts) {
         _create: function () {
             this.stop();
         },
-        /**
-         * @param {Point} origin
-         */
         reset: function (origin) {
             this.stop();
             timer.clear(hash);
@@ -52,7 +49,7 @@ module.exports = function (opts) {
             this.alpha = 1;
             this.rotation = 0;
             this.rotationSpeed = opts.rotationSpeed;
-            this.move(origin);
+            this.move(origin || opts.origin);
             this.speed.set(startSpeed);
         },
         start: function () {
@@ -66,7 +63,7 @@ module.exports = function (opts) {
                 this.alpha -= opts.fade;
             }
             if (this.alpha < 0) {
-                opts.owner.reclaim(this);
+                this.reset();
             }
             this.base.update();
         },

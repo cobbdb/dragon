@@ -2,7 +2,18 @@
     Collection = require('../collection.js'),
     Point = require('../geom/point.js'),
     canvas = require('../io/canvas.js'),
-    timer = require('../util/timer.js');
+    timer = require('../util/timer.js'),
+    cnt = 0,
+    volume = 0;
+
+// Activate a particle if possible.
+// This is external to the emitter for ~1.5-2x speed boost.
+function activate(particle) {
+    if (!particle.updating && cnt < volume) {
+        cnt += 1
+        particle.start();
+    }
+}
 
 /**
  * @class ParticleEmitter
@@ -19,11 +30,9 @@
  * @param {Function} [opts.conf] Returns particle options.
  */
 module.exports = function (opts) {
-    var hash,
-        bank = [],
-        // Housing set here reduces garbage production.
-        fireSet = [];
+    var hash;
 
+    opts.sorted = false;
     opts.name = opts.name || '$:emitter';
     opts.kind = opts.kind || '$:emitter';
     opts.pos = opts.pos || Point();
@@ -33,7 +42,6 @@ module.exports = function (opts) {
     opts.conf = opts.conf || BaseClass.Stub;
 
     return Collection(opts).extend({
-        sorted: false,
         speed: opts.speed,
         volume: opts.volume,
         _create: function () {
@@ -42,31 +50,24 @@ module.exports = function (opts) {
             // Generate a pool of 50 particles to use.
             for (i = 0; i < 50; i += 1) {
                 conf = opts.conf() || {};
-                conf.owner = this;
+                conf.origin = this.pos;
                 conf.pos = conf.pos || opts.pos.clone();
                 particle = opts.type(conf);
-                bank.push(particle);
                 this.set.push(particle);
             }
 
             // Only repeat if a non-zero speed was set.
             if (this.speed) {
-                hash = timer.setInterval(function () {
-                    this.fire();
-                }, this.speed, this);
+                hash = timer.setInterval(this.fire, this.speed, this);
             }
         },
         /**
          * Activate a heartbeat of particles.
          */
         fire: function () {
-            var i, len;
-            fireSet = bank.splice(0, this.volume); // perf test vs. .map()
-            len = fireSet.length;
-
-            for (i = 0; i < len; i += 1) {
-                fireSet[i].start();
-            }
+            cnt = 0;
+            volume = this.volume;
+            this.set.map(activate);
         },
         draw: function (ctx) {
             opts.style.call(this, ctx);
@@ -77,14 +78,6 @@ module.exports = function (opts) {
          */
         kill: function () {
             timer.clear(hash);
-        },
-        /**
-         * Reset a particle and add it back to the bank.
-         * @param {Particle} particle
-         */
-        reclaim: function (particle) {
-            particle.reset(this.pos);
-            bank.push(particle);
         },
         pos: opts.pos,
         move: function (newpos) {
