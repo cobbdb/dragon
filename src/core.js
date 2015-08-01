@@ -1,5 +1,6 @@
 var Game = require('./game.js'),
     SetUtil = require('./util/set.js'),
+    Bind = require('./util/bind.js'),
     heartbeat = require('./heartbeat.js'),
     pipeline = require('./assets/pipeline.js'),
     timer = require('./util/timer.js');
@@ -36,10 +37,10 @@ module.exports = {
     canvas: require('./io/canvas.js'),
 
     // Assets
-    loadAssets: pipeline.load.bind(pipeline),
+    loadAssets: Bind(pipeline, pipeline.load),
     addFont: pipeline.add.font,
     image: pipeline.get.image,
-    sound: pipeline.get.audio,
+    sound: pipeline.get.sound,
     AnimationStrip: require('./animation-strip.js'),
 
     // Collisions
@@ -47,11 +48,10 @@ module.exports = {
     collisions: require('./dragon-collisions.js'),
 
     // Game Control
-    debug: Game.useDebug,
-    screen: Game.screen,
-    sprite: Game.sprite,
-    addScreens: Game.addScreens,
-    removeScreen: Game.removeScreen,
+    debug: Bind(Game, Game.useDebug),
+    screen: Game.base.get,
+    addScreens: Game.base.add,
+    removeScreen: Bind(Game, Game.removeScreen),
 
     // Core Components
     Eventable: require('./eventable.js'),
@@ -67,7 +67,7 @@ module.exports = {
     },
 
     // Interfaces
-    fadeable: require('./interface/fadeable.js'),
+    //fadeable: require('./interface/fadeable.js'),
 
     // Particles
     particle: {

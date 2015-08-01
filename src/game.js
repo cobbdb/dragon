@@ -47,7 +47,7 @@ module.exports = Collection({
      * @return {Screen}
      */
     screen: function (name) {
-        return this.base.get(name);
+        return this.map[name];
     },
     /**
      * @param {Array|Screen} set
